@@ -1008,11 +1008,11 @@ To gather more information on our retained one-factor solution, we sought Item R
 
 ```{r}
 irt.data <- na.omit(irt.data)
-irt.data <- irt.data %>% 
+irt.data.1 <- irt.data %>% 
   dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11,    CS12, 
                  CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22)
 
-fit <- mirt(irt.data, model = 1, itemtype = 'graded', 
+fit <- mirt(irt.data.1, model = 1, itemtype = 'graded', 
                SE = TRUE, Se.type = 'MHRM',
                technical = list(NCYCLES = 10000))
 
@@ -1402,6 +1402,84 @@ DIF <- lordif(as.data.frame(irt.data), group = dif.data.full$Gender, criterion =
 DIF$stats[,1:5]
 plot(DIF)
 ```
+
+
+```{r}
+
+val.data<- validity.data.full %>% 
+  dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11,    CS12, 
+                 CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22) %>% 
+  rowwise() %>% 
+  mutate(Total_communication = sum(across(starts_with("CS")), na.rm = T))
+
+
+val.data.2 <- as.data.frame(cbind(val.data$Total_communication, validity.data.full$Total_HS, validity.data$Total_LS, validity.data.full$Total_SE))
+
+colnames(val.data.2) <- c("Communication", "Hopelessness", "Life Satisfaction", "SE")
+validity <- na.omit(val.data.2)
+```
+
+```{r correlationfunc, include =F}
+glrstab<- function(x, export=FALSE) {
+ 
+ r <-corr.test(x)$r	#taking just the correlation matrix; no N, or p
+ p <-corr.test(x)$p	#taking the p*s
+ 
+#define notions for significance levels
+ mystars <- ifelse(p < .001, "**"
+                   , ifelse(p < .01, "**"
+                            , ifelse(p < .05, "*"
+                                     , ifelse(p < .10, "+", " "))))
+ 
+ #round r, define new matrix Rnew with the correlations from rnd and paste mystars
+ rnd  <- papaja::printnum(r, gt1 = FALSE, digits = 2)  #round, drop leading 0 - Thanks CRSH!								                     
+ Rnew <- matrix(paste(rnd, mystars, sep=""), ncol=ncol(rnd)) 
+ 
+  #remove 1.0 correlations from diagonal  and set the strings
+ diag(Rnew) <- ''		
+ Rnew[upper.tri(Rnew)] <- ''								                	
+ 
+ rownames(Rnew) <- paste(1:ncol(rnd), colnames(rnd), sep=" ")         #define number and name
+ colnames(Rnew) <- paste(1:ncol(rnd), "", sep="") 			       #define number
+ 
+#fun-part: we trim the top half 
+ Rnew[upper.tri(Rnew)] <- ''			
+ Rnew
+ 
+ #Rnew <- cbind(round(describe(x)[,3:4],2), Rnew)		     #describe x, M sD - put them in the matrix
+ #colnames(Rnew)[1:2] <- c("M","SD")					      		#Beschriftung der neuen Spalten
+ Rnew <- Rnew[,1:(ncol(Rnew)-1)]							        	#delete the last column (ugly)
+ 
+ #export to clipboard
+ 
+   if (export==TRUE){
+   result<-write.table(Rnew
+                       , "clipboard"
+                       , sep=";"
+                       , row.names=FALSE)
+ }
+ else result <- Rnew
+ return(result)
+ 
+}
+
+```
+
+
+```{r correlations, include =F}
+Cor <-glrstab(validity) #the function in action!
+
+cor.tab <- as_tibble(cor(validity))
+
+```
+
+```{r tabvalidity,  results='asis'}
+papaja::apa_table(Cor, escape  = FALSE
+                , caption = "Correlation matrix of the main variables"
+                , note    = "**p < .001")
+```
+
+
 
 
 ## Participants
