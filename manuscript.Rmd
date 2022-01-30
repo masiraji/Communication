@@ -83,7 +83,50 @@ papaja::r_refs("references.bib")
 #if you dont have LaTeX installed run the following lines
 #install.packages("tinytex")
 #tinytex::install_tinytex()
+renv::snapshot()
 ```
+
+```{r library, eval=FALSE, include=FALSE}
+#This chunk holds code for calling the required packages
+
+library(papaja) # devtools::install_github("crsh/papaja")
+library(lavaan)
+library(semPlot) #devtools::install_github('SachaEpskamp/semPlot',  dependencies = T)
+library(semTools)
+library(MOTE)
+library(car)#reversecoding 
+library(psych)
+library(dlookr)
+library(plyr)
+library(tidyverse)
+library(qgraph)
+library(kableExtra)
+library(paran) # Parallel analysis
+library(EFA.MRFA) # Hull method
+library(DiagrammeR) #devtools::install_github('rich-iannone/DiagrammeR')
+library(DiagrammeRsvg) #For DiagrammeR
+library(rsvg) #For DiagrammeR
+library(ggcorrplot)
+library(semTable)
+library(magick)
+library(mirt)
+library(gtsummary)
+library(gt)
+library(gtExtras)
+library(likert)
+library(VIM) #Missing data
+library(kutils)
+library(simsem)
+library(tabledown)
+library(readxl)
+library(koRpus)# stable release
+library(koRpus.lang.en)
+library(reshape)
+library(ggsci)
+renv::snapshot()
+r_refs("references.bib")
+```
+
 
 
 
@@ -96,54 +139,34 @@ nocite: |
 
 # Methods
 ```{r data, include=F}
-data = foreign::read.spss("Raw/Validity construct.sav", to.data.frame=TRUE)
+# data <- readxl::read_excel("Processeddata/communication_data_n_582.xlsx")
+# readr::write_rds(data, "Processeddata/communication_data_n_582.rds")
+data <- readr::read_rds("Processeddata/communication_data_n_582.rds")
 
-write_csv(data, "Processeddata/part2.csv")
-
-## Recoding data$CS9 into data$CS9_rec
-data$CS9 <- fct_recode(data$CS9,
-  "always" = "always_duplicated_4"
-)
-
-## Recoding com$Cs1 into com$Cs1_rec
-data$Cs1 <- fct_recode(data$Cs1,
-  "rarely" = "Rarely"
-)
-
-## Recoding com$CS23 into com$CS23_rec
-data$CS23 <- fct_recode(data$CS23,
-  "never" = "Never",
-  "rarely" = "Rarely"
-)
-
-com <- data[,7:29]
-
-names(com)[names(com) == "Cs1"] <- "CS01"
-names(com)[names(com) == "Cs2"] <- "CS02"
-names(com)[names(com) == "CS3"] <- "CS03"
-names(com)[names(com) == "CS4"] <- "CS04"
-names(com)[names(com) == "CS5"] <- "CS05"
-names(com)[names(com) == "CS6"] <- "CS06"
-names(com)[names(com) == "CS7"] <- "CS07"
-names(com)[names(com) == "Cs8"] <- "CS08"
-names(com)[names(com) == "CS9"] <- "CS09"
-names(com)[names(com) == "Cs10"] <- "CS10"
-
-code <- c(    "never"=1,
-              "rarely"=2,
-              "sometimes"=3,
-              "often"=4,
-              "always" =5)
+efa.data.full <- subset(data, Sample == "EFA")
+cfa.data.full <- subset(data, Sample == "CFA"| Sample=="Validity")
+validity.data.full <- subset(data, Sample == "Validity")
 
 
-com2 <- mutate(com, across(starts_with("CS"), ~unname(code[.])))
+sem.data <- data[,c(2,6:66)]
+efa.data <- subset(sem.data , Sample == "EFA")
+efa.data <- efa.data[,c(2:24)]
+efa.data <- na.omit(efa.data)
 
-#write.csv(com2, "Processeddata/com_2.csv")
+cfa.data<- subset(sem.data , Sample == "CFA"| Sample=="Validity")
+cfa.data <- cfa.data[,c(2:24)]
+cfa.data <- na.omit(cfa.data)
+
+validity.data <- subset(sem.data , Sample == "Validity")
+validity.data <-na.omit(validity.data)
+
+
+irt.data <- sem.data[,2:24]
 
 
 ```
 
-```{r descriptivrd}
+```{r descriptivrd, eval=FALSE, include=FALSE}
 desc <- data[,c(3, 5,6)]
 ## Recoding desc$Sex
 desc$Sex <- fct_recode(desc$Sex,
@@ -176,13 +199,22 @@ des_tab  %>%    # build gtsummary table
 
 
 ```{r}
+
+```
+
+
+
+```{r}
 reliability <- psych::alpha(com2, check.keys = T)
 ```
 
 
 ```{r}
 
-gt.data <- na.omit(com2)
+gt.data <- na.omit(efa.data)
+
+names(gt.data)[names(gt.data) == "RCS02"] <- "CS02"
+names(gt.data)[names(gt.data) == "RCS05"] <- "CS05"
 
 #Creating long data
 gt.data.long <- as.data.frame(gather(gt.data, Items, value))
@@ -214,7 +246,7 @@ gt.likert.Factor = as.data.frame(lapply(gt.likert,factor,
 
 
 #get the items name
-gt.items <- names(gt.likert.Factor ) 
+gt.items <- names(gt.likert.Factor) 
 #Calculate percentage
 gt.percentage <- kutils::likert(gt.likert.Factor, vlist = gt.items ) 
 
@@ -240,12 +272,16 @@ as.data.frame(Items)
 full.percentage3 <- cbind(Items,full.percentage1)
 
 full.percentage3 <- full.percentage3[order(Items),] 
-full.percentage3 <- as.data.frame(full.percentage3[,-1]) %>% 
+full.percentage3 <- as.data.frame(full.percentage3[,-1]) 
+
+full.percentage3 <- full.percentage3%>% 
   gt()
 
 
 gt.table <- gt.data.tab$'_data'
 gt.liket <- full.percentage3$"_data"
+
+
 Table <-  cbind( gt.table, gt.liket )%>% 
   gt()%>% 
   # histogram and density plots
@@ -253,14 +289,14 @@ Table <-  cbind( gt.table, gt.liket )%>%
     hist_data,
     type = "histogram",
     line_color = "black", 
-    fill_color = "grey",
+    fill_color = "#00A08799",
     bw = 1,
     same_limit = TRUE)%>%
   gtExtras::gt_sparkline(
     dens_data,
     type = "density",
     line_color = "black", 
-    fill_color = "grey",
+    fill_color = "#E64B3599",
     bw = 0.75,
     same_limit = TRUE
   )%>%
@@ -316,12 +352,18 @@ Table <-  cbind( gt.table, gt.liket )%>%
   gtExtras::gt_plt_dot(
     mean,
     Items,
-    palette = "ggthemes::fivethirtyeight")%>%gtsave("Figures/communication.png",vwidth = 7000)
+    palette = "ggthemes::fivethirtyeight")
+
+
+gtsave(Table, "Figures/efa_communication.png",vwidth = 7000)
   
 ```
 
-```{r}
 
+
+
+```{r ggplot2, include=F}
+#This chunk holds code for creating ggplot2 based apatheme for plots.
 apatheme=theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
@@ -343,21 +385,21 @@ apatheme=theme_bw()+
 ```
 
 
+
 ```{r EFAdata, include=FALSE}
-### EFA data
-EFA.data <- com2
+
 #library(VIM)
-missing <- VIM::aggr(EFA.data, plot =T)
+missing <- VIM::aggr(efa.data, plot =T)
 
 ```
 
 ```{r EFAassumptions, include=FALSE}
 
 #KMO test
-KMO <- psych::KMO(EFA.data) 
+KMO <- psych::KMO(efa.data) 
 
 # Test of correlation matrix
-bartlet <- psych::cortest.bartlett(EFA.data, n =202)
+bartlet <- psych::cortest.bartlett(efa.data, n =300)
 
 
 #Histogram
@@ -383,7 +425,7 @@ shapiro_test_df <- function(df, bonf= TRUE, alpha= 0.05) {
 }
 
 
-Shapiro.efa <- shapiro_test_df(EFA.data)
+Shapiro.efa <- shapiro_test_df(efa.data)
 
 
 efa.normality.tab = matrix(nrow = 48, ncol = 2)
@@ -401,7 +443,7 @@ efa.normalitysufix <- Shapiro.efa$significance
 efa.normality.stat <- paste(efa.normalityprefix,efa.normalitysufix, sep = "" )
 
 # Multivariate Normality
-mardia <- psych::mardia(EFA.data, na.rm = T, plot =F)
+mardia <- psych::mardia(efa.data, na.rm = T, plot =F)
 
 # Descriptive Stats
 Descriptives <- psych::describe(EFA.data)
@@ -415,13 +457,16 @@ rownameprefix <- "Item"
 rownamesufix <- seq(1:48)
 my.names <- paste(rownameprefix,rownamesufix, sep = "" )
 rownames(Des.combined) = (my.names)
+
+
+decriptives <- tabledown::des.tab(efa.data)
 ```
 
 ## Item Analysis
 `
 
 ```{r Cronbach, results='asis', width = 60}
-Cron.bach <- psych::alpha(EFA.data,check.keys=TRUE) 
+Cron.bach <- psych::alpha(efa.data,check.keys=TRUE) 
 Cron.bach$total %>% 
   knitr::kable(caption = "Alpha", digits = 2) %>% 
   kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
@@ -433,7 +478,7 @@ Cron.bach$item.stats %>%
   knitr::kable(caption = "Corrected Item total Correlation", digits = 2) %>% 
   kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
 
-Cron.bach$item.stats$r.cor
+
 low.r.corec <- (min(Cron.bach$item.stats$r.cor))  #minimum item total correlation
 high.r.corec <- (max(Cron.bach$item.stats$r.cor))     # maximum item total correlation
   
@@ -442,7 +487,7 @@ high.r.corec <- (max(Cron.bach$item.stats$r.cor))     # maximum item total corre
 ```{r CorrMatrix, include=FALSE}
 #Polychoric Correlation matrix
 
-correlations <- psych::polychoric(EFA.data, correct = 0)
+correlations <- psych::polychoric(efa.data)
 upper <- correlations$rho[upper.tri(correlations$rho, diag = F)]
 
 min.cor <- apa(min(abs(upper)),2,F) #minimum cor.coefficient of the matrix
@@ -452,25 +497,41 @@ determinets <- det(correlations$rho)
 # Calculating the percentage of correlations higher than .30
 
 BigR = sum(correlations$rho >= abs(.30) & correlations$rho < abs(1.0), na.rm =T)/2 
-totR = length(EFA.data)*(length(EFA.data)-1)/2
+totR = length(efa.data)*(length(efa.data)-1)/2
 cor.per <- print (BigR/totR)*100
 ```
 
 
-```{r figCor, out.height="150%",out.width="100%",fig.cap= "Correlation plot of the items",results='asis', fig.align='center'}
+```{r corplot, include =F}
+#This chunk holds code for plotting the correlation matrix
 
-ggcorrplot(correlations$rho, hc.order = TRUE, outline.col = "white", type = "lower", 
-           ggtheme = ggplot2::theme_minimal, tl.cex = 6,tl.srt = 90,colors = c("red", "white", "blue") )
+corplot <- ggcorrplot(correlations$rho, hc.order = TRUE, outline.col = "white", type = "lower", 
+           ggtheme = ggplot2::theme_minimal(),tl.srt = 90,colors = c("#E64B35FF", "white", "#3C5488FF") )+
+  theme( panel.grid.major = element_blank(),
+         axis.text.x = element_text(size = 8),
+         axis.text.y = element_text(size = 8),
+         panel.border = element_rect(color = "black",
+                                    fill = NA,
+                                    size = 1))
 #p.mat <- cor_to_p(correlations$rho, 428, method = "polychoric")
 #to show pvalue in the fig add p.mat=p.mat
+ggsave("Figures/corplot.png",corplot, width = 6, height = 6, dpi = 600, bg ="white")
+
+```
+
+(ref:figCor) Inter item polychoric correlation coefficients for the 48 items. 4.9 % inter-item correlation coefficients were higher than .30
+
+```{r figCor, out.height="150%",out.width="100%", fig.align= 'center', fig.cap='(ref:figCor)', results='asis', fig.align='center'}
+
+knitr::include_graphics('Figures/corplot.png', dpi =600)
+
 ```
 
 
-
 ```{r ParallelEFA, include=FALSE}
-
+#This chunk holds code for factor identification method : Horn
 # Parallel analysis
-Horn <- paran(EFA.data, iterations=500, centile=0, quietly=FALSE,
+Horn <- paran(correlations$rho, iterations=500, centile=0, quietly=FALSE,
            status=TRUE, all=FALSE, cfa=FALSE, graph=TRUE,
            color=TRUE, col=c("black","red","blue"),
            lty=c(1,2,3), lwd=1, legend=TRUE, 
@@ -501,22 +562,26 @@ colnames(Unadjusted.EV) = c('eigenvalue', 'type', 'num')
 
 parallel = ggplot(Adjusted.EV, aes(x=num, y=eigenvalue, shape=type, color=type)) +
   #Add lines connecting data points
-  geom_line()+
-    geom_line(data = Random.EV) +
-  geom_line(data = Unadjusted.EV)+
+  geom_line(colour ='#DC000099')+
+    #geom_line(data = Random.EV) +
+  #geom_line(data = Unadjusted.EV)+
     #Add the data points.
-  geom_point(size=1)+
-  geom_point(data = Random.EV, size=1)+
-  geom_point(data = Unadjusted.EV, size=1)+
-  scale_y_continuous(name="Eigen Value", limits=c(0, 10), breaks=seq(0,10,2)) +
+  geom_point(size=1.5,colour ='#3C5488FF')+
+  #geom_point(data = Random.EV, size=3)+
+  #geom_point(data = Unadjusted.EV, size=3)+
+  scale_y_continuous(name="Eigen Value", limits=c(0, 4), breaks=seq(0,4,1)) +
    #Label the x-axis 'Factor Number', and ensure that it ranges from 1-max # of factors, increasing by one with each 'tick' mark.
-  scale_x_continuous(name='Factor Number', limits=c(0, 48),breaks=seq(0,48,4))+
+  scale_x_continuous(name='Factor Number (Parallel Analysis)', limits=c(0, 23),breaks=seq(0,23,4))+
     #Add vertical line indicating parallel analysis suggested max # of factors to retain
-  geom_hline(yintercept=1, linetype = 'dashed') + apatheme 
+  geom_hline(yintercept=1, linetype = 'dashed') + apatheme +theme(,legend.position = "None") 
+#text = element_text(size = 25)
 
 ```
 
 ```{r ScreePlot, include=FALSE}
+
+#This chunk holds code for factor identification method : Scree Plot
+
 Scree <- scree(correlations$rho,factors=TRUE,pc=TRUE,main="(B)",
       hline=NULL,add=F)
 
@@ -534,98 +599,117 @@ PA.Scree$num = as.numeric(PA.Scree$num)
 colnames(PA.Scree) = c('eigenvalue', 'type', 'num')
 
 
-scree.plot <-ggplot(FA.Scree, aes(x=num, y=eigenvalue,color=type, shape=type))+
-   geom_line()+
-  geom_line(data = PA.Scree)+ 
-  geom_point(size=1)+
-  geom_point(data = PA.Scree, size=1)+
-  scale_y_continuous(name="Eigen Value", limits=c(0, 10), breaks=seq(0,10,2)) +
-  scale_x_continuous(name='Factor Number', limits=c(0, 48),breaks=seq(0,48,4))+
-  geom_hline(yintercept=1, linetype = 'dashed') + apatheme 
+scree.plot <-ggplot(FA.Scree, aes(x=num, y=eigenvalue,color=tye, shape=type))+
+   geom_line(colour ='#DC000099')+
+  #geom_line(data = PA.Scree)+ 
+  geom_point(size=1.5,colour ='#3C5488FF')+
+  #geom_point(data = PA.Scree, size=3)+
+  scale_y_continuous(name="Eigen Value", limits=c(0, 5), breaks=seq(0,5,1)) +
+  scale_x_continuous(name='Factor Number (Scree Plot)', limits=c(0, 20),breaks=seq(0,20,4))+
+  geom_hline(yintercept=1, linetype = 'dashed') + apatheme +theme(legend.position = "None") 
+#text = element_text(size = 25
+
 ```
 
 ```{r HullEFA, include=FALSE}
+#This chunk holds code for factor identification method : Hull
+
 # HULL
-EFA.MRFA::hullEFA(EFA.data,extr = "ULS", index_hull = "CAF", display = TRUE, graph = T,
+EFA.MRFA::hullEFA(efa.data,extr = "ULS", index_hull = "CAF", display = TRUE, graph = T,
         details = TRUE)
 hull <- ggplot2::last_plot()
-Hull <- hull+ ggtitle(NULL) +xlab("Factor Number")+ylab("CAF")+ 
-  apatheme +scale_color_manual(labels = c("Out side the convex Hull", "On the convex Hull"), values = c("red", "cyan2")) 
+Hull <- hull+ ggtitle(NULL)+xlab("Factor Number (Hull Method)")+ylab("CAF")+ aes(color = '#DC000099')+geom_point(color ='#3C5488FF',size =1)+
+  apatheme +theme(legend.position = "None") +scale_fill_identity()
+
+
+
+
 ```
 
 ```{r MAPefa, include=FALSE}
+#This chunk holds code for factor identification method : MAP
 #MAP
-psych::VSS(EFA.data, rotate = "varimax", fm = 'minres', n.obs =202 )
+map <- psych::VSS(efa.data, rotate = "promax", fm = 'pa', n.obs =300 )
+map.map <- as.data.frame(map$map)
+colnames(map.map) <- "MAP Statistic"
+map.statistics <- map$vss.stats[,c(1,2,5,6,7,10,11)]
+full.map <- cbind(map.map,map.statistics)
+
+write.csv(full.map, "Table_raw/map_stat.csv")
+```
+Scree plot, map and hull method ( Figure \@ref(fig:facIdFig)) suggested a one factor solution. Horn's parallel analysis [@hornRationaleTestNumber1965] with 500 iterations  indicated a two-factor solution. However, the minimum average partial (MAP) method (Table \@ref(tab:factormp)) [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011] ( Figure \@ref(fig:facIdFig)) suggested a five-factor solution. As a result, we tested both five-factor and six-factor solutions.
+```{r factors, include=F}
+#This chunk holds code for compiled factor identification plots
+
+factor <- cowplot::plot_grid(parallel, scree.plot,Hull, 
+                   labels = "AUTO",
+                   ncol=1, 
+                  align = "v", 
+                  label_fontfamily = "sans",
+                  label_fontface = "plain")
+ggsave("Figures/factors.png",factor, width = 5, height = 7, dpi = 600)
+```
+
+(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested One facor. (C) Hull method indicated 1 factors were required to balance the model fit and number of parameters.
+
+```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
+
+knitr::include_graphics("Figures/factors.png", dpi =800)
+
 ```
 
 
-## Network graph
-```{r Network Graph,message=FALSE, warning=FALSE, width = 60}
-library(EGAnet)
-library(sna)
-EGA(correlations$rho, n= 150, plot.EGA = T, algorithm.args = list(steps = 10))
-ega <-ggplot2::last_plot()
-```
-
-
-```{r facIdFig, out.height="250%", out.width="100%",fig.align='center', fig.cap='Factor Identification (A) Parallel analysis (B) Scree Plot (C) Hull Method' (D) Network Analysis,  warning=FALSE, results= 'asis'}
-cowplot::plot_grid(parallel, scree.plot,Hull,ega, labels = "AUTO",ncol=1, label_size = 8,align = "v")
-
-```
-
- ( Figure \@ref(fig:facIdFig)). Horn's parallel analysis [@hornRationaleTestNumber1965] with 500 iterationsindicated a four factor solution. However, Scree plot, the minimum average partial (MAP) method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011] suggested a one-factor solution. 
 
 ```{r EFA, include=FALSE}
-fa.3F.1 <- fa(r=correlations$rho, nfactors = 3, fm= "pa",rotate ="varimax",
-              residuals = TRUE, SMC = TRUE)
-AA <- print(fa.3F.1, cut = .3, digits = 3, sort = TRUE)
-
-
-reduced.model.3F.1 <- dplyr::select(EFA.data ,
-                                    -c( CS21, CS13, CS10, CS19, CS03,CS09, CS05, CS23))
-
-correlations.red.3F.1 <- polychoric(reduced.model.3F.1,correct = 0)
-
-fa.3F.2 <- fa(r=correlations.red.3F.1$rho, nfactors = 3, fm= "pa",rotate ="varimax",
-              residuals = TRUE, SMC = TRUE, max.iter = 100)
-
-BB <- print(fa.3F.2, cut = .3, digits = 3, sort = TRUE)
-
-reduced.model.3F.2 <- dplyr::select(EFA.data ,
-                                    -c( CS21, CS13, CS10, CS19, CS03,CS09, CS05, CS23, CS02, CS01,CS15,CS20,CS12))
-
-
-correlations.red.3F.2 <- polychoric(reduced.model.3F.2,correct = 0)
-
-
-fa.3F.3 <- fa(r=correlations.red.3F.2$rho, nfactors = 3, fm= "pa",rotate ="varimax",
-              residuals = TRUE, SMC = TRUE, max.iter = 500 )
-
-CC <- print(fa.3F.3, cut = .3, digits = 3, sort = TRUE)
-
-var1 <- CC$Vaccounted[2,1]*100
-var2 <- CC$Vaccounted[2,2]*100
-var3 <- CC$Vaccounted[2,3]*100
-var4 <- CC$Vaccounted[2,4]*100
-var5 <- CC$Vaccounted[2,5]*100
-```
-
-
-```{r EFA2f, include=FALSE}
-fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="promax",
+fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="varimax",
               residuals = TRUE, SMC = TRUE)
 AA <- print(fa.2F.1, cut = .3, digits = 3, sort = TRUE)
 
 
-reduced.model.2F.1 <- dplyr::select(EFA.data ,
-                                    -c( CS07, CS13, CS16, CS05, CS10, CS19, CS03, CS02, CS09, CS23))
+reduced.model.2F.1 <- dplyr::select(efa.data ,
+                                    -c( CS21, CS11, CS23, CS09, RCS02,RCS05, CS16, CS01))
 
 correlations.red.2F.1 <- polychoric(reduced.model.2F.1)
 
-fa.2F.2 <- fa(r=correlations.red.2F.1$rho, nfactors = 2, fm= "pa",rotate ="promax",
-              residuals = TRUE, SMC = TRUE, max.iter = 100)
+fa.2F.2 <- fa(r=correlations.red.2F.1$rho, nfactors = 2, fm= "pa",rotate ="varimax",
+              residuals = TRUE, SMC = TRUE)
 
 BB <- print(fa.2F.2, cut = .3, digits = 3, sort = TRUE)
+
+reduced.model.2F.2 <- dplyr::select(efa.data ,
+                                    -c( CS21, CS11, CS23, CS09, RCS02,RCS05, CS16, CS01, CS03))
+
+correlations.red.2F.2 <- polychoric(reduced.model.2F.2)
+
+
+fa.2F.3 <- fa(r=correlations.red.2F.2$rho, nfactors = 2, fm= "pa",rotate ="varimax",
+              residuals = TRUE, SMC = TRUE, max.iter = 500 )
+
+CC <- print(fa.2F.3, cut = .3, digits = 3, sort = TRUE)
+
+var1 <- CC$Vaccounted[2,1]*100
+var2 <- CC$Vaccounted[2,2]*100
+
+omega <- psych::omega(reduced.model.2F.2,2)
+
+```
+
+
+```{r EFA2f, include=FALSE}
+fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
+              residuals = TRUE, SMC = TRUE)
+AA <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
+
+
+reduced.model.1F.1 <- dplyr::select(efa.data ,
+                                    -c( CS16, RCS02, RCS05, CS01, CS09, CS23))
+
+correlations.red.1F.1 <- polychoric(reduced.model.1F.1)
+
+fa.1F.2 <- fa(r=correlations.red.1F.1$rho, nfactors = 1, fm= "pa",
+              residuals = TRUE, SMC = TRUE)
+
+BB <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
 
 reduced.model.2F.2 <- dplyr::select(EFA.data ,
                                     -c( CS07, CS13, CS16, CS05, CS10, CS19, CS03, CS02, CS09, CS23, CS17, CS04))
@@ -643,6 +727,224 @@ CC <- print(fa.2F.3, cut = .3, digits = 3, sort = TRUE)
 
 
 ```
+
+
+
+```{r CFAitems, include=FALSE }
+#This chunk holds codes for 1st CFA 
+
+model.1 <- "Communication =~ CS15 + CS21 +CS11 + CS20+ CS14+ CS19+ CS22+ CS12+ CS06+ CS07+ CS18+ CS08+        CS04+CS17+CS03+CS13+CS10" 
+
+
+fit.1 <- cfa(model.1, data = cfa.data, ordered = names(cfa.data),estimator = "WLSMV") 
+
+## Summary of Model 
+cfa.sum.1 <- summary(fit.1, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
+
+
+## Selected Fit measures 
+fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi", 
+                       "cfi","tli",
+                       "rmsea", "rmsea.ci.lower", "rmsea.ci.upper","srmr"))
+
+
+reliability1 <- semTools::reliability(fit.1)
+
+```
+
+```{r mod1, eval=FALSE, include=FALSE}
+#This chunk holds codes for modification indices for 1st CFA
+modfit.Cor.one <- modindices(fit.Cor.1, sort. = TRUE) 
+modfit.Cor.one[modfit.Cor.one$mi>3.84,]
+```
+
+```{r cfaplot, include =F}
+#This chunk holds codes to store CFA plot
+
+
+png(filename="Manuscript.figures/CFAplot.png", 
+    type="cairo",
+    units="in", 
+    width=12, 
+    height=12, 
+    pointsize=12, 
+    res=1200)
+semPaths (fit.1 , 
+          what= "std",
+          #"hide", #(hides coefficeits)
+          #whatLabels = "std",
+          intercepts = F,
+          style ="OpenMx",
+          #residScale = 6,
+          theme = "colorblind",
+          nCharNodes = 0,
+          reorder =T,
+          rotation =2,
+          layout ="tree",
+          cardinal = T,
+          curvePivot =T,
+          sizeMan =8,#items length
+          sizeMan2 = 2,#items
+          sizeLat = 12,#factors
+          thresholds = FALSE,
+          equalizeManifests =F,
+          fade = FALSE,
+          edge.label.cex = .8,
+          #exoCov = T,
+          centerLevels = T,
+          #edge.color="black",
+          label.scale=T,
+          label.cex=1.2, #Font of factor and item name
+          residuals=FALSE,
+           #exoVar=FALSE,
+          #fixedStyle=6, #Style of arrow (guide item)
+          #freeStyle=1#Style of arrow (other item), #XKCD = TRUE
+           
+          )
+
+
+dev.off()
+```
+
+```{r Shortcut Invariance}
+invariance.data <- cfa.data.full[, c(3, 6:28)]
+invariance.data <- na.omit(invariance.data )
+library("semTools")
+invariance.model <- measurementInvariance(model = model.1,
+                                          data = invariance.data,
+                                          group = "Gender",                                                                         estimator = "WLSMV",
+                                          strict = T)
+invariance.model[[1]] #configural Invariance
+invariance.model[[2]] # loading, weak, metric
+invariance.model[[3]] # intercept, strong, scaler
+invariance.model[[4]] # residual, strict
+invariance.model[[5]] # means, structural invariance
+```
+
+```{r figcfa, fig.cap = "Five Factor  Model of LEBA obtained by Confirmatory Factor Analysis. By allowing item pair 41 and 30 to covary their error variance our model attained the best fit.",  out.height='100%', warning=FALSE}
+
+knitr::include_graphics("Figures/CFAplot.png", dpi =600)
+
+
+```
+
+## Measurement Invariance
+```{r InvarianceAnalysis_data, include=FALSE}
+#This chunk holds codes to prepare measurement invariance data.
+
+invariance.data <- cfa.data.full[, c(3, 6:28)]
+invariance.data <- na.omit(invariance.data )
+mi.count <- invariance.data %>% 
+  group_by(Gender) %>% 
+  count() %>% 
+  as.data.frame()
+```
+
+
+
+
+
+```{r Invariancedetail, include=FALSE}
+#This chunk holds codes for measurement Invariance
+
+model.1 <- "Communication =~ CS15 + CS21 +CS11 + CS20+ CS14+ CS19+ CS22+ CS12+ CS06+ CS07+ CS18+ CS08+        CS04+CS17+CS03+CS13+CS10" 
+
+# Configural invariance ####
+configural <- cfa(model = model.1,
+                  data = invariance.data,
+                  group = "Gender",
+                  estimator = "WLSMV")
+
+summary(configural, fit.measures =TRUE,standardized = TRUE, rsq =TRUE)
+
+fitmeasures (configural,c("gfi", "agfi", "nfi","rfi", 
+                       "cfi","tli",
+                       "rmsea", "rmsea.ci.lower", "rmsea.ci.upper","srmr"))
+
+#Metric
+weak <- cfa(model = model.1,
+                  data = invariance.data,
+                  group = "Gender",
+                 
+                  estimator = "WLSMV", 
+            group.equal = "loadings")
+            
+summary(weak, fit.measures =TRUE,standardized = TRUE, rsq =TRUE)
+
+
+fitmeasures (weak,c("gfi", "agfi", "nfi","rfi", 
+                       "cfi.scaled","tli.scaled",
+                       "rmsea.scaled", "rmsea.ci.lower.scaled", "rmsea.ci.upper.scaled","srmr"))
+
+First.comp <- compareFit (configural, weak)
+summary(First.comp)
+
+
+
+#Scaler
+strong <- cfa(model = model.1,
+                  data = invariance.data,
+                  group = "Gender",
+                  
+                  estimator = "WLSMV", 
+              group.equal = c("loadings", "intercepts"))
+summary(strong, fit.measures =TRUE,standardized = TRUE, rsq =TRUE)
+
+Second.comp <- compareFit  (weak, strong)
+summary(Second.comp)
+
+#residual
+strict <- cfa(model = model.1,
+                  data = invariance.data,
+                  group = "Gender",
+                  
+                  estimator = "WLSMV",  
+              group.equal = c("loadings", "intercepts", "residuals")) 
+
+summary(strict, fit.measures =TRUE,standardized = TRUE, rsq =TRUE)
+residual.fitm <- as.data.frame(fitmeasures (strict,c("gfi", "agfi", "nfi","rfi", "cfi","tli","rmsea", "srmr","aic")))
+
+Third.comp <- compareFit(strict,strong)
+summary(Third.comp)
+#structural
+structural <-cfa(model = model.1,
+                  data = invariance.data,
+                  group = "Gender",
+                  
+                  estimator = "WLSMV",  
+                 group.equal = c("loadings", "intercepts", "residuals", "means","lv.variances","lv.covariances"))
+
+summary(structural, fit.measures =TRUE,standardized = TRUE, rsq =TRUE)
+fitmeasures (structural,c("gfi", "agfi", "nfi","rfi", "cfi","tli","rmsea", "srmr","aic"))
+
+fourth.comp <- compareFit  (structural,strict)
+summary(fourth.comp)
+comfit.par <- compareFit(configural, weak, strong, strict)
+summary (comfit.par)
+
+models <-  list("Configural" = configural, 
+                "Metric" = weak, 
+                "Scalar" = strong, 
+                "Residual" = strict)
+
+
+
+Invariance.table <- compareLavaan(models,
+              nesting = "Configural > Metric > Scalar > Residual", 
+              fitmeas = c("chisq", "df",  "cfi","tli","rmsea", "rmsea.ci.lower", "rmsea.ci.upper", "srmr" ),
+              scaled = F,
+              chidif = T, digits = 2)
+
+colnames(Invariance.table) <- c("Chi-Square", "df", "CFI", "TLI", "RMSEA", "RMSEA 90% Lower CI", "RMSEA 90% Upper", "Chi-Square Difference", "df difference*", "p")
+
+
+```
+
+```{r InvarianceTab, results='asis'}
+apa_table(Invariance.table, align = "c",  caption = "Measurment Invariance analysis on CFA sample (n=262) across native and non-native English speakers.", note = " a = Metric vs Configural; b = Scalar vs Metric; c = Residual vs Scalar; * =  df of model comparison", landscape = T, font_size = "footnotesize" )
+
+```
+
 
 
 ```{r samplesizeIRT, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide', width=60}
@@ -705,9 +1007,15 @@ To gather more information on our retained one-factor solution, we sought Item R
 
 
 ```{r}
-fit <- mirt(EFA.data, model = 1, itemtype = 'graded', 
+irt.data <- na.omit(irt.data)
+irt.data <- irt.data %>% 
+  dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11,    CS12, 
+                 CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22)
+
+fit <- mirt(irt.data, model = 1, itemtype = 'graded', 
                SE = TRUE, Se.type = 'MHRM',
                technical = list(NCYCLES = 10000))
+
 
 
 # Model Parameters ####
@@ -743,12 +1051,7 @@ info <- plot(fit, type = "infoSE", main = "Communication Scale")
 iteminfo <- plot(fit, type = "infotrace", 
                     facet_items = T, main = "Communication Scale")
 
-item1<- plot(fit, type = "infotrace", 
-                    facet_items = T, which.items = 1,main = "")
-item1<- plot(fit, type = "infotrace", 
-                    facet_items = T, which.items = 1,main = "")
-item1<- plot(fit, type = "infotrace", 
-                    facet_items = T, which.items = 1,main = "")
+
 
 
 
@@ -784,102 +1087,82 @@ ggicc <- function(model, item, theta){
 
 library(ggsci)
 
-item01 <- ggicc(fit,1,6)+apatheme+ggtitle("item01")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-item02 <- ggicc(fit,2,6)+apatheme+ggtitle("item02")+apatheme+scale_color_npg()+
+item03 <- ggicc(fit,1,6)+apatheme+ggtitle("item03")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-
-item03 <- ggicc(fit,3,6)+apatheme+ggtitle("item03")+apatheme+scale_color_npg()+
+item04 <- ggicc(fit,2,6)+apatheme+ggtitle("item04")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item04 <- ggicc(fit,4,6)+apatheme+ggtitle("item04")+apatheme+scale_color_npg()+
+
+item06 <- ggicc(fit,3,6)+apatheme+ggtitle("item06")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item05 <- ggicc(fit,5,6)+apatheme+ggtitle("item05")+apatheme+scale_color_npg()+
+item07 <- ggicc(fit,4,6)+apatheme+ggtitle("item07")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item06 <- ggicc(fit,6,6)+apatheme+ggtitle("item06")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-
-item07 <- ggicc(fit,7,6)+apatheme+ggtitle("item07")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-
-item08 <- ggicc(fit,8,6)+apatheme+ggtitle("item08")+apatheme+scale_color_npg()+
+item08 <- ggicc(fit,5,6)+apatheme+ggtitle("item08")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
 
 
-item09 <- ggicc(fit,9,6)+apatheme+ggtitle("item09")+apatheme+scale_color_npg()+
+item10 <- ggicc(fit,6,6)+apatheme+ggtitle("item10")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item10 <- ggicc(fit,10,6)+apatheme+ggtitle("item10")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-
-item11 <- ggicc(fit,11,6)+apatheme+ggtitle("item11")+apatheme+scale_color_npg()+
+item11 <- ggicc(fit,7,6)+apatheme+ggtitle("item11")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 ggsave("Figures/ideal_icc.png",item11 , width = 12, height = 8, dpi = 600, bg = "white")
 
 
-item12 <- ggicc(fit,12,6)+apatheme+ggtitle("item12")+apatheme+scale_color_npg()+
+item12 <- ggicc(fit,8,6)+apatheme+ggtitle("item12")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item13 <- ggicc(fit,13,6)+apatheme+ggtitle("item013")+apatheme+scale_color_npg()+
+item13 <- ggicc(fit,9,6)+apatheme+ggtitle("item013")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item14 <- ggicc(fit,14,6)+apatheme+ggtitle("item14")+apatheme+scale_color_npg()+
+item14 <- ggicc(fit,10,6)+apatheme+ggtitle("item14")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item15 <- ggicc(fit,15,6)+apatheme+ggtitle("item15")+apatheme+scale_color_npg()+
+item15 <- ggicc(fit,11,6)+apatheme+ggtitle("item15")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item16 <- ggicc(fit,16,6)+apatheme+ggtitle("item16")+apatheme+scale_color_npg()+
+
+item17 <- ggicc(fit,12,6)+apatheme+ggtitle("item17")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item17 <- ggicc(fit,17,6)+apatheme+ggtitle("item17")+apatheme+scale_color_npg()+
+item18 <- ggicc(fit,13,6)+apatheme+ggtitle("item18")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item18 <- ggicc(fit,18,6)+apatheme+ggtitle("item18")+apatheme+scale_color_npg()+
+item19 <- ggicc(fit,14,6)+apatheme+ggtitle("item19")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item19 <- ggicc(fit,19,6)+apatheme+ggtitle("item19")+apatheme+scale_color_npg()+
+item20 <- ggicc(fit,15,6)+apatheme+ggtitle("item20")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item20 <- ggicc(fit,20,6)+apatheme+ggtitle("item20")+apatheme+scale_color_npg()+
+item21 <- ggicc(fit,16,6)+apatheme+ggtitle("item21")+apatheme+scale_color_npg()+
+  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
+
+item22 <- ggicc(fit,17,6)+apatheme+ggtitle("item22")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
 
-item21 <- ggicc(fit,21,6)+apatheme+ggtitle("item21")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
 
-item22 <- ggicc(fit,22,6)+apatheme+ggtitle("item22")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-item23 <- ggicc(fit,23,6)+apatheme+ggtitle("item23")+apatheme+scale_color_npg()+
-  scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-
-
-ICC <- cowplot::plot_grid(item01, item02, item03, item04, item05, item06, item07, item08, item09,
-                   item10, item11, item12, item13, item14, item15, item16, item17, item19,
-                   item20, item21, item23,
+ICC <- cowplot::plot_grid(item03, item04, item06, item07, item08, 
+                   item10, item11, item12, item13, item14, item15,  item17, item19,
+                   item20, item21, 
                       labels = "AUTO",
                      ncol=4,  
                     label_size = 15, 
@@ -889,26 +1172,6 @@ ICC <- cowplot::plot_grid(item01, item02, item03, item04, item05, item06, item07
 ggsave("Figures/ICC.png",ICC , width = 12, height = 12, dpi = 600, bg = "white")
 
 
-problem.icc <- cowplot::plot_grid(item01, item02, item03,  item05, item08, item09,
-                                  item10,  item13,  item16, item17,  item23,
-                                  labels = "AUTO",
-                                  ncol=4,  
-                                  label_size = 15, 
-                                  align = "v")
-
-ggsave("Figures/problem.icc.png",problem.icc , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-good.icc <- cowplot::plot_grid( item04,  item06, item07,
-                                item11, item12, item14, item15, item18, item19,
-                               item20, item21, item22,
-                                  labels = "AUTO",
-                                  ncol=4,  
-                                  label_size = 15, 
-                                  align = "v")
-
-ggsave("Figures/good.icc.png",good.icc , width = 12, height = 8, dpi = 600, bg = "white")
-
 
 
 ```
@@ -916,225 +1179,24 @@ ggsave("Figures/good.icc.png",good.icc , width = 12, height = 8, dpi = 600, bg =
 
 
 ```{r item-plots, inclide =F}
-pacman::p_load(reshape,ggsci)
-Theta <- matrix(seq(-6,6, by = .1))
-
-item1.extract<- extract.item(fit, 1)
-item2.extract<- extract.item(fit, 2)
-item3.extract<- extract.item(fit, 3)
-item4.extract<- extract.item(fit, 4)
-item5.extract<- extract.item(fit, 5)
-item6.extract<- extract.item(fit, 6)
-item7.extract<- extract.item(fit, 7)
-item8.extract<- extract.item(fit, 8)
-item9.extract<- extract.item(fit, 9)
-item10.extract<-extract.item(fit, 10)
-item11.extract<- extract.item(fit, 11)
-item12.extract<- extract.item(fit, 12)
-item13.extract<- extract.item(fit, 13)
-item14.extract<- extract.item(fit, 14)
-item15.extract<- extract.item(fit, 15)
-item16.extract<- extract.item(fit, 16)
-item17.extract<-extract.item(fit, 17)
-item18.extract<- extract.item(fit, 18)
-item19.extract<- extract.item(fit, 19)
-item20.extract<- extract.item(fit, 20)
-item21.extract<-extract.item(fit, 21)
-item22.extract<- extract.item(fit, 22)
-item23.extract<- extract.item(fit, 23)
 
 
-item1 <- iteminfo(item1.extract, Theta)
-item2 <- iteminfo(item2.extract, Theta)
-item3 <- iteminfo(item3.extract, Theta)
-item4 <- iteminfo(item4.extract, Theta)
-item5 <- iteminfo(item5.extract, Theta)
-item6 <- iteminfo(item6.extract, Theta)
-item7 <- iteminfo(item7.extract, Theta)
-item8 <- iteminfo(item8.extract, Theta)
-item9 <- iteminfo(item9.extract, Theta)
-item10 <- iteminfo(item10.extract, Theta)
-item11 <- iteminfo(item11.extract, Theta)
-item12 <- iteminfo(item12.extract, Theta)
-item13 <- iteminfo(item13.extract, Theta)
-item14 <- iteminfo(item14.extract, Theta)
-item15 <- iteminfo(item15.extract, Theta)
-item16 <- iteminfo(item16.extract, Theta)
-item17 <- iteminfo(item17.extract, Theta)
-item18 <- iteminfo(item18.extract, Theta)
-item19 <- iteminfo(item19.extract, Theta)
-item20 <- iteminfo(item20.extract, Theta)
-item21 <- iteminfo(item21.extract, Theta)
-item22 <- iteminfo(item22.extract, Theta)
-item23 <- iteminfo(item23.extract, Theta)
+iteminfo <- plot(fit, type = "infotrace",which.item =2)
 
-
-info.data <- as.data.frame(cbind(item1, item2, item3,item4,item5,item6,item7,item8,item9,item10,
-                                 item11,item12,item13,item14,item15,item16,item17,item18,item19,item20,
-                                 item21,item22,item23))
-
-item1.iic1 <- ggplot(info.data,aes(Theta,item1))+geom_line()+apatheme+
-  ggtitle(" Item01")+theme(legend.position = "none")+ylim(0,.7)+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item2.iic1 <- ggplot(info.data,aes(Theta,item2))+geom_line()+apatheme+
-  ggtitle(" Item02")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item3.iic1 <- ggplot(info.data,aes(Theta,item3))+geom_line()+apatheme+
-  ggtitle(" Item03")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item4.iic1 <- ggplot(info.data,aes(Theta,item4))+geom_line()+apatheme+
-  ggtitle(" Item04")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item5.iic1 <- ggplot(info.data,aes(Theta,item5))+geom_line()+apatheme+
-  ggtitle(" Item05")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-
-item6.iic1 <- ggplot(info.data,aes(Theta,item6))+geom_line()+apatheme+
-  ggtitle(" Item06")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item7.iic1 <- ggplot(info.data,aes(Theta,item7))+geom_line()+apatheme+
-  ggtitle(" Item07")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item8.iic1 <- ggplot(info.data,aes(Theta,item8))+geom_line()+apatheme+
-  ggtitle(" Item08")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item9.iic1 <- ggplot(info.data,aes(Theta,item9))+geom_line()+apatheme+
-  ggtitle(" Item09")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item10.iic1 <- ggplot(info.data,aes(Theta,item10))+geom_line()+apatheme+
-  ggtitle(" Item10")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-
-item11.iic1 <- ggplot(info.data,aes(Theta,item11))+geom_line()+apatheme+
-  ggtitle(" Item11 ")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item12.iic1 <- ggplot(info.data,aes(Theta,item12))+geom_line()+apatheme+
-  ggtitle(" Item12")+
+itemplot.01 <- tabledown::ggiteminfo(fit,1,6)+apatheme+
+  ggtitle(" Item03")+theme(legend.position = "none")+
   labs(y = "Item Information")+
   scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
   xlab(expression(theta))+ ylab(expression(I(theta)))
 
-item13.iic1 <- ggplot(info.data,aes(Theta,item13))+geom_line()+apatheme+
-  ggtitle(" Item13)")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
 
-
-item14.iic1 <- ggplot(info.data,aes(Theta,item14))+geom_line()+apatheme+
-  ggtitle(" Item14")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item15.iic1 <- ggplot(info.data,aes(Theta,item15))+geom_line()+apatheme+
-  ggtitle(" Item15 ")+
+itemplot.02 <- tabledown::ggiteminfo(fit,2,6)+apatheme+
+  ggtitle(" Item04")+theme(legend.position = "none")+
   labs(y = "Item Information")+
   scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
   xlab(expression(theta))+ ylab(expression(I(theta)))
 
-item16.iic1 <- ggplot(info.data,aes(Theta,item16))+geom_line()+apatheme+
-  ggtitle(" Item16")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
 
-item17.iic1 <- ggplot(info.data,aes(Theta,item17))+geom_line()+apatheme+
-  ggtitle(" Item17")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-item18.iic1 <- ggplot(info.data,aes(Theta,item18))+geom_line()+apatheme+
-  ggtitle("Item18")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item19.iic1 <- ggplot(info.data,aes(Theta,item19))+geom_line()+apatheme+
-  ggtitle(" Item19")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item20.iic1 <- ggplot(info.data,aes(Theta,item20))+geom_line()+apatheme+
-  ggtitle(" Item20")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item21.iic1 <- ggplot(info.data,aes(Theta,item21))+geom_line()+apatheme+
-  ggtitle(" Item21")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item22.iic1 <- ggplot(info.data,aes(Theta,item22))+geom_line()+apatheme+
-  ggtitle(" Item22")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-item23.iic1 <- ggplot(info.data,aes(Theta,item23))+geom_line()+apatheme+
-  ggtitle(" Item23")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+ylim(0,.7)+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))# Low info
-
-
-
-ICC1 <- cowplot::plot_grid( item1.iic1, item2.iic1, item3.iic1, item4.iic1, item5.iic1, item8.iic1 ,  labels = "AUTO",ncol=2, label_size = 15,align = "v")
-ggsave("Figures/ICC1.png",ICC1 , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-ICC2 <- cowplot::plot_grid( item9.iic1, item10.iic1, item13.iic1, item16.iic1, item17.iic1, item23.iic1 ,  labels = "AUTO",ncol=2, label_size = 15,align = "v")
-ggsave("Figures/ICC2.png",ICC2 , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-ICC3 <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic1, item14.iic1, item15.iic1 ,  labels = "AUTO",ncol=2, label_size = 15,align = "v")
-ggsave("Figures/ICC3.png",ICC3 , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-ICC4 <- cowplot::plot_grid( item18.iic1, item19.iic1, item20.iic1, item21.iic1, item22.iic1,  labels = "AUTO",ncol=2, label_size = 15,align = "v")
-ggsave("Figures/ICC4.png",ICC4 , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-bad.info <- ICC1 <- cowplot::plot_grid( item1.iic1, item2.iic1, item3.iic1, item4.iic1, item5.iic1, item8.iic1 ,
-                                        item9.iic1, item10.iic1, item13.iic1, item16.iic1, item17.iic1, item23.iic1 , 
-                                        
-                                        labels = "AUTO",ncol=3, 
-                                        label_size = 15,align = "v")
-ggsave("Figures/bad.info.png",bad.info, width = 12, height = 8, dpi = 600, bg = "white")
 
 
 good.info <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic1, item14.iic1, item15.iic1 , item18.iic1, item19.iic1, item20.iic1, item21.iic1, item22.iic1, 
@@ -1143,7 +1205,10 @@ good.info <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic
 
 ggsave("Figures/good.info.png",good.info, width = 12, height = 8, dpi = 600, bg = "white")
 
-
+test.info <- tabledown::ggtestinfo(irt.data,fit)+ apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="palegreen4" )+geom_vline(xintercept = -3, colour ="black")+
+  geom_vline(xintercept = .5, colour ="black")
+library(plotly)
+info.p <- plotly::ggplotly(test.info)
 
 ```
 
@@ -1324,7 +1389,16 @@ Marginal reliability is based on the true score model (Lord & Novick, 1968) and 
 
 ```{r dif}
 library("lordif")
-DIF <- lordif(as.data.frame(irt.2), data$Sex, criterion = "Chisqr")
+gender <- as.data.frame(data$Gender)
+colnames(gender) <- "Gender"
+gender$Gender <- as.factor(gender$Gender)
+irt.data <- na.omit(irt.data)
+communication <- sem.data[,c(2:24)]
+dif.data <- cbind(gender, communication)
+dif.data <- na.omit(dif.data)
+dif.data.full <- as.data.frame(dif.data)
+DIF <- lordif(as.data.frame(irt.data), group = dif.data.full$Gender, criterion = "Chisqr")
+
 DIF$stats[,1:5]
 plot(DIF)
 ```
