@@ -421,6 +421,17 @@
         "RcppParallel"
       ]
     },
+    "TH.data": {
+      "Package": "TH.data",
+      "Version": "1.1-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "26f97c62cab23881762215e12b43f99b",
+      "Requirements": [
+        "MASS",
+        "survival"
+      ]
+    },
     "ThreeWay": {
       "Package": "ThreeWay",
       "Version": "1.1.3",
@@ -1720,6 +1731,34 @@
         "yaml"
       ]
     },
+    "koRpus": {
+      "Package": "koRpus",
+      "Version": "0.13-8",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "koRpus",
+      "RemoteUsername": "unDocUMeantIt",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "64c4321cbf0bd12aca84f044a5fcc61b5a2923f2",
+      "Hash": "510ddd3d17ddf0bdddaa7c75feeb11e8",
+      "Requirements": [
+        "Matrix",
+        "data.table",
+        "sylly"
+      ]
+    },
+    "koRpus.lang.en": {
+      "Package": "koRpus.lang.en",
+      "Version": "0.1-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "911ceaaa2facebe24eb246663bb5165b",
+      "Requirements": [
+        "koRpus",
+        "sylly.en"
+      ]
+    },
     "kutils": {
       "Package": "kutils",
       "Version": "1.70",
@@ -1894,6 +1933,17 @@
         "zoo"
       ]
     },
+    "lordif": {
+      "Package": "lordif",
+      "Version": "0.3-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f8bc020a6a474f351539c6cc03d53043",
+      "Requirements": [
+        "mirt",
+        "rms"
+      ]
+    },
     "lpSolve": {
       "Package": "lpSolve",
       "Version": "5.6.15",
@@ -2058,6 +2108,20 @@
         "tidyr",
         "tidyselect",
         "vctrs"
+      ]
+    },
+    "multcomp": {
+      "Package": "multcomp",
+      "Version": "1.4-18",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b6f7c96e695052c85d0d4e5dea4d0a17",
+      "Requirements": [
+        "TH.data",
+        "codetools",
+        "mvtnorm",
+        "sandwich",
+        "survival"
       ]
     },
     "munsell": {
@@ -2368,6 +2432,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "03b7076c234cb3331288919983326c55",
+      "Requirements": []
+    },
+    "polspline": {
+      "Package": "polspline",
+      "Version": "1.1.19",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e2f59df0b9a4ca41c276474bba383fce",
       "Requirements": []
     },
     "praise": {
@@ -2739,6 +2811,30 @@
         "rmarkdown"
       ]
     },
+    "rms": {
+      "Package": "rms",
+      "Version": "6.2-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4f792e2f7c0f666584cc33336caae36c",
+      "Requirements": [
+        "Hmisc",
+        "MASS",
+        "SparseM",
+        "cluster",
+        "digest",
+        "ggplot2",
+        "htmlTable",
+        "htmltools",
+        "lattice",
+        "multcomp",
+        "nlme",
+        "polspline",
+        "quantreg",
+        "rpart",
+        "survival"
+      ]
+    },
     "robustbase": {
       "Package": "robustbase",
       "Version": "0.93-9",
@@ -2821,6 +2917,16 @@
         "selectr",
         "tibble",
         "xml2"
+      ]
+    },
+    "sandwich": {
+      "Package": "sandwich",
+      "Version": "3.0-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b79279ca91d53a98de8144852b67a1d0",
+      "Requirements": [
+        "zoo"
       ]
     },
     "sass": {
@@ -3095,6 +3201,24 @@
       "Requirements": [
         "cpp11",
         "systemfonts"
+      ]
+    },
+    "sylly": {
+      "Package": "sylly",
+      "Version": "0.1-6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ad4955c417c7b109a409898e50b8a02c",
+      "Requirements": []
+    },
+    "sylly.en": {
+      "Package": "sylly.en",
+      "Version": "0.1-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f1209ba13858a8da5712764e8613dc22",
+      "Requirements": [
+        "sylly"
       ]
     },
     "sys": {
