@@ -4,16 +4,17 @@ shorttitle        : "Bangla Communication Scale"
 
 author: 
   - name          : "Nusrat Jahan"
-    affiliation   : "1, *"
+    affiliation   : "1"
+    corresponding : no    # Define only one corresponding author
     role:         
       - Conceptualization
-      - Project Management
-
       - Data Curation
       - Writing - Original Draft Preparation
-
-    - name          : "Mushfiqul Anwar Siraji"
-    affiliation   : "2, *"
+  - name          : "Mushfiqul Anwar Siraji"
+    affiliation   : "2"
+    corresponding : no   # Define only one corresponding author
+    address       : "Monash University Malaysia,Jalan Lagoon Selatan, 47500 Bandar Sunway,Selangor Darul Ehsan, Malaysia."
+    email         : "mushfiqul.anwarsiraji@moansh.edu"
     role:
       - Conceptualization
       - Project Management
@@ -21,16 +22,17 @@ author:
       - Data Visualization
       - Writing - Original Draft Preparation
       - Writing - Review & Editing
-      
-    - name          : "Zinnatul Boraka"
+
+  - name          : "Zinnatul Borak"
     affiliation   : "1"
-    corresponding : yes    # Define only one corresponding author
+    corresponding : yes   # Define only one corresponding author
     address       : "Department of Educational and Counselling Psychology,University of Dhaka,Dhaka 1000"
-    email         : "my@email.com"
+    email         : "mushfiqul.anwarsiraji@moansh.edu"
     role:
       - Conceptualization
       - Writing - Review & Editing
-      
+
+     
 
 affiliation:
   - id            : "1"
@@ -39,7 +41,7 @@ affiliation:
     institution   : "Monash University, Department of Psychology, Jeffrey Cheah School of Medicine and Health Sciences, Malaysia"
   - id            : "*"
     institution   : "Joint first author"   
-
+  
 
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
@@ -66,7 +68,7 @@ abstract: |
 keywords          : "keywords"
 wordcount         : "X"
 
-bibliography      : ["references.bib"]
+bibliography      : ["r-references.bib", "references.bib"]
 
 floatsintext      : no
 figurelist        : no
@@ -80,6 +82,7 @@ documentclass     : "apa6"
 classoption       : "man"
 output            : papaja::apa6_pdf
 ---
+
 ```{r setup, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = F, message = F, dpi=1200)
 
@@ -91,6 +94,7 @@ par(family = "Arial")
 #You need to run this chunk 1X in your system 
 #install.packages("pacman")#Run this if you don't have pacman installed.
 pacman::p_load(MOTE, tidyverse, psych, lavaan,kableExtra,gt,gtsummary, mirt,likert,kutils,semPlot,semTable,semTools,ggcorrplot,dlookr,qgraph,paran,EFA.MRFA,VIM,DiagrammeR,DiagrammeRsvg,ggplot2,cowplot,rsvg,questionr,magick, simsem,readxl, stringr,RColorBrewer,WrightMap, foreign,DT,SimDesign)
+library(papaja)
 pacman::p_install_gh("jthomasmock/gtExtras")
 pacman::p_install_gh("crsh/papaja")
 pacman::p_install_gh("masiraji/tabledown")
@@ -103,7 +107,7 @@ papaja::r_refs("references.bib")
 renv::snapshot()
 ```
 
-```{r library, eval=FALSE, include=FALSE}
+```{r library,include=FALSE}
 #This chunk holds code for calling the required packages
 
 library(papaja) # devtools::install_github("crsh/papaja")
@@ -149,12 +153,20 @@ r_refs("references.bib")
 
 ---
 nocite: |
-  `r cite_r("references.bib")`
+  `r papaja::cite_r("references.bib")`
   
 ---
 
 
-# Methods
+
+# Study 1: Translations and Factor Structure
+
+Our first study had two objectives. First, we translated the English communication scale to Bangla language. Second, to identified the latent structure of the Bangla Communication Scale (BCS) using Exploratory Factor Analysis (EFA)
+
+## Methods
+
+## Participants
+
 ```{r data, include=F}
 # data <- readxl::read_excel("Processeddata/communication_data_n_582.xlsx")
 # readr::write_rds(data, "Processeddata/communication_data_n_582.rds")
@@ -179,18 +191,16 @@ validity.data <-na.omit(validity.data)
 
 
 irt.data <- sem.data[,2:24]
-
-
 ```
 
-```{r descriptivrd, eval=FALSE, include=FALSE}
-desc <- data[,c(3, 5,6)]
+```{r sescrptives, include=FALSE}
+desc <- efa.data.full[,c(3,4,5)]
 ## Recoding desc$Sex
-desc$Sex <- fct_recode(desc$Sex,
+desc$Gender <- fct_recode(desc$Gender,
   "Boy" = "male",
   "Girl" = "female"
 )
-colnames(desc) <- c("Gender", "Social Status", "Age")
+colnames(desc) <- c("Gender", "Age", "Socio Economic Status")
 
 des_tab <- desc %>%
   tbl_summary(
@@ -203,28 +213,20 @@ des_tab <- desc %>%
     missing = "no"
     ) %>% add_overall() %>% bold_labels() %>% 
 modify_header(label ~ "**Variable**")  %>%
-  modify_caption("Demographic Characteristics") 
-```
+  modify_caption("Demographic Characteristics")  
 
-```{r gt-pic, include=F}
-des_tab  %>%    # build gtsummary table
-  as_gt() %>%             # convert to gt table
-  gt::gtsave(             # save table as image
-    filename = "Figures/demographics.png"
-  )
-```
+as_tibble(des_tab) -> desc_tibble 
+as_kable_extra(des_tab, format = "latex",booktabs = T) -> desc_kable #save it as a knitr::kable
 
 
-```{r}
+des.2 <- desc %>% 
+  psych::describeBy("Gender")
+female <- as.tibble(des.2$Female)
+male <- as.tibble(des.2$Male)
 
 ```
 
-
-
-```{r}
-reliability <- psych::alpha(com2, check.keys = T)
-```
-
+A cross-sectional survey was used to collect data from a large sample of students of grade 8-10 (n = `r nrow(efa.data)`) from ---- schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@RN1268; @RN1269; @RN1270; @RN1271] where 10 participants per parameters is required to earn trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(data)` participants, `r female[1,2]` were female aged between `r female[4,8]` to `r female[4,9]` years (`r round(female[4,3],2)`±`r round(female[4,4],2)`). `r male[1,2]`  were male with an age range between `r male[4,8]` to `r male[4,9]` years (`r round(male[4,3],2)`±`r round(male[4,4],2)`). Table \@ref(tab:demographics) summarizes the demographics.
 
 ```{r}
 
