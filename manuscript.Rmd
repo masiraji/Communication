@@ -1,27 +1,45 @@
 ---
-title             : "The title"
-shorttitle        : "Title"
+title             : "Psychometric Evaluation of the Bangla-translated Rotter Internal-External Scale through Classical Test Theory and Item Response Theory"
+shorttitle        : "Bangla Communication Scale"
 
 author: 
-  - name          : "First Author"
-    affiliation   : "1"
-    corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "my@email.com"
-    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+  - name          : "Nusrat Jahan"
+    affiliation   : "1, *"
+    role:         
       - Conceptualization
+      - Project Management
+
+      - Data Curation
+      - Writing - Original Draft Preparation
+
+    - name          : "Mushfiqul Anwar Siraji"
+    affiliation   : "2, *"
+    role:
+      - Conceptualization
+      - Project Management
+      - Formal Analysis
+      - Data Visualization
       - Writing - Original Draft Preparation
       - Writing - Review & Editing
-  - name          : "Ernst-August Doelle"
-    affiliation   : "1,2"
+      
+    - name          : "Zinnatul Boraka"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Department of Educational and Counselling Psychology,University of Dhaka,Dhaka 1000"
+    email         : "my@email.com"
     role:
+      - Conceptualization
       - Writing - Review & Editing
+      
 
 affiliation:
   - id            : "1"
-    institution   : "Wilhelm-Wundt-University"
+    institution   : "Department of Educational and Counselling Psychology,University of Dhaka"
   - id            : "2"
-    institution   : "Konstanz Business School"
+    institution   : "Monash University, Department of Psychology, Jeffrey Cheah School of Medicine and Health Sciences, Malaysia"
+  - id            : "*"
+    institution   : "Joint first author"   
+
 
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
@@ -62,7 +80,6 @@ documentclass     : "apa6"
 classoption       : "man"
 output            : papaja::apa6_pdf
 ---
-
 ```{r setup, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = F, message = F, dpi=1200)
 
@@ -1496,6 +1513,12 @@ We used `r cite_r("references.bib")` for all our analyses.
 
 # Discussion
 
+## Ethical Consideration 
+
+All procedures performed in studies involving human participants were in accordance with the 1964 Helsinki declaration and its later amendments or comparable ethical standards. This article does not contain any studies with animals performed by any of the authors.
+
+## Data and code availability
+All code and data underlying this article is available on a public GitHub repository (https://github.com/masiraji/Communication).
 
 \newpage
 
