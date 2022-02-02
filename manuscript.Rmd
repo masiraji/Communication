@@ -148,9 +148,6 @@ renv::snapshot()
 r_refs("references.bib")
 ```
 
-
-
-
 ---
 nocite: |
   `r papaja::cite_r("references.bib")`
@@ -158,6 +155,11 @@ nocite: |
 ---
 
 
+Communication is a complex behaviour of exchanging information among individuals combining physical and mental events. [@tanner2006advanced]. Communication plays a central role among adolescents in developing self-identity, social relationships and creates the foundation of collective social activity [@haslett1989children]. 
+
+Often adults picture adolescents having inadequate and inept communication skills [@thurlow2003teenagers;@stern2005self]. Media representation of adolescents often includes "storm-and stress", self absorbed and disengaged type behaviours [@porteous1980adolescents;@stern2005self]. As such adolescents are often labelled as "lazy" and "disrespectful" by the adults [@public1999kids]. On the contrary adolescents are highly engaged in work, community services and extracurricular activities and also more aspiring to earn an college degrees [@debard2004millennials; @schneider1999ambitious]. Such a discrepancy between the reality of adolescent's image and adult's perception of the adolescents might be attributed to the mismatch of communication skills. The communication pattern of adolescents might not necessarily same as the adults. In addition to face to face communication, adolescents are vastly exposed to different virtual communication platforms. This may cause them to face more complex social challenges than the adults [@thurlow2003teenagers]. "Communication capital" expresses the potential of civic-engagement that incorporates developing social relationships and influences collective social activity. The more communication capital an individual has the easier the instances of civic engagement become. 
+
+Understanding the communication skills among the adolescents is vital as it is considered as the "key skill" in the education [@thurlow2001talkin]. To promote better understanding of subject contents assessing the communication skill among adolescents is highly required. For this purpose "Communication Skill" sub-skill set [@barkman2002four]  was developed in 2002 as a part of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring] and since then it has been extensively used .
 
 # Study 1: Translations and Factor Structure
 
@@ -226,7 +228,7 @@ male <- as.tibble(des.2$Boy)
 
 ```
 
-A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@RN1268; @RN1269; @RN1270; @RN1271] which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data))` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
+A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]  which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data))` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
 ## Procedure
 Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their sociademographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
