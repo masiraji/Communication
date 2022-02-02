@@ -228,6 +228,15 @@ male <- as.tibble(des.2$Boy)
 
 A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@RN1268; @RN1269; @RN1270; @RN1271] which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data))` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
+## Procedure
+Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their sociademographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
+
+## Materials
+
+### Communication Scale
+
+### Bangla Communication Scale
+We translated the "Communication Scale" into Bangla Language following  International Test Commission (ITC) guidelines [@bartramITCGuidelinesTranslating2018] to translate and adapt Communication scale. Two bilingual researchers (PhD in Psychology) natives in Bangla translated the original English version to Bangla. Two translated versions were then judged and synthesized by the authors. Subsequently, two bilingual researchers (One PhD, one MS in Psychology) back-translated the Bangla scale into English with no knowledge of the original work. The authors synthesized the two back-translations and compared it with the original scale and made necessary amendments
 
 
 ```{r}
