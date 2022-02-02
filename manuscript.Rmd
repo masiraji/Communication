@@ -39,9 +39,7 @@ affiliation:
     institution   : "Department of Educational and Counselling Psychology,University of Dhaka"
   - id            : "2"
     institution   : "Monash University, Department of Psychology, Jeffrey Cheah School of Medicine and Health Sciences, Malaysia"
-  - id            : "*"
-    institution   : "Joint first author"   
-  
+ 
 
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
@@ -155,16 +153,18 @@ nocite: |
 ---
 
 
-Communication is a complex behaviour of exchanging information among individuals combining physical and mental events. [@tanner2006advanced]. Communication plays a central role among adolescents in developing self-identity, social relationships and creates the foundation of collective social activity [@haslett1989children]. 
+Communication is a complex behaviour of exchanging information among individuals [@tanner2006advanced]. Communication plays a central role among adolescents in developing self-identity, social relationships and creates the foundation of collective social activity [@haslett1989children; @conti2008emotional; @spencer2013language]. Inadequate communication skill may cause poor peer relationship resulting long-term socio-emotional difficulties including social anxiety, stress, low self-esteem and poor academic performance [@brinton2004social; @reed2020relative]. 
+
 
 Often adults picture adolescents having inadequate and inept communication skills [@thurlow2003teenagers;@stern2005self]. Media representation of adolescents often includes "storm-and stress", self absorbed and disengaged type behaviours [@porteous1980adolescents;@stern2005self]. As such adolescents are often labelled as "lazy" and "disrespectful" by the adults [@public1999kids]. On the contrary adolescents are highly engaged in work, community services and extracurricular activities and also more aspiring to earn an college degrees [@debard2004millennials; @schneider1999ambitious]. Such a discrepancy between the reality of adolescent's image and adult's perception of the adolescents might be attributed to the mismatch of communication skills. The communication pattern of adolescents might not necessarily same as the adults. In addition to face to face communication, adolescents are vastly exposed to different virtual communication platforms. This may cause them to face more complex social challenges than the adults [@thurlow2003teenagers]. "Communication capital" expresses the potential of civic-engagement that incorporates developing social relationships and influences collective social activity. The more communication capital an individual has the easier the instances of civic engagement become. 
 
-Understanding the communication skills among the adolescents is vital as it is considered as the "key skill" in the education [@thurlow2001talkin]. To promote better understanding of subject contents assessing the communication skill among adolescents is highly required. For this purpose "Communication Skill" sub-skill set [@barkman2002four]  was developed in 2002 as a part of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring] and since then it has been extensively used .
+Understanding the adolescents' communication skill  vital as it is considered as the "key skill" in the education [@thurlow2001talkin] and employment market [@olszewski2017training]. In the western society, adolescents are now facing high unemployment [@lindsay2014employers]. Lack of adequate communication skill is one of the root causes of this high unemployment [@lindsay2014employers]. Similarly, lack of proper communication skill often promotes the propensity of anti-social behaviours and risk of exclusion from schools [@clegg2009language; @conti2004social]. 
 
-# Study 1: Translations and Factor Structure
 
-Our first study had two objectives. First, we translated the English communication scale to Bangla language. Second, to identified the latent structure of the Bangla Communication Scale (BCS) using Exploratory Factor Analysis (EFA)
+To promote better understanding of subject contents assessing the communication skill among adolescents is highly required. For this purpose "Communication Skill" sub-skill set [@barkman2002four]  was developed in 2002 as a part of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring] and since then it has been extensively used [@fitzpatrick2005life].
 
+
+This study has two objectives: (a) To explore and validate the latent construct of "Bangla Communication Scale" using (b) To gather concurrent validity evidence (c) To increase the precision of the scale usining Item Response Theory guided analysis
 ## Methods
 
 ## Participants
@@ -228,10 +228,10 @@ male <- as.tibble(des.2$Boy)
 
 ```
 
-A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]  which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data))` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
+A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]  which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
 ## Procedure
-Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their sociademographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
+Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their soci-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
 
 ## Materials
 
@@ -241,7 +241,7 @@ Prior to data collection necessary authorization from school's authority and ass
 We translated the "Communication Scale" into Bangla Language following  International Test Commission (ITC) guidelines [@bartramITCGuidelinesTranslating2018] to translate and adapt Communication scale. Two bilingual researchers (PhD in Psychology) natives in Bangla translated the original English version to Bangla. Two translated versions were then judged and synthesized by the authors. Subsequently, two bilingual researchers (One PhD, one MS in Psychology) back-translated the Bangla scale into English with no knowledge of the original work. The authors synthesized the two back-translations and compared it with the original scale and made necessary amendments
 
 
-```{r}
+```{r, gtfig, include =F}
 
 gt.data <- na.omit(efa.data)
 
@@ -434,70 +434,24 @@ KMO <- psych::KMO(efa.data)
 bartlet <- psych::cortest.bartlett(efa.data, n =300)
 
 
-#Histogram
-#psych::multi.hist(EFA.data[,sapply(EFA.data, is.numeric)])
-
-# Univariate normality
-
-#creating normality function
-shapiro_test_df <- function(df, bonf= TRUE, alpha= 0.05) {
-  l <- lapply(df, shapiro.test)
-  s <- do.call("c", lapply(l, "[[", 1))
-  p <- do.call("c", lapply(l, "[[", 2))
-  if (bonf == TRUE) {
-    sig <- ifelse(p > alpha / length(l), "H0", "*")
-  } else {
-    sig <- ifelse(p > alpha, "H0", "*")
-  }
-  return(list(statistic= s,
-              p.value= p,
-              significance= sig,
-              method= ifelse(bonf == TRUE, "Shapiro-Wilks test with Bonferroni Correction",
-                             "Shapiro-Wilks test without Bonferroni Correction")))
-}
 
 
-Shapiro.efa <- shapiro_test_df(efa.data)
-
-
-efa.normality.tab = matrix(nrow = 48, ncol = 2)
-rownameprefix <- "Item"
-rownamesufix <- seq(1:48)
-my.item.names <- paste(rownameprefix,rownamesufix, sep = "" )
-rownames(efa.normality.tab) <- my.item.names
-colnames(efa.normality.tab) <- c("statistic", "p")
-
-efa.normality.tab[,1] <- apa(Shapiro.efa$statistic,2,T)
-efa.normality.tab[,2] <- apa(Shapiro.efa$p.value,2,T)
-
-efa.normalityprefix <- efa.normality.tab[,1]
-efa.normalitysufix <- Shapiro.efa$significance
-efa.normality.stat <- paste(efa.normalityprefix,efa.normalitysufix, sep = "" )
-
-# Multivariate Normality
-mardia <- psych::mardia(efa.data, na.rm = T, plot =F)
-
-# Descriptive Stats
-Descriptives <- psych::describe(EFA.data)
-alpha <- psych::alpha(EFA.data,check.keys=TRUE)
-Item.total <- alpha$item.stats
-
-Des.combined <- cbind(apa(Descriptives$mean,2,T), apa(Descriptives$sd,2,T), apa(Descriptives$skew,2,T),apa(Descriptives$kurtosis,2,T), efa.normality.stat,  apa(Item.total$r.cor,2,T))
-
-colnames(Des.combined) = c("Mean", "SD", "Skew", "Kurtosis", "Shapiro-Wilk Statistics","Item-Total Correlation")
-rownameprefix <- "Item"
-rownamesufix <- seq(1:48)
-my.names <- paste(rownameprefix,rownamesufix, sep = "" )
-rownames(Des.combined) = (my.names)
 
 
 decriptives <- tabledown::des.tab(efa.data)
+colnames(decriptives) = c("Items","Mean", "SD", "Skew", "Kurtosis", "Shapiro-Wilk Statistics","Item-Total Correlation")
+
 ```
 
-## Item Analysis
-`
 
-```{r Cronbach, results='asis', width = 60}
+```{r}
+apa_table(decriptives)
+```
+
+
+## Item Analysis
+
+```{r Cronbach, include=FALSE, results='asis'}
 Cron.bach <- psych::alpha(efa.data,check.keys=TRUE) 
 Cron.bach$total %>% 
   knitr::kable(caption = "Alpha", digits = 2) %>% 
@@ -743,23 +697,25 @@ fa.1F.2 <- fa(r=correlations.red.1F.1$rho, nfactors = 1, fm= "pa",
 
 BB <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
 
-reduced.model.2F.2 <- dplyr::select(EFA.data ,
-                                    -c( CS07, CS13, CS16, CS05, CS10, CS19, CS03, CS02, CS09, CS23, CS17, CS04))
-
-
-correlations.red.2F.2 <- polychoric(reduced.model.2F.2)
-
-
-fa.2F.3 <- fa(r=correlations.red.2F.2$rho, nfactors = 2, fm= "pa",rotate ="promax",
-              residuals = TRUE, SMC = TRUE, max.iter = 500 )
-
-CC <- print(fa.2F.3, cut = .3, digits = 3, sort = TRUE)
-
-
-
 
 ```
 
+```{r eval=FALSE, include=FALSE}
+model.1 <- "F1 =~ CS15 + CS22+CS20+CS14+CS18+CS13+CS06+CS10
+            F2 =~ CS19+CS04+CS17+CS12+CS08+CS07"
+fit.1 <- cfa(model.1, data = cfa.data, ordered = names(cfa.data),estimator = "WLSMV") 
+
+## Summary of Model 
+cfa.sum.1 <- summary(fit.1, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
+
+
+## Selected Fit measures 
+fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi", 
+                       "cfi","tli",
+                       "rmsea", "rmsea.ci.lower", "rmsea.ci.upper","srmr"))
+reliability1 <- semTools::reliability(fit.1, return.total = T)
+
+```
 
 
 ```{r CFAitems, include=FALSE }
@@ -794,11 +750,11 @@ modfit.Cor.one[modfit.Cor.one$mi>3.84,]
 #This chunk holds codes to store CFA plot
 
 
-png(filename="Manuscript.figures/CFAplot.png", 
+png(filename="figures/CFAplot.png", 
     type="cairo",
     units="in", 
-    width=12, 
-    height=12, 
+    width=6, 
+    height=6, 
     pointsize=12, 
     res=1200)
 semPaths (fit.1 , 
@@ -838,7 +794,7 @@ semPaths (fit.1 ,
 dev.off()
 ```
 
-```{r Shortcut Invariance}
+```{r Shortcut Invariance, eval=FALSE, include=FALSE}
 invariance.data <- cfa.data.full[, c(3, 6:28)]
 invariance.data <- na.omit(invariance.data )
 library("semTools")
@@ -853,7 +809,7 @@ invariance.model[[4]] # residual, strict
 invariance.model[[5]] # means, structural invariance
 ```
 
-```{r figcfa, fig.cap = "Five Factor  Model of LEBA obtained by Confirmatory Factor Analysis. By allowing item pair 41 and 30 to covary their error variance our model attained the best fit.",  out.height='100%', warning=FALSE}
+```{r figcfa, fig.cap = "CFA Plot.", warning=FALSE}
 
 knitr::include_graphics("Figures/CFAplot.png", dpi =600)
 
@@ -871,9 +827,6 @@ mi.count <- invariance.data %>%
   count() %>% 
   as.data.frame()
 ```
-
-
-
 
 
 ```{r Invariancedetail, include=FALSE}
@@ -1038,10 +991,10 @@ axis(1, at = nvec)
 To gather more information on our retained one-factor solution, we sought Item Response Theory (IRT). IRT complements the conventional classical test theory-based analysis by gathering information on item discrimination and item difficulty. IRT judges an item's quality by providing item information in the light of participants' trait level ($\theta$). We gathered evidence on item quality as well as item fit, person fit and model by fitting a graded response model  in RStudio with the "mirt" package [@R-mirt]  [@R-mirt]. We did a Monte Carlo simulation using "SimDesign" package [@R-SimDesign]  with sample sizes varying from 50-350 and calculated average root mean squared error(RMSE) to estimate the optimal sample size for the graded response model with 23 items. The RMSE became stable for n = 200 to 300 (RMSE ranging between .25-.35). Our sample size within the estimated sample size for stability.
 
 
-```{r}
+```{r, include =F}
 irt.data <- na.omit(irt.data)
 irt.data.1 <- irt.data %>% 
-  dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11,    CS12, 
+  dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11, CS12, 
                  CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22)
 
 fit <- mirt(irt.data.1, model = 1, itemtype = 'graded', 
@@ -1066,6 +1019,40 @@ item.fit<- itemfit(fit, fit_stats = c("S_X2", "G2","Zh", "infit"),
 #Identifying Missfit items based on RMSEA Value
 item_misfits <- subset(item.fit, RMSEA.S_X2 >= .06)
 
+
+
+## Creating IRT table
+item.fit2 <- item.fit[,c(4,6,11,12,13,14)] 
+colnames(item.fit2) <- c("Standardized Outfit", "Standardized Infit", "S-Chi-square", "df", "RMSEA", "p")
+
+IRT.details <- cbind(items ,item.fit2)
+
+IRT.details <- IRT.details %>% 
+ dplyr::mutate_if(is.numeric, round, digits=3)
+
+IRT.details <- tibble::rownames_to_column(IRT.details, "Items")
+#write_csv(IRT.details, "table_raw/IRT_parameters.csv")
+
+#-3<b<3
+#.5<a<2; baker p12
+
+mean.discrimination <- mean(IRT.details$a)
+sd.discrimination <- sd(IRT.details$a)
+range.descrimination <- range(IRT.details$a)
+
+cat.prob <- IRT.details[,c(3:6)]
+cat.prob.long <- reshape::melt(cat.prob)
+range.difficulty <- range(cat.prob.long$value)
+
+range.outfit <-  range(IRT.details$Outfit)
+range.infit <-  range(IRT.details$Infit)
+range.rmsea <- range(IRT.details$RMSEA)
+
+
+
+
+
+
 # Person Fit ####
 
 personfit <- personfit(fit) 
@@ -1074,6 +1061,28 @@ rownames(personfit_model_misfits)
 nrow(personfit_model_misfits)
 hist(personfit$Zh, xlab = "Zh Statistics",main = "F1 Person Fit")
 abline(v = -2, lwd = 2, lty = 2)
+
+
+
+
+person <- ggplot(personfit, aes(x=Zh)) + geom_histogram(binwidth=.5,col=I("black"),fill="palegreen4")+geom_vline(xintercept = -2)+
+  labs( y="Number of Participants", x = "Zh Statistics")+apatheme + xlim(-4,2)+
+   scale_y_continuous(limits = c(0, 40), expand = expand_scale(mult = c(0, 0.1)))
+
+
+# annotation.1 <- data.frame(
+#    x = (-3.1),
+#    y = (20),
+#    label = ("Most of the participants
+#         are within the guidline")
+# )
+# 
+# per.anno <-person + geom_label(data=annotation.1, aes( x=x, y=y, label=label),                 , 
+#            color="orange", 
+#            size=5 , angle=45, fontface="bold" )
+
+
+ggsave("Figures/person.png",person , width = 12, height = 8, dpi = 600, bg = "white")
 
 
 # Plots ####
@@ -1193,22 +1202,27 @@ item22 <- ggicc(fit,17,6)+apatheme+ggtitle("item22")+apatheme+scale_color_npg()+
 
 
 ICC <- cowplot::plot_grid(item03, item04, item06, item07, item08, 
-                   item10, item11, item12, item13, item14, item15,  item17, item19,
-                   item20, item21, 
+                   item10, item11, item12, item13, item14, item15,  item17, item18, item19,
+                   item20, item21, item22,
                       labels = "AUTO",
-                     ncol=4,  
+                     ncol=3,  
                     label_size = 15, 
                      align = "v")
 
 
-ggsave("Figures/ICC.png",ICC , width = 12, height = 12, dpi = 600, bg = "white")
+ggsave("Figures/ICC.png",ICC , width = 12, height =14, dpi = 600, bg = "white")
 
 
 
 
 ```
 
+```{r figICC, eval=FALSE, fig.cap="Option Charecteritics Curve.", warning=FALSE, include=FALSE, out.height='100%'}
 
+knitr::include_graphics("Figures/ICC.png", dpi =600)
+
+
+```
 
 ```{r item-plots, inclide =F}
 
@@ -1231,133 +1245,41 @@ itemplot.02 <- tabledown::ggiteminfo(fit,2,6)+apatheme+
 
 
 
-good.info <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic1, item14.iic1, item15.iic1 , item18.iic1, item19.iic1, item20.iic1, item21.iic1, item22.iic1, 
-                                 labels = "AUTO",ncol=3, label_size = 15,align = "v")
+# good.info <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic1, item14.iic1, item15.iic1 , item18.iic1, item19.iic1, item20.iic1, item21.iic1, item22.iic1, 
+#                                  labels = "AUTO",ncol=3, label_size = 15,align = "v")
+# 
+# 
+# ggsave("Figures/good.info.png",good.info, width = 12, height = 8, dpi = 600, bg = "white")
 
+test.info <- tabledown::ggtestinfo(irt.data.1, fit)+ apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="#E64B3599" )
+# +geom_vline(xintercept = -3, colour ="black")+
+#   geom_vline(xintercept = .5, colour ="black")
+ggsave("Figures/TIC.png",test.info , width = 6, height = 4, dpi = 600, bg = "white")
 
-ggsave("Figures/good.info.png",good.info, width = 12, height = 8, dpi = 600, bg = "white")
-
-test.info <- tabledown::ggtestinfo(irt.data,fit)+ apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="palegreen4" )+geom_vline(xintercept = -3, colour ="black")+
-  geom_vline(xintercept = .5, colour ="black")
 library(plotly)
 info.p <- plotly::ggplotly(test.info)
+
+
 
 ```
 
 
+```{r figTIC, fig.cap = "TIC.",  out.height='100%', warning=FALSE}
 
-```{r IRT2, include}
-
-irt.2 <- dplyr::select(EFA.data, -c(CS01,CS02,CS03,CS04, CS05,CS08, CS09, CS10, CS13, CS16, CS17,CS23))
-
+knitr::include_graphics("Figures/TIC.png", dpi =600)
 
 
-fit2 <- mirt(irt.2, model = 1, itemtype = 'graded', 
-               SE = TRUE, Se.type = 'MHRM',
-               technical = list(NCYCLES = 10000))
+```
 
-
-occ <- plot(fit2, facet =T, type= "trace")
-
-
-# Model Parameters ####
-params2 <- coef(fit2, IRTpars = TRUE, simplify = TRUE, rawug = FALSE) 
-items2 <- data.frame(params2$items)
-se2 <- coef(fit2, printSE = TRUE)
-
-# Model Fit (degrees of freedom too low to check model fit)
-model2 <- as.data.frame(M2(fit2))
-
-
-#Item fit
-item.fit2<- itemfit(fit2, fit_stats = c("S_X2",  "infit"),
-                                  impute=10)
-
-#Identifying Missfit items based on RMSEA Value
-item_misfits2 <- subset(item.fit2, RMSEA.S_X2 >= .06)
-
-
-## Creating IRT table
-item.fit3 <- item.fit2[,-c(1,2,4)] 
-colnames(item.fit3) <- c("Outfit", "Infit", "S-Chi-square", "df", "RMSEA", "p")
-
-IRT.details <- cbind(items2 ,item.fit3)
-
-IRT.details <- IRT.details %>% 
- dplyr::mutate_if(is.numeric, round, digits=3)
-
-IRT.details <- tibble::rownames_to_column(IRT.details, "Items")
-#write_csv(IRT.details, "table_raw/IRT_parameters.csv")
-
-#-3<b<3
-#.5<a<2; baker p12
-
-mean.discrimination <- mean(IRT.details$a)
-sd.discrimination <- sd(IRT.details$a)
-range.descrimination <- range(IRT.details$a)
-
-cat.prob <- IRT.details[,c(3:6)]
-cat.prob.long <- reshape::melt(cat.prob)
-range.difficulty <- range(cat.prob.long$value)
-
-range.outfit <-  range(IRT.details$Outfit)
-range.infit <-  range(IRT.details$Infit)
-range.rmsea <- range(IRT.details$RMSEA)
-
-
-# Person Fit ####
-personfit2 <- personfit(fit2) 
-personfit_model_misfits2 <- subset(personfit2, Zh < -2)
-rownames(personfit_model_misfits2)
-nrow(personfit_model_misfits2)
-
-
-person <- ggplot(personfit2, aes(x=Zh)) + geom_histogram(binwidth=.5,col=I("black"),fill="palegreen4")+geom_vline(xintercept = -2)+
-  labs( y="Number of Participants", x = "Zh Statistics")+apatheme + xlim(-4,2)+
-   scale_y_continuous(limits = c(0, 40), expand = expand_scale(mult = c(0, 0.1)))
-
-
-annotation.1 <- data.frame(
-   x = (-3.1),
-   y = (20),
-   label = ("Most of the participants
-        are within the guidline")
-)
-
-per.anno <-person + geom_label(data=annotation.1, aes( x=x, y=y, label=label),                 , 
-           color="orange", 
-           size=5 , angle=45, fontface="bold" )
-
-
-ggsave("Figures/person.png",per.anno , width = 12, height = 8, dpi = 600, bg = "white")
-
-# Plots ####
-
-OCC2 <- plot(fit2, type = "trace", facet =T, main = "Communication Scale OCC")
-info2 <- plot(fit2, type = "infoSE", main = "Communication Scale")
-iteminfo2 <- plot(fit2, type = "infotrace", 
-                    facet_items = T, main = "Communication Scale")
-
-##Test Info
-info <- tabledown::ggtestinfo(irt.2, fit2)+apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="palegreen4" )+geom_vline(xintercept = -3, colour ="black")+
-  geom_vline(xintercept = .5, colour ="black")
-library(plotly)
-info.p <- plotly::ggplotly(info)
-
-annotation <- data.frame(
-   x = c(-4.2,1.5),
-   y = c(4.5,4.3),
-   label = c("Theta = -3", "Theta =.5")
-)
-
-info.anno <- info + geom_label(data=annotation, aes( x=x, y=y, label=label),
-           color="orange", 
-           size=7 , angle=45, fontface="bold" )
-
-ggsave("Figures/TIC.png",info.anno  , width = 12, height = 8, dpi = 600, bg = "white")
-
-
-#conditional reliability
+```{r conrel-print, include=F}
+##
+png(filename="Figures/conrel.png", 
+    type="cairo",
+    units="in", 
+    width=12, 
+    height=2, 
+    pointsize=12, 
+    res=300)
 library(latticeExtra)
 library(directlabels)
 font.settings <- list(
@@ -1376,50 +1298,26 @@ apa.latice  <- list(
 
 
 
-reliability.focused <- plot(fit2, type = 'rxx', theta_lim = c(-4, 2), 
+ plot(fit, type = 'rxx', theta_lim = c(-6, 6), 
       main="Conditional Reliability Plot", par.settings=c(apa.latice),col.line = "#E69F00",lwd = 3.5 )
 
-
-
-
-
-
-marginal.rel2 <- marginal_rxx(fit2)
-
-#scale characteristics curve
-scale2 <- plot(fit2, type = 'score', theta_lim = c(-6, 6), main = "")
-
-
-
-```
-
-```{r conrel-print, include=F}
-##
-png(filename="Figures/conrel.png", 
-    type="cairo",
-    units="in", 
-    width=12, 
-    height=8, 
-    pointsize=12, 
-    res=300)
-plot(fit2, type = 'rxx', theta_lim = c(-6, 6), 
-      main="", par.settings=c(apa.latice),col.line = "#E69F00",lwd = 3.5, cex =2.5 )+
-  layer(panel.abline(v = -4, colour = "red",panel=panel.filled_smooth))+
-  layer(panel.abline(v = 1.5))
 
 dev.off()
 ```
 
+```{r figconrel, fig.cap = "Conditional Reliability.",  out.height='100%', warning=FALSE}
+
+knitr::include_graphics("Figures/conrel.png", dpi =600)
 
 
-
+```
 
 
 Marginal reliability is based on the true score model (Lord & Novick, 1968) and is an estimate of the overall reliability of a test based on the average conditional standard errors. Often it is close in value to coefficient alpha (and sometimes it may even be identical). Alpha provides a lower estimate of marginal reliability.
 
 
 
-```{r dif}
+```{r dif, eval=FALSE, include=FALSE}
 library("lordif")
 gender <- as.data.frame(data$Gender)
 colnames(gender) <- "Gender"
@@ -1442,7 +1340,9 @@ val.data<- validity.data.full %>%
   dplyr::select( CS03, CS04, CS06, CS07,CS08,CS10,CS11,    CS12, 
                  CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22) %>% 
   rowwise() %>% 
-  mutate(Total_communication = sum(across(starts_with("CS")), na.rm = T))
+  mutate(Total_communication = sum(across(starts_with("CS")), na.rm = T),
+         F1 = sum(CS15,CS22,CS20,CS14,CS18,CS13,CS06,CS10),
+         F2 = sum(CS19,CS04,CS17,CS12,CS08,CS07))
 
 
 val.data.2 <- as.data.frame(cbind(val.data$Total_communication, validity.data.full$Total_HS, validity.data$Total_LS, validity.data.full$Total_SE))
@@ -1514,14 +1414,6 @@ papaja::apa_table(Cor, escape  = FALSE
 
 
 
-## Participants
-
-## Material
-
-## Procedure
-
-## Data analysis
-We used `r cite_r("references.bib")` for all our analyses.
 
 
 # Results
