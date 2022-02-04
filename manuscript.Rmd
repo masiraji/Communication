@@ -1,5 +1,5 @@
 ---
-title             : "Psychometric Evaluation of the Bangla-translated Rotter Internal-External Scale through Classical Test Theory and Item Response Theory"
+title             : "Psychometric Evaluation of the Bangla Communication Scale through Classical Test Theory and Item Response Theory"
 shorttitle        : "Bangla Communication Scale"
 
 author: 
@@ -8,6 +8,7 @@ author:
     corresponding : no    # Define only one corresponding author
     role:         
       - Conceptualization
+      - Project Management
       - Data Curation
       - Writing - Original Draft Preparation
   - name          : "Mushfiqul Anwar Siraji"
@@ -18,16 +19,14 @@ author:
     role:
       - Conceptualization
       - Project Management
-      - Formal Analysis
-      - Data Visualization
-      - Writing - Original Draft Preparation
-      - Writing - Review & Editing
+      - Formal Analysis & Data Visualization
+      - Writing - Original Draft Preparation; Review & Editing
 
   - name          : "Zinnatul Borak"
     affiliation   : "1"
     corresponding : yes   # Define only one corresponding author
     address       : "Department of Educational and Counselling Psychology,University of Dhaka,Dhaka 1000"
-    email         : "mushfiqul.anwarsiraji@moansh.edu"
+    email         : "institutional email of Bonhee mam"
     role:
       - Conceptualization
       - Writing - Review & Editing
