@@ -831,7 +831,7 @@ reliability0 <- semTools::reliability(fit.1, return.total = T)
 
 # Study 2 Confirmation of Factor Structure and Psychometric Properties of Bangla Communication Scale
 
-This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we established gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons Theory Based Analysis
+This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1 and estimated the reliability of the scale. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we established gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons eTheory Based Analysis
 
 ## Method
 
@@ -871,7 +871,25 @@ cfa.male <- as.tibble(cfa.des.2$Boy)
 
 A second group of `r nrow(cfa.data.all)` students of grade 8-12 from eight schools participated in Study-2. They were recruited using convenience sampling method. One participant;s data were excluded for missing data. In the complete dataset of `r nrow(cfa.data)`  `r cfa.female[1,2]` were female aged between `r cfa.female[2,8]` to `r cfa.female[2,9]` years (`r round(cfa.female[2,3],2)`±`r round(cfa.female[2,4],2)`). `r cfa.male[1,2]`  were male with an age range between `r cfa.male[2,8]` participants `r cfa.male[2,9]` years (`r round(cfa.male[2,3],2)`±`r round(cfa.male[2,4],2)`). `r cfa.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r cfa.desc_tibble [3,2]` and `r cfa.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively. To assess the sampling adequacy we followed the N:q rule [@bentlerPracticalIssuesStructural1987a; @RN1241] where 10 participants per item is required to earn trustworthiness of the result. Our sample size exceeded the requirement as we had 17 items.
 
+### Measures
 
+#### Bangla Rotter's I-E Scale
+
+To confirm the latent structure of Bangla Communication scale, we used the one factor solution with 17 items obtained in our Study 1. 
+
+#### Bangla Beck Hopelessness Scale
+
+```{r beck-hopelessness, include =F}
+hopelessness<- validity.data.full %>% 
+  dplyr::select( HS01:HS20) 
+#ordinal alpha
+hopelessness.alpha <- psych::alpha(hopelessness,check.keys=TRUE)
+
+hopelessness.alpha <- hopelessness.alpha$total$raw_alpha
+```
+
+
+Beck Hopelessness Scale(BHS) is composed of 20 items with a  dichotomous response scale(True/False) [@beck1974measurement]. It captures three major dimensions of hopelessness: Feelings about the future, loss of motivation and expectations [@balsamo2020further]. This scale has nine reversed coded items (items 1, 3, 5, 6, 8, 10, 13, 15, 19) and yield a total score (range 0-20) where a higher score indicates higher disposition towards hopelessness. In this study we have used the Bangla Hopelessness scale [@uddinPsychometricEvaluationBangla]. Bangla Beck Hopelessness Scale retained all 20 items of the original scale and following the same scoring method. Internal consistency K-R coefficient for bangla BecK Hopelessness Scale in out Study-2 sample was `r apa(hopelessness.alpha,2,T)`
 
 
 
