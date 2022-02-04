@@ -1,5 +1,5 @@
 ---
-title             : "Psychometric Evaluation of the Bangla Communication Scale Among Adolescents:Latent structure, Reliability, validity, and gender invariance in a Bangladeshi adolescent sample"
+title             : "Psychometric Validation of the Bangla Communication Scale Among Adolescents"
 shorttitle        : "Bangla Communication Scale"
 
 author: 
@@ -251,9 +251,11 @@ We followed the International Test Commission  guidelines [@bartramITCGuidelines
 
 
 ### Data collection
+
 The project received institutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation any time without being penalized.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their socio-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
 
 ### Analytic strategies
+
 We used R (version 4.1.0) [@R-base], including several R packages [@R-lavaan; @R-mirt; @R-psych; @R-tabledown], for our analyses. Prior to the data analysis normality assumptions were checked. Our data violeted both univariate and multivariate normality. As such we used polychoric correlation matrix and 'principal axis" factor extraction method to conduct the exploratory factor analysis [@watkinsStepbyStepGuideExploratory2020]. An oblique rotation method was employed. A posterior sampling adequacy was estimated using KMO statistics [@kaiserIndexFactorialSimplicity1974]. TO identify the optimum number of factors required to explain the latent structure of our scale we used Scree plot [@cattellScreeTestNumber1966a], Horn's parallel analysis [@hornRationaleTestNumber1965], Hull method [@lorenzo-sevaHullMethodSelecting2011] and Minimum average partials method (MAP) [@velicerDeterminingNumberComponents1976]. Lastly, to identify the simple structure, we followed the following guidelines  (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors [@childEssentialsFactorAnalysis2006a; @mulaikFoundationsFactorAnalysis2009; @watkinsStepbyStepGuideExploratory2020] 
 
 ### Results & Discussion
@@ -436,6 +438,22 @@ missing <- VIM::aggr(efa.data, plot =T)
 
 ```
 
+```{r CorrMatrix, include=FALSE}
+#Polychoric Correlation matrix
+
+correlations <- psych::polychoric(efa.data)
+upper <- correlations$rho[upper.tri(correlations$rho, diag = F)]
+
+min.cor <- apa(min(abs(upper)),2,F) #minimum cor.coefficient of the matrix
+max.cor <- apa(max(abs(upper)),2,F) # max. correlation coefficient of the matrix
+
+determinets <- det(correlations$rho) 
+# Calculating the percentage of correlations higher than .30
+
+BigR = sum(correlations$rho >= abs(.30) & correlations$rho < abs(1.0), na.rm =T)/2 
+totR = length(efa.data)*(length(efa.data)-1)/2
+cor.per <- print (BigR/totR)*100
+```
 
 ```{r item-analysis, include=FALSE, results='asis'}
 Cron.bach <- psych::alpha(correlations$rho,check.keys=TRUE) 
@@ -473,36 +491,21 @@ item.total.correlation <- range(decriptives$`Item-Total Correlation`)
 ```
 
 
-
-
 #### Sampling adequacy
+
 Kaiser-Meyer-Olkin (KMO) [@kaiserIndexFactorialSimplicity1974] statistics was used to check the sampling adequacy.  The overall KMO value for 23 items was `r apa(KMO$MSA,2,T)`, which was above the cut-off value of .50, indicating an adequate sample.
 
 #### Descriptive statistics and item analysis
-Table\@ref(tab:tabDes) reports univariate descriptive statistics for the 23 items. All items were skewed and violeted univariate normality assessed by  The Shapiro-Wilk test indicated all the items violated normality assumptions [@shapiro1965analysis]. Mardia's Test of multivariate normality [@mardiaMeasuresMultivariateSkewness1970] yielded Multivariate skew = 4030.49 (p <0.001) and multivariate kurtosis = 15.1 (p <0.001) indicating the violation of multivariate normality as well. As such we used polychoric correlation matrix which is more robust towards these violations. Our initial item analysis yelled internal consistency coefficient ordinal alpha = `r apa(ordinal.alpha,2,T)`. Alpha drop statistics (Table\@ref(tab:tabDes)) showed no substantial increase of ordinal alpha if any item is deleted and ranged between `r apa(minimum.ordinal.alpha.drop,T)`-`r apa(maximum.ordinal.alpha.drop,T)`. As such we subjected all items to EFA.
 
-Supplementary Table 1 and Figure \@ref(fig:corplot) depict the inter-item correlation coefficients of BCS. Bartlett’s test of sphericity [@RN1261], $\chi^2$ (`r bartlet$df`) = `rbartlet$chisq`, p < .001 indicated the inter-item correlations are significantly different than zero. However, only `r apa(cor.per,2,T)`% of the inter-item correlation coefficients were greater than absolute value of .30 in the obtained matrix. The corrected item-total correlations range was `r min(item.total.correlation)`-  `r max(item.total.correlation)` (Table\@ref(tab:tabDes)).
+Table\@ref(tab:tab-des) reports univariate descriptive statistics for the 23 items. All items were skewed and violeted univariate normality assessed by  The Shapiro-Wilk test indicated all the items violated normality assumptions [@shapiro1965analysis]. Mardia's Test of multivariate normality [@mardiaMeasuresMultivariateSkewness1970] yielded Multivariate skew = 4030.49 (p <0.001) and multivariate kurtosis = 15.1 (p <0.001) indicating the violation of multivariate normality as well. As such we used polychoric correlation matrix which is more robust towards these violations. Our initial item analysis yelled internal consistency coefficient ordinal alpha = `r apa(ordinal.alpha,2,T)`. Alpha drop statistics (Table\@ref(tab:tab-des)) showed no substantial increase of ordinal alpha if any item is deleted and ranged between `r apa(minimum.ordinal.alpha.drop,T)`-`r apa(maximum.ordinal.alpha.drop,T)`. As such we subjected all items to EFA.
+
+Supplementary Table 1 and Figure \@ref(fig:figCor) depict the inter-item correlation coefficients of BCS. Bartlett’s test of sphericity [@RN1261], $\chi^2$ (`r bartlet$df`) = `rbartlet$chisq`, p < .001 indicated the inter-item correlations are significantly different than zero. However, only `r apa(cor.per,2,T)`% of the inter-item correlation coefficients were greater than absolute value of .30 in the obtained matrix. The corrected item-total correlations range was `r min(item.total.correlation)`-  `r max(item.total.correlation)` (Table\@ref(tab:tab-des)).
 
 ```{r tab-des}
 apa_table(decriptives)
 ```
 
-```{r CorrMatrix, include=FALSE}
-#Polychoric Correlation matrix
 
-correlations <- psych::polychoric(efa.data)
-upper <- correlations$rho[upper.tri(correlations$rho, diag = F)]
-
-min.cor <- apa(min(abs(upper)),2,F) #minimum cor.coefficient of the matrix
-max.cor <- apa(max(abs(upper)),2,F) # max. correlation coefficient of the matrix
-
-determinets <- det(correlations$rho) 
-# Calculating the percentage of correlations higher than .30
-
-BigR = sum(correlations$rho >= abs(.30) & correlations$rho < abs(1.0), na.rm =T)/2 
-totR = length(efa.data)*(length(efa.data)-1)/2
-cor.per <- print (BigR/totR)*100
-```
 
 
 ```{r corplot, include =F}
@@ -704,7 +707,7 @@ efa.table.1 <- tabledown::fac.tab(fa.2F.3,cut=.3, complexity = F)
 #Communality
 Fac.2 <- fa.2F.3
 min.com <- min(Fac.2$communality)
-max.com <- max(Fac.3$communality)
+max.com <- max(Fac.2$communality)
 
 # loading
 min.loadings <- (min(Fac.2$loadings))
@@ -777,7 +780,7 @@ apa_table(efa.table.1, caption = "Factor loadings of two factor model")
 
 
 
-```{r EFA2f, include=FALSE}
+```{r EFA1f, include=FALSE}
 fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
               residuals = TRUE, SMC = TRUE)
 AA <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
@@ -834,10 +837,6 @@ fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi",
 
 reliability1 <- semTools::reliability(fit.1)
 
-```
-
-```{r}
-anova(fit.0,fit.1)
 ```
 
 
