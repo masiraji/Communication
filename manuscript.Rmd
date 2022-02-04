@@ -1,5 +1,5 @@
 ---
-title             : "Psychometric Evaluation of the Bangla Communication Scale through Classical Test Theory and Item Response Theory"
+title             : "Psychometric Evaluation of the Bangla Communication Scale Among Adolescents:Latent structure, Reliability, validity, and gender invariance in a Bangladeshi adolescent sample"
 shorttitle        : "Bangla Communication Scale"
 
 author: 
