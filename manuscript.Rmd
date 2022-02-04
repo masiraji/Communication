@@ -538,7 +538,7 @@ knitr::include_graphics('Figures/corplot.png', dpi =600)
 #This chunk holds code for factor identification method : Horn
 # Parallel analysis
 Horn <- paran(mat=correlations$rho, iterations=500, centile=0, quietly=FALSE,
-           status=TRUE, all=FALSE, cfa=FALSE, graph=TRUE,
+           status=TRUE, all=FALSE, cfa=TRUE, graph=TRUE,
            color=TRUE, col=c("black","red","blue"),
            lty=c(1,2,3), lwd=1, legend=TRUE, 
            width=640, height=640, grdevice=png, seed=0, n=300)
@@ -813,6 +813,12 @@ fit.measures.0 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi",
 reliability0 <- semTools::reliability(fit.1, return.total = T)
 
 ```
+
+
+# Study 2 Confirmation of Factor Structure and Psychometric Properties of Bangla Communication Scale
+
+This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we establised gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons Theory Based Analysis
+
 
 
 ```{r CFAitems, include=FALSE }
