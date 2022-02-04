@@ -244,18 +244,19 @@ A cross-sectional survey was used to collect data from a large sample of student
 
 #### Communication Scale
 
-#### Bangla Communication Scale
-We translated the "Communication Scale" into Bangla Language following  International Test Commission (ITC) guidelines [@bartramITCGuidelinesTranslating2018] to translate and adapt Communication scale. Two bilingual researchers (PhD in Psychology) natives in Bangla translated the original English version to Bangla. Two translated versions were then judged and synthesized by the authors. Subsequently, two bilingual researchers (One PhD, one MS in Psychology) back-translated the Bangla scale into English with no knowledge of the original work. The authors synthesized the two back-translations and compared it with the original scale and made necessary amendments
+Communication Scale [@barkman2002four] is a sub-skill set of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring]. It has 23 items with a 5 Point Likert Type response scale (0=Never, 1=Rarely,  2=Sometimes,  3=Often,  4=Always). The total score range is 0-92 where a higher score would indicate higher communication skills among adolescents (age range 12-18). The internal consistency of the total scale, Cronbach $\alpha$ was .79
 
+#### Bangla Communication Scale
+We followed the International Test Commission  guidelines [@bartramITCGuidelinesTranslating2018] while translating the Communication Scale in Bangla. At first two bilingual researchers did the forward translation. These two forward translations were synthesized by the authors. Another four bilingual researchers did the backward translation of the synthesized Bangla Communication Scale. The authors again synthesized the back-translations, compared it with original scale and made necessary amendments.
 
 
 ### Data collection
-The project received intitutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation anytime without being penalized and assent was recorded.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their socio-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
+The project received institutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation any time without being penalized.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their socio-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
 
-## # Analytic strategies
-We used R (version 4.1.0) (Team, 2021), including several R packages (Barnier et al., 2021; R. Chalmers, 2012; Revelle, 2021; Rosseel, 2012; Siraji, 2021), for our analyses. Since Rotter's I-E scale used a dichotomous forced choice response and both univariate (Table 1) and multivariate normality assumptions are violated, we performed the exploratory factor analysis using a tetrachoric correlation matrix which was more robust to those violations (Watkins, 2020). We employed weighted least squares (WLS) as a factor extraction method to examine the latent structure of the scale. WLS is more robust towards violation of normality assumptions (Fabrigar et al., 1999). An orthogonal rotation technique: varimax was chosen following the literature investigating the latent structure of Rotter's I-E scale (Joe & Jahn, 1973; Mirels, 1970; Tobacyk, 1978). Before the EFA, necessary assumptions, including sample adequacy, quality of correlation matrix were assessed. As the commonalities for each item found in the previous studies were not  higher than .70 (Joe & Jahn, 1973; Mirels, 1970; Tobacyk, 1978), we relied on the Scree-plot rather than the Kaiser criterion of eigenvalues greater than one (Stevens, 2009). We supplemented the scree plot (Cattell, 1966) with Horn's parallel analysis (Horn, 1965), Minimum average partials method (MAP) (Velicer, 1976), and Hull method (Lorenzo-Seva et al., 2011). We compared the root mean square of the residual (RMSR) values obtained for the solutions to determine the best factor structure. RMSR≤.08 was preferred (Brown, 2015). Additionally, to identify the simple structure, we followed the following guidelines recommended by psychometricians (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors (Bandalos & Finney, 2019; Child, 2006; Mulaik, 2009; Watkins, 2020)
+### Analytic strategies
+We used R (version 4.1.0) [@R-base], including several R packages [@R-lavaan; @R-mirt; @R-psych; @R-tabledown], for our analyses. Prior to the data analysis normality assumptions were checked. Our data violeted both univariate and multivariate normality. As such we used polychoric correlation matrix and 'principal axis" factor extraction method to conduct the exploratory factor analysis [@watkinsStepbyStepGuideExploratory2020]. An oblique rotation method was employed. A posterior sampling adequacy was estimated using KMO statistics [@kaiserIndexFactorialSimplicity1974]. TO identify the optimum number of factors required to explain the latent structure of our scale we used Scree plot [@cattellScreeTestNumber1966a], Horn's parallel analysis [@hornRationaleTestNumber1965], Hull method [@lorenzo-sevaHullMethodSelecting2011] and Minimum average partials method (MAP) [@velicerDeterminingNumberComponents1976]. Lastly, to identify the simple structure, we followed the following guidelines  (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors [@childEssentialsFactorAnalysis2006a; @mulaikFoundationsFactorAnalysis2009; @watkinsStepbyStepGuideExploratory2020] 
 
-
+### Results & Discussion
 ```{r, gtfig, include =F}
 
 gt.data <- na.omit(efa.data)
@@ -406,9 +407,6 @@ gtsave(Table, "Figures/efa_communication.png",vwidth = 7000)
   
 ```
 
-
-
-
 ```{r ggplot2, include=F}
 #This chunk holds code for creating ggplot2 based apatheme for plots.
 apatheme=theme_bw()+
@@ -431,13 +429,31 @@ apatheme=theme_bw()+
 
 ```
 
-
-
 ```{r EFAdata, include=FALSE}
 
 #library(VIM)
 missing <- VIM::aggr(efa.data, plot =T)
 
+```
+
+
+```{r item-analysis, include=FALSE, results='asis'}
+Cron.bach <- psych::alpha(correlations$rho,check.keys=TRUE) 
+Cron.bach$total %>% 
+  knitr::kable(caption = "Alpha", digits = 2) 
+Cron.bach$alpha.drop %>% 
+  knitr::kable(caption = "Alpha value if item is dropped", digits = 2) 
+Cron.bach$item.stats %>% 
+  knitr::kable(caption = "Corrected Item total Correlation", digits = 2) 
+
+
+low.r.corec <- (min(Cron.bach$item.stats$r.cor))  #minimum item total correlation
+high.r.corec <- (max(Cron.bach$item.stats$r.cor))     # maximum item total correlation
+
+ordinal.alpha <- Cron.bach$total$raw_alpha
+ordinal.alpha.drop <- as.data.frame(Cron.bach$alpha.drop$raw_alpha)
+minimum.ordinal.alpha.drop <- min(ordinal.alpha.drop )
+maximum.ordinal.alpha.drop <- max(ordinal.alpha.drop )
 ```
 
 ```{r EFAassumptions, include=FALSE}
@@ -448,41 +464,27 @@ KMO <- psych::KMO(efa.data)
 # Test of correlation matrix
 bartlet <- psych::cortest.bartlett(efa.data, n =300)
 
-
-
-
-
-
 decriptives <- tabledown::des.tab(efa.data)
-colnames(decriptives) = c("Items","Mean", "SD", "Skew", "Kurtosis", "Shapiro-Wilk Statistics","Item-Total Correlation")
+decriptives <- cbind(decriptives, ordinal.alpha.drop )
+colnames(decriptives) = c("Items","Mean", "SD", "Skew", "Kurtosis", "Shapiro-Wilk Statistics","Item-Total Correlation", "Alpha Drop")
+descriptives <- cbind()
 
+item.total.correlation <- range(decriptives$`Item-Total Correlation`)
 ```
 
 
-```{r}
+
+
+#### Sampling adequacy
+Kaiser-Meyer-Olkin (KMO) [@kaiserIndexFactorialSimplicity1974] statistics was used to check the sampling adequacy.  The overall KMO value for 23 items was `r apa(KMO$MSA,2,T)`, which was above the cut-off value of .50, indicating an adequate sample.
+
+#### Descriptive statistics and item analysis
+Table\@ref(tab:tabDes) reports univariate descriptive statistics for the 23 items. All items were skewed and violeted univariate normality assessed by  The Shapiro-Wilk test indicated all the items violated normality assumptions [@shapiro1965analysis]. Mardia's Test of multivariate normality [@mardiaMeasuresMultivariateSkewness1970] yielded Multivariate skew = 4030.49 (p <0.001) and multivariate kurtosis = 15.1 (p <0.001) indicating the violation of multivariate normality as well. As such we used polychoric correlation matrix which is more robust towards these violations. Our initial item analysis yelled internal consistency coefficient ordinal alpha = `r apa(ordinal.alpha,2,T)`. Alpha drop statistics (Table\@ref(tab:tabDes)) showed no substantial increase of ordinal alpha if any item is deleted and ranged between `r apa(minimum.ordinal.alpha.drop,T)`-`r apa(maximum.ordinal.alpha.drop,T)`. As such we subjected all items to EFA.
+
+Supplementary Table 1 and Figure \@ref(fig:corplot) depict the inter-item correlation coefficients of BCS. Bartlett’s test of sphericity [@RN1261], $\chi^2$ (`r bartlet$df`) = `rbartlet$chisq`, p < .001 indicated the inter-item correlations are significantly different than zero. However, only `r apa(cor.per,2,T)`% of the inter-item correlation coefficients were greater than absolute value of .30 in the obtained matrix. The corrected item-total correlations range was `r min(item.total.correlation)`-  `r max(item.total.correlation)` (Table\@ref(tab:tabDes)).
+
+```{r tab-des}
 apa_table(decriptives)
-```
-
-
-## Item Analysis and Exploratory Factor Analysis
-
-```{r Cronbach, include=FALSE, results='asis'}
-Cron.bach <- psych::alpha(efa.data,check.keys=TRUE) 
-Cron.bach$total %>% 
-  knitr::kable(caption = "Alpha", digits = 2) %>% 
-  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
-Cron.bach$alpha.drop %>% 
-  knitr::kable(caption = "Alpha value if item is dropped", digits = 2) %>% 
-  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
-
-Cron.bach$item.stats %>% 
-  knitr::kable(caption = "Corrected Item total Correlation", digits = 2) %>% 
-  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F)
-
-
-low.r.corec <- (min(Cron.bach$item.stats$r.cor))  #minimum item total correlation
-high.r.corec <- (max(Cron.bach$item.stats$r.cor))     # maximum item total correlation
-  
 ```
 
 ```{r CorrMatrix, include=FALSE}
@@ -520,7 +522,7 @@ ggsave("Figures/corplot.png",corplot, width = 6, height = 6, dpi = 600, bg ="whi
 
 ```
 
-(ref:figCor) Inter item polychoric correlation coefficients for the 48 items. 4.9 % inter-item correlation coefficients were higher than .30
+(ref:figCor) Inter item polychoric correlation coefficients for the 23 items. 9.8 % inter-item correlation coefficients were higher than |.30|
 
 ```{r figCor, out.height="150%",out.width="100%", fig.align= 'center', fig.cap='(ref:figCor)', results='asis', fig.align='center'}
 
@@ -638,7 +640,11 @@ full.map <- cbind(map.map,map.statistics)
 
 write.csv(full.map, "Table_raw/map_stat.csv")
 ```
-Scree plot, map and hull method ( Figure \@ref(fig:facIdFig)) suggested a one factor solution. Horn's parallel analysis [@hornRationaleTestNumber1965] with 500 iterations  indicated a two-factor solution. However, the minimum average partial (MAP) method (Table \@ref(tab:factormp)) [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011] ( Figure \@ref(fig:facIdFig)) suggested a five-factor solution. As a result, we tested both five-factor and six-factor solutions.
+####Exploratory factor analysis
+
+To identify opttimum number of factor required to express the latent structure adequetly we at first used Horn's parallel analysis [@hornRationaleTestNumber1965]. Horn's parallel analysis offered two factor solution to the latent structure (Figure \@ref(fig:facIdFig)). However, The Scree-plot [@cattellScreeTestNumber1966a] suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull methop tried to find an optimal number of factors to balance model fit and the number of parameters and offeren one factor solution in our data set (Figure \@ref(fig:facIdFig)). As a result, we tested both one-factor and two-factor solutions. 
+
+
 ```{r factors, include=F}
 #This chunk holds code for compiled factor identification plots
 
@@ -651,7 +657,7 @@ factor <- cowplot::plot_grid(parallel, scree.plot,Hull,
 ggsave("Figures/factors.png",factor, width = 5, height = 7, dpi = 600)
 ```
 
-(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested One factor. (C) Hull method indicated one factor were required to balance the model fit and number of parameters.
+(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested one factor. (C) Hull method indicated one factor were required to balance the model fit and number of parameters.
 
 ```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
 
@@ -660,30 +666,29 @@ knitr::include_graphics("Figures/factors.png", dpi =800)
 ```
 
 
-
 ```{r EFA, include=FALSE}
-fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="varimax",
+fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="promax",
               residuals = TRUE, SMC = TRUE)
 AA <- print(fa.2F.1, cut = .3, digits = 3, sort = TRUE)
 
 
 reduced.model.2F.1 <- dplyr::select(efa.data ,
-                                    -c( CS21, CS11, CS23, CS09, RCS02,RCS05, CS16, CS01))
+                                    -c( CS09, CS03, CS16, CS01, RCS05))
 
 correlations.red.2F.1 <- polychoric(reduced.model.2F.1)
 
-fa.2F.2 <- fa(r=correlations.red.2F.1$rho, nfactors = 2, fm= "pa",rotate ="varimax",
+fa.2F.2 <- fa(r=correlations.red.2F.1$rho, nfactors = 2, fm= "pa",rotate ="promax",
               residuals = TRUE, SMC = TRUE)
 
 BB <- print(fa.2F.2, cut = .3, digits = 3, sort = TRUE)
 
 reduced.model.2F.2 <- dplyr::select(efa.data ,
-                                    -c( CS21, CS11, CS23, CS09, RCS02,RCS05, CS16, CS01, CS03))
+                                    -c( CS09, CS03, CS16, CS01, RCS05, RCS02, CS21, CS23))
 
 correlations.red.2F.2 <- polychoric(reduced.model.2F.2)
 
 
-fa.2F.3 <- fa(r=correlations.red.2F.2$rho, nfactors = 2, fm= "pa",rotate ="varimax",
+fa.2F.3 <- fa(r=correlations.red.2F.2$rho, nfactors = 2, fm= "pa",rotate ="promax",
               residuals = TRUE, SMC = TRUE, max.iter = 500 )
 
 CC <- print(fa.2F.3, cut = .3, digits = 3, sort = TRUE)
@@ -693,7 +698,83 @@ var2 <- CC$Vaccounted[2,2]*100
 
 omega <- psych::omega(reduced.model.2F.2,2)
 
+efa.table.1 <- tabledown::fac.tab(fa.2F.3,cut=.3, complexity = F)
+
+
+#Communality
+Fac.2 <- fa.2F.3
+min.com <- min(Fac.2$communality)
+max.com <- max(Fac.3$communality)
+
+# loading
+min.loadings <- (min(Fac.2$loadings))
+max.loadings <- (max(Fac.2$loadings))
+
+# Residuals
+residual.5F =residuals(fa.2F.3, diag = FALSE, na.rm =T)
+#Count of numbers of residuals>.05
+BigRR= sum(residual.5F>abs(.05), na.rm =T)
+print(BigRR)
+
+#Total number of off diagonal elements in the data matrix
+totRR = length(reduced.model.2F.2)*(length(reduced.model.2F.2)-1)/2
+
+# Proportion of off-diagonal elements >.05
+sumR <- sum(BigRR/totRR*100)
+
 ```
+
+
+```{r tau-equivalance, eval=FALSE, include=FALSE}
+tau.equivalance <- coefficientalpha::tau.test(reduced.model.2F.2)
+```
+
+```{r ordinal-alpha, include =T}
+F1 <- dplyr::select(efa.data, CS15, CS22, CS20, CS11, CS14, CS18, CS13, CS06, CS10)
+F2 <- dplyr::select(efa.data, CS19, CS04, CS17, CS12, CS08, CS07) 
+
+#ordinal alpha
+F1.alpha <- psych::alpha(polychoric(F1)$rho,check.keys=TRUE)
+F2.alpha <- psych::alpha(polychoric(F2)$rho,check.keys=TRUE)
+
+F1.alpha <- F1.alpha$total$raw_alpha
+F2.alpha <- F2.alpha$total$raw_alpha
+
+
+```
+
+
+```{r EFA2f, include=FALSE}
+fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
+              residuals = TRUE, SMC = TRUE)
+DD <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
+
+
+reduced.model.1F.1 <- dplyr::select(efa.data ,
+                                    -c( CS16, RCS02, RCS05, CS01, CS09, CS23))
+
+correlations.red.1F.1 <- polychoric(reduced.model.1F.1)
+
+fa.1F.2 <- fa(r=correlations.red.1F.1$rho, nfactors = 1, fm= "pa",
+              residuals = TRUE, SMC = TRUE)
+
+EE <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
+var3 <- EE$Vaccounted[2,1]*100
+
+one.factor.alpha <- psych::alpha(correlations.red.1F.1$rho ,check.keys=TRUE)
+one.factor.alpha <- one.factor.alpha$total$raw_alpha
+
+```
+
+At first we fitted one factor solution in our dataset with all 23 items. The initial solution had six items with poor factor loadings (Item 1, 2,5,9, 16, 23). We discarded these items from the model and run another EFA. This iteration of EFA yielded a one factor simple structure with 17 items. The one factor solution explained `r apa(var3,2,T)`% of the total variance. Cronbach's alpha coefficient has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. For better estimates of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal]. The internal consistency reliability coefficient for this model was, ordinal $\alpha$ = `r apa(one.factor.alpha,2,F)`.
+
+The initial two-factor solution with all 23 items had several items (item 01, 03, 05 09, 16) with poor factor loading (<.3) . We conducted another two round of EFA and identified and discarded problematic items (with poor factor loadings and/or cross loadings). Finally, a two-factor EFA solution with 15 items was accepted with RMSR = 0.06, no loading smaller than .30 and no cross-loading greater than .30. The first factor retained 8 items, and the second factor retained 6 items. The first factor explained  `r apa(var1,2,T)`% of the total variance and the second factor explained only `r apa(var2,2,T)`.  Ordinal alpha coefficient value ranges from 0 to 1 and higher value represents better reliability.  The internal consistency reliability coefficient for the two factors were, ordinal $\alpha$ = `r apa(F1.alpha,2,F)` and `r apa(F2.alpha,2,F)` respectively. Items clustered under factor 1 were stemmed from several common theme including efficiency of verbal communication,   individual's efficiency in verbal communication. All items except item12 (I try to see the other person's point of view) investigated individual's efficiency in non-verbal communication. The average variance extracted (AVE) is the amount of joint variance captured by the components and not by measurement error. @fornell1981evaluating recommended .50 as a benchmark value of AVE to establish the converging validity and purity of particular factor. AVE for  these two factors were.25 and .23 indicating high measurement error. Due to such high measurement error of the factor we rejected the two factor model and accepted the one factor model which had satisfactory reliability
+
+```{r}
+apa_table(efa.table.1, caption = "Factor loadings of two factor model")
+```
+
+
 
 
 ```{r EFA2f, include=FALSE}
@@ -716,19 +797,19 @@ BB <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
 ```
 
 ```{r eval=FALSE, include=FALSE}
-model.1 <- "F1 =~ CS15 + CS22+CS20+CS14+CS18+CS13+CS06+CS10
-            F2 =~ CS19+CS04+CS17+CS12+CS08+CS07"
-fit.1 <- cfa(model.1, data = cfa.data, ordered = names(cfa.data),estimator = "WLSMV") 
+model.0 <- "F1 =~ CS15 + CS22+CS20+CS11+CS14+CS18+CS13+CS06+CS10
+            F2 =~ CS19+CS04+CS17+CS08+CS07"
+fit.0 <- cfa(model.0, data = cfa.data, estimator = "WLSMV") 
 
 ## Summary of Model 
-cfa.sum.1 <- summary(fit.1, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
+cfa.sum.0 <- summary(fit.0, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
 
 
 ## Selected Fit measures 
-fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi", 
+fit.measures.0 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi", 
                        "cfi","tli",
                        "rmsea", "rmsea.ci.lower", "rmsea.ci.upper","srmr"))
-reliability1 <- semTools::reliability(fit.1, return.total = T)
+reliability0 <- semTools::reliability(fit.1, return.total = T)
 
 ```
 
@@ -739,7 +820,7 @@ reliability1 <- semTools::reliability(fit.1, return.total = T)
 model.1 <- "Communication =~ CS15 + CS21 +CS11 + CS20+ CS14+ CS19+ CS22+ CS12+ CS06+ CS07+ CS18+ CS08+        CS04+CS17+CS03+CS13+CS10" 
 
 
-fit.1 <- cfa(model.1, data = cfa.data, ordered = names(cfa.data),estimator = "WLSMV") 
+fit.1 <- cfa(model.1, data = cfa.data, estimator = "WLSMV") 
 
 ## Summary of Model 
 cfa.sum.1 <- summary(fit.1, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
@@ -754,6 +835,11 @@ fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi",
 reliability1 <- semTools::reliability(fit.1)
 
 ```
+
+```{r}
+anova(fit.0,fit.1)
+```
+
 
 ```{r mod1, eval=FALSE, include=FALSE}
 #This chunk holds codes for modification indices for 1st CFA
@@ -846,7 +932,7 @@ mi.count <- invariance.data %>%
 
 ```{r Invariancedetail, include=FALSE}
 #This chunk holds codes for measurement Invariance
-
+library(lavaan)
 model.1 <- "Communication =~ CS15 + CS21 +CS11 + CS20+ CS14+ CS19+ CS22+ CS12+ CS06+ CS07+ CS18+ CS08+        CS04+CS17+CS03+CS13+CS10" 
 
 # Configural invariance ####
@@ -877,7 +963,7 @@ fitmeasures (weak,c("gfi", "agfi", "nfi","rfi",
                        "rmsea.scaled", "rmsea.ci.lower.scaled", "rmsea.ci.upper.scaled","srmr"))
 
 First.comp <- compareFit (configural, weak)
-summary(First.comp)
+lavaan::summary(First.comp)
 
 
 
@@ -1452,13 +1538,13 @@ val.data<- validity.data.full %>%
                  CS13,CS14,CS15,CS17, CS18, CS19, CS20 ,CS21, CS22) %>% 
   rowwise() %>% 
   mutate(Total_communication = sum(across(starts_with("CS")), na.rm = T),
-         F1 = sum(CS15,CS22,CS20,CS14,CS18,CS13,CS06,CS10),
-         F2 = sum(CS19,CS04,CS17,CS12,CS08,CS07))
+         F1 = sum(CS15,CS22,CS20,CS14,CS18,CS13,CS06,CS10, CS11),
+         F2 = sum(CS19,CS04,CS17,CS08,CS07))
 
 
-val.data.2 <- as.data.frame(cbind(val.data$Total_communication, validity.data.full$Total_HS, validity.data$Total_LS, validity.data.full$Total_SE))
+val.data.2 <- as.data.frame(cbind(val.data$Total_communication,val.data$F1, val.data$F2, validity.data.full$Total_HS, validity.data$Total_LS, validity.data.full$Total_SE))
 
-colnames(val.data.2) <- c("Communication", "Hopelessness", "Life Satisfaction", "SE")
+colnames(val.data.2) <- c("Communication","F1", "F2", "Hopelessness", "Life Satisfaction", "SE")
 validity <- na.omit(val.data.2)
 ```
 
