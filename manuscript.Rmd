@@ -1,5 +1,5 @@
 ---
-title             : "Psychometric Validation of the Bangla Communication Scale Among Adolescents"
+title             : "Psychometric Validation of the Bangla Communication Scale in a Bagladeshi Adolescents Sample"
 shorttitle        : "Bangla Communication Scale"
 
 author: 
@@ -169,13 +169,8 @@ Understanding the adolescents' communication skill  vital as it is considered as
 
 To promote better understanding of subject contents assessing the communication skill among adolescents is highly required. For this purpose "Communication Skill" sub-skill set [@barkman2002four]  was developed in 2002 as a part of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring] and since then it has been extensively used [@fitzpatrick2005life].
 
-# Study-1: Translations and Exploratory Factor Analysis
-Study-1 had two objectives. First we translated the 23 items of the Communication Scale [@barkman2002four] from English to Bangla. Second, we conducted an Exploratory Factor Analysis (EFA) to identify the latent structure of the scale.
 
-
-## Methods
-
-### Participants
+# Data collection
 
 ```{r data, include=F}
 # data <- readxl::read_excel("Processeddata/communication_data_n_582.xlsx")
@@ -216,6 +211,16 @@ validity.data <-na.omit(validity.data)
 
 irt.data <- sem.data[,2:24]
 ```
+
+The project received institutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection required authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation any time without being penalized.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next, they filled up their socio-demographics information and responded to Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database. We at first collected data from `r nrow(efa.data)` participants for our Study-1 and in our Study-2 we collected data from another `r nrow(cfa.data)` participants. Along with Bangla Communication Scale a subset of our Study-2 sample `r nrow(validity.data)` also responded to Bangla Beck Hopelessness Scale[@beck1974measurement]
+
+# Study-1: Translations and Exploratory Factor Analysis
+Study-1 had two objectives. First we translated the 23 items of the Communication Scale [@barkman2002four] from English to Bangla. Second, we conducted an Exploratory Factor Analysis (EFA) to identify the latent structure of the scale.
+
+
+## Methods
+
+### Participants
 
 ```{r sescrptives, include=FALSE}
 desc <- efa.data.full[,c(3,4,5)]
@@ -263,10 +268,6 @@ Communication Scale [@barkman2002four] is a sub-skill set of The  National  On-l
 #### Bangla Communication Scale
 We followed the International Test Commission  guidelines [@bartramITCGuidelinesTranslating2018] while translating the Communication Scale in Bangla. At first two bilingual researchers did the forward translation. These two forward translations were synthesized by the authors. Another four bilingual researchers did the backward translation of the synthesized Bangla Communication Scale. The authors again synthesized the back-translations, compared it with original scale and made necessary amendments.
 
-
-### Data collection
-
-The project received institutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation any time without being penalized.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their socio-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
 
 ### Analytic strategies
 
@@ -513,14 +514,11 @@ Kaiser-Meyer-Olkin (KMO) [@kaiserIndexFactorialSimplicity1974] statistics was us
 
 Table\@ref(tab:tab-des) reports univariate descriptive statistics for the 23 items. All items were skewed and violeted univariate normality assessed by  The Shapiro-Wilk test indicated all the items violated normality assumptions [@shapiro1965analysis]. Mardia's Test of multivariate normality [@mardiaMeasuresMultivariateSkewness1970] yielded Multivariate skew = 4030.49 (p <0.001) and multivariate kurtosis = 15.1 (p <0.001) indicating the violation of multivariate normality as well. As such we used polychoric correlation matrix which is more robust towards these violations. Our initial item analysis yelled internal consistency coefficient ordinal alpha = `r apa(ordinal.alpha,2,T)`. Alpha drop statistics (Table\@ref(tab:tab-des)) showed no substantial increase of ordinal alpha if any item is deleted and ranged between `r apa(minimum.ordinal.alpha.drop,T)`-`r apa(maximum.ordinal.alpha.drop,T)`. As such we subjected all items to EFA.
 
-Supplementary Table 1 and Figure \@ref(fig:figCor) depict the inter-item correlation coefficients of BCS. Bartlett’s test of sphericity [@RN1261], $\chi^2$ (`r bartlet$df`) = `rbartlet$chisq`, p < .001 indicated the inter-item correlations are significantly different than zero. However, only `r apa(cor.per,2,T)`% of the inter-item correlation coefficients were greater than absolute value of .30 in the obtained matrix. The corrected item-total correlations range was `r min(item.total.correlation)`-  `r max(item.total.correlation)` (Table\@ref(tab:tab-des)).
+Supplementary Table 1 and Figure \@ref(fig:figCor) depict the inter-item correlation coefficients of BCS. Bartlett’s test of sphericity [@RN1261], $\chi^2$ (`r bartlet$df`) = `r bartlet$chisq`, p < .001 indicated the inter-item correlations are significantly different than zero. However, only `r apa(cor.per,2,T)`% of the inter-item correlation coefficients were greater than absolute value of .30 in the obtained matrix. The corrected item-total correlations range was `r min(item.total.correlation)`-  `r max(item.total.correlation)` (Table\@ref(tab:tab-des)).
 
 ```{r tab-des}
 apa_table(decriptives)
 ```
-
-
-
 
 ```{r corplot, include =F}
 #This chunk holds code for plotting the correlation matrix
@@ -657,7 +655,8 @@ full.map <- cbind(map.map,map.statistics)
 
 write.csv(full.map, "Table_raw/map_stat.csv")
 ```
-####Exploratory factor analysis
+
+#### Exploratory factor analysis
 
 To identify optimum number of factor required to express the latent structure adequetly we at first used the Scree-plot [@cattellScreeTestNumber1966a]. The Scree-plot suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull method tried to find an optimal number of factors to balance model fit and the number of parameters and offered one factor solution in our data set (Figure \@ref(fig:facIdFig)). 
 
@@ -682,7 +681,7 @@ knitr::include_graphics("Figures/factors.png", dpi =800)
 ```
 
 
-```{r EFA, eval=FALSE, include=FALSE}
+```{r EFA2f, eval=FALSE, include=FALSE}
 fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="promax",
               residuals = TRUE, SMC = TRUE)
 AA <- print(fa.2F.1, cut = .3, digits = 3, sort = TRUE)
@@ -760,7 +759,7 @@ F2.alpha <- F2.alpha$total$raw_alpha
 ```
 
 
-```{r EFA2f, eval=FALSE, include=FALSE}
+```{r EFA1f,  include=FALSE}
 fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
               residuals = TRUE, SMC = TRUE)
 DD <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
@@ -779,34 +778,7 @@ var3 <- EE$Vaccounted[2,1]*100
 
 one.factor.alpha <- psych::alpha(correlations.red.1F.1$rho ,check.keys=TRUE)
 one.factor.alpha <- one.factor.alpha$total$raw_alpha
-
-
-
-
-# The initial two-factor solution with all 23 items had several items (item 01, 03, 05 09, 16) with poor factor loading (<.3) . We conducted another two round of EFA and identified and discarded problematic items (with poor factor loadings and/or cross loadings). Finally, a two-factor EFA solution with 15 items was accepted with RMSR = 0.06, no loading smaller than .30 and no cross-loading greater than .30. The first factor retained 8 items, and the second factor retained 6 items. The first factor explained  `r apa(var1,2,T)`% of the total variance and the second factor explained only `r apa(var2,2,T)`.  Ordinal alpha coefficient value ranges from 0 to 1 and higher value represents better reliability.  The internal consistency reliability coefficient for the two factors were, ordinal $\alpha$ = `r apa(F1.alpha,2,F)` and `r apa(F2.alpha,2,F)` respectively. Items clustered under factor 1 were stemmed from several common theme including efficiency of verbal communication,   individual's efficiency in verbal communication. All items except item12 (I try to see the other person's point of view) investigated individual's efficiency in non-verbal communication. The average variance extracted (AVE) is the amount of joint variance captured by the components and not by measurement error. @fornell1981evaluating recommended .50 as a benchmark value of AVE to establish the converging validity and purity of particular factor. AVE for  these two factors were.25 and .23 indicating high measurement error. Due to such high measurement error of the factor we rejected the two factor model and accepted the one factor model which had satisfactory reliability
 ```
-
-
-
-```{r EFA1f, include=FALSE}
-fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
-              residuals = TRUE, SMC = TRUE)
-AA <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
-
-
-reduced.model.1F.1 <- dplyr::select(efa.data ,
-                                    -c( CS16, RCS02, RCS05, CS01, CS09, CS23))
-
-correlations.red.1F.1 <- polychoric(reduced.model.1F.1)
-
-fa.1F.2 <- fa(r=correlations.red.1F.1$rho, nfactors = 1, fm= "pa",
-              residuals = TRUE, SMC = TRUE)
-
-BB <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
-
-
-```
-
 
 The initial solution of the fitted one factor model had six items with poor factor loadings (Item 1, 2,5,9, 16, 23). We discarded these items from the model and run another EFA. This iteration of EFA yielded a one factor simple structure with 17 items. The one factor solution explained `r apa(var3,2,T)`% of the total variance. Cronbach's alpha coefficient has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. For better estimates of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal]. The internal consistency reliability coefficient for this model was, ordinal $\alpha$ = `r apa(one.factor.alpha,2,F)`.
 
@@ -831,19 +803,29 @@ reliability0 <- semTools::reliability(fit.1, return.total = T)
 
 # Study 2 Confirmation of Factor Structure and Psychometric Properties of Bangla Communication Scale
 
-This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1 and estimated the reliability of the scale. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we established gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons eTheory Based Analysis
+This study had four objectives. First, we confirmed the one factor solution of our scale obtained in Study-1 and estimated the reliability of the scale. Second, to gather convergent validity evidence of BCS. Third, we established gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Response Theory Based Analysis
 
 ## Method
 
 ### Participants
 ```{r cfades}
 cfa.desc.1<- cfa.data.full[,c(3,4,5)]
+validity.des.1 <- validity.data.full[,c(3,4,5)]
 ## Recoding desc$Sex
 cfa.desc.1$Gender <- fct_recode(cfa.desc.1$Gender,
   "Boy" = "male",
   "Girl" = "female"
 )
 colnames(cfa.desc.1) <- c("Gender", "Age", "Socio Economic Status")
+
+
+## Recoding desc$Sex
+validity.des.1$Gender <- fct_recode(validity.des.1$Gender,
+  "Boy" = "male",
+  "Girl" = "female"
+)
+colnames(validity.des.1) <- c("Gender", "Age", "Socio Economic Status")
+
 
 cfa.des_tab.1 <- cfa.desc.1 %>%
   tbl_summary(
@@ -862,14 +844,47 @@ as_tibble(cfa.des_tab.1) -> cfa.desc_tibble
 as_kable_extra(cfa.des_tab.1, format = "latex",booktabs = T) -> desc_kable #save it as a knitr::kable
 
 
+
+
+validity.des_tab.1 <- validity.des.1 %>%
+  tbl_summary(
+    by = Gender,
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} ({p}%)"),
+    type = list(Age ~ 'continuous'),
+    digits = all_continuous() ~ 2,
+    
+    missing = "no"
+    ) %>% add_overall() %>% bold_labels() %>% 
+modify_header(label ~ "**Variable**")  %>%
+  modify_caption("Demographic Characteristics")  
+
+as_tibble(validity.des_tab.1) -> validity.desc_tibble
+as_kable_extra(validity.des_tab.1, format = "latex",booktabs = T) -> desc_kable #save it as a knitr::kable
+
+
+
+
+
+
 cfa.des.2 <- cfa.desc.1 %>% 
   psych::describeBy("Gender")
+
+validity.des.2 <- validity.des.1%>% 
+  psych::describeBy("Gender")
+
 cfa.female <- as.tibble(cfa.des.2$Girl)
 cfa.male <- as.tibble(cfa.des.2$Boy)
 
+
+validity.female <- as.tibble(validity.des.2$Girl)
+validity.male <- as.tibble(validity.des.2$Boy)
+
 ```
 
-A second group of `r nrow(cfa.data.all)` students of grade 8-12 from eight schools participated in Study-2. They were recruited using convenience sampling method. One participant;s data were excluded for missing data. In the complete dataset of `r nrow(cfa.data)`  `r cfa.female[1,2]` were female aged between `r cfa.female[2,8]` to `r cfa.female[2,9]` years (`r round(cfa.female[2,3],2)`±`r round(cfa.female[2,4],2)`). `r cfa.male[1,2]`  were male with an age range between `r cfa.male[2,8]` participants `r cfa.male[2,9]` years (`r round(cfa.male[2,3],2)`±`r round(cfa.male[2,4],2)`). `r cfa.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r cfa.desc_tibble [3,2]` and `r cfa.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively. To assess the sampling adequacy we followed the N:q rule [@bentlerPracticalIssuesStructural1987a; @RN1241] where 10 participants per item is required to earn trustworthiness of the result. Our sample size exceeded the requirement as we had 17 items.
+A second group of `r nrow(cfa.data.all)` students of grade 8-12 from eight schools participated in Study-2. They were recruited using convenience sampling method. One participant's data were excluded for missing data. In the complete dataset of `r nrow(cfa.data)`  `r cfa.female[1,2]` were female aged between `r cfa.female[2,8]` to `r cfa.female[2,9]` years (`r round(cfa.female[2,3],2)` ± `r round(cfa.female[2,4],2)`). `r cfa.male[1,2]`  were male with an age range between `r cfa.male[2,8]` participants `r cfa.male[2,9]` years (`r round(cfa.male[2,3],2)` ± `r round(cfa.male[2,4],2)`). `r cfa.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r cfa.desc_tibble [3,2]` and `r cfa.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively. To assess the sampling adequacy we followed the N:q rule [@bentlerPracticalIssuesStructural1987a; @RN1241] where 10 participants per item is required to earn trustworthiness of the result. Our sample size exceeded the requirement as we had 17 items. 
+
+A subset of Study-2 sample `r nrow(validity.data)` responded to both Bangla Beck Hopeless Scale and Bangla Communication Scale. Among them `r validity.female[1,2]` were female aged between `r validity.female[2,8]` to `r validity.female[2,9]` years (`r round(validity.female[2,3],2)` ± `r round(validity.female[2,4],2)`). `r validity.male[1,2]`  were male with an age range between `r validity.male[2,8]` participants `r validity.male[2,9]` years (`r round(validity.male[2,3],2)` ± `r round(validity.male[2,4],2)`). `r validity.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r validity.desc_tibble [3,2]` and `r validity.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively
 
 ### Measures
 
@@ -893,6 +908,18 @@ Beck Hopelessness Scale(BHS) is composed of 20 items with a  dichotomous respons
 
 
 
+### Analytic strategies
+We conducted a categorical confirmatory factor analysis (CFA) with Weighted Last Square with mean and variance adjusted (WLSMV) estimator. The CFA was conducted using 'Lavaan' package in RStudio [@R-lavaan]. To assess the model fit we followed the popular suggestions of @huCutoffCriteriaFit1999: Comparative fit index (CFI) and the Tucker Lewis index (TLI): good fit $\geq$.95, acceptable fit$\geq$.90); the root mean square error of approximation (RMSEA): good fit < .06, acceptable fit <.08; and the standardized root mean square (SRMR) good fit<.08, acceptable fit <.10. 
+
+Measurement invariance (MI) between boys and girls was analysed by using structure equation  modelling paradigm. Measurement invariance (MI) evaluates whether a construct holds similar meaning  meaning across groups [@RN1241]. We consequtively fitted four nested models: configural, metric, scalar, and residual invariance models and compared them with each others.  The invariance model fit of our tool was assessed using the fit indices including $\chi^2$ test, CFI and TLI (close to .95 or above), RMSEA (close to .06 or below) [@huCutoffCriteriaFit1999]. The comparison among different measurement invariance models was made using the $\chi^2$ difference test ($\Delta \chi^2$)  to assess whether our obtained latent structure attained the highest level of the MI. A non-significant $\Delta \chi^2$ test between two MI models fit indicates mode fit does not significantly decrease for the superior model [@dimitrov2010testing] thus allowing the superior level of invariance model to be accepted.
+
+Convergent validity was investigated by correlational analysis between Bangla Communication Scale and Beck Hopelessness Scale [@uddinPsychometricEvaluationBangla]. 
+Lastly, we analysed the item quality of Bangla Communication Scale in terms of item difficulty, item discrimination and item fit statistics. IRT judges an item’s quality by providing item information (difficulty & discrimination) in the light of participants’ trait level $\theta$. The precision of the Bangla Scale was inspected using Test information Curve obtained from the fitted IRT model. In IRT based analysis our aim was only to assess the quality of the items in our Bangla Communication Scale. 
+
+### Results & Discussion
+
+#### Confirmatory Analysis and Reliability Estimation 
+
 
 ```{r CFAitems, include=FALSE }
 #This chunk holds codes for 1st CFA 
@@ -900,7 +927,7 @@ Beck Hopelessness Scale(BHS) is composed of 20 items with a  dichotomous respons
 model.1 <- "Communication =~ CS15 + CS21 +CS11 + CS20+ CS14+ CS19+ CS22+ CS12+ CS06+ CS07+ CS18+ CS08+        CS04+CS17+CS03+CS13+CS10" 
 
 
-fit.1 <- cfa(model.1, data = cfa.data, estimator = "WLSMV") 
+fit.1 <- cfa(model.1, data = cfa.data, ordered = names(cfa.data), estimator = "WLSMV") 
 
 ## Summary of Model 
 cfa.sum.1 <- summary(fit.1, fit.measures =TRUE,standardized = TRUE,rsq =TRUE)
@@ -911,9 +938,17 @@ fit.measures.1 <- fitmeasures (fit.1,c("gfi", "agfi", "nfi","rfi",
                        "cfi","tli",
                        "rmsea", "rmsea.ci.lower", "rmsea.ci.upper","srmr"))
 
+tab1 <-  tabledown::cfa.tab(fit.1,   robust = F)
 
 reliability1 <- semTools::reliability(fit.1)
 
+```
+
+
+Table\@ref(tab:Unitab) summarizes the model fit of Bangla Communication Scale. The fitted model exhibited a significant $\chi^2$ statistic. However, $\chi^2$ statistic is well known for its sensitivity towards sample size [@brownConfirmatoryFactorAnalysis2015a]. As such more emphasize were given towards other fit indices. Other fit indices indicated acceptable fit of the fitted one factor model. The internal consistency reliability coefficients Ordinal $\alpha$ was `r apa(reliability1[2,1],2,F)` which was satisfactory. Figure \@ref(fig:figcfa) depicts the fitted model.
+
+```{r Unitab, results='asis'}
+apa_table(tab1, caption = "Model-Fit of Bangla Communication Scale ")
 ```
 
 
@@ -993,7 +1028,10 @@ knitr::include_graphics("Figures/CFAplot.png", dpi =600)
 
 ```
 
-## Measurement Invariance
+#### Measurement Invariance
+
+Our Model attained hioghest level of MI
+
 ```{r InvarianceAnalysis_data, include=FALSE}
 #This chunk holds codes to prepare measurement invariance data.
 
@@ -1107,7 +1145,7 @@ apa_table(Invariance.table, align = "c",  caption = "Measurment Invariance analy
 
 ```
 
-
+### Item Response Theory guided item analysis
 
 ```{r samplesizeIRT, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide', width=60}
 set.seed(222)
@@ -1165,7 +1203,7 @@ main = "Graded Response Model", xaxt = "n")
 axis(1, at = nvec)
 ```
 
-To gather more information on our retained one-factor solution, we sought Item Response Theory (IRT). IRT complements the conventional classical test theory-based analysis by gathering information on item discrimination and item difficulty. IRT judges an item's quality by providing item information in the light of participants' trait level ($\theta$). We gathered evidence on item quality as well as item fit, person fit and model by fitting a graded response model  in RStudio with the "mirt" package [@R-mirt]  [@R-mirt]. We did a Monte Carlo simulation using "SimDesign" package [@R-SimDesign]  with sample sizes varying from 50-350 and calculated average root mean squared error(RMSE) to estimate the optimal sample size for the graded response model with 23 items. The RMSE became stable for n = 200 to 300 (RMSE ranging between .25-.35). Our sample size within the estimated sample size for stability.
+ IRT complements the conventional classical test theory-based analysis by gathering information on item discrimination and item difficulty. IRT judges an item's quality by providing item information in the light of participants' trait level ($\theta$). We gathered evidence on item quality as well as item fit, person fit and model by fitting a graded response model  in RStudio with the "mirt" package [@R-mirt]  [@R-mirt]. We did a Monte Carlo simulation using "SimDesign" package [@R-SimDesign]  with sample sizes varying from 50-350 and calculated average root mean squared error(RMSE) to estimate the optimal sample size for the graded response model with 23 items. The RMSE became stable for n = 200 to 300 (RMSE ranging between .25-.35). Our sample size exceed the estimated sample size for stability.
 
 
 ```{r, include =F}
