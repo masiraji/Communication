@@ -169,11 +169,13 @@ Understanding the adolescents' communication skill  vital as it is considered as
 
 To promote better understanding of subject contents assessing the communication skill among adolescents is highly required. For this purpose "Communication Skill" sub-skill set [@barkman2002four]  was developed in 2002 as a part of The  National  On-line  Youth  Life  Skills  Evaluation System [@mincemoyer2005measuring] and since then it has been extensively used [@fitzpatrick2005life].
 
+# Study-1: Translations and Exploratory Factor Analysis
+Study-1 had two objectives. First we translated the 23 items of the Communication Scale [@barkman2002four] from English to Bangla. Second, we conducted an Exploratory Factor Analysis (EFA) to identify the latent structure of the scale.
 
-This study has two objectives: (a) To explore and validate the latent construct of "Bangla Communication Scale" using (b) To gather concurrent validity evidence (c) To increase the precision of the scale usining Item Response Theory guided analysis
+
 ## Methods
 
-## Participants
+### Participants
 
 ```{r data, include=F}
 # data <- readxl::read_excel("Processeddata/communication_data_n_582.xlsx")
@@ -234,17 +236,24 @@ male <- as.tibble(des.2$Boy)
 
 ```
 
-A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method. T. For estimating the sample size for the CFA we followed the N:q rule [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]  which required 10 participants per parameters for trustworthiness of the result. Our sample size exceeds the requirement. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
+A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method.One participant was excluded due to incomplete data.  Participants were recruited following convenience sampling technique. For exploring the initial factor structure the recommended sample size is 250-300 [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
-## Procedure
-Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their soci-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
 
-## Materials
 
-### Communication Scale
+### Materials
 
-### Bangla Communication Scale
+#### Communication Scale
+
+#### Bangla Communication Scale
 We translated the "Communication Scale" into Bangla Language following  International Test Commission (ITC) guidelines [@bartramITCGuidelinesTranslating2018] to translate and adapt Communication scale. Two bilingual researchers (PhD in Psychology) natives in Bangla translated the original English version to Bangla. Two translated versions were then judged and synthesized by the authors. Subsequently, two bilingual researchers (One PhD, one MS in Psychology) back-translated the Bangla scale into English with no knowledge of the original work. The authors synthesized the two back-translations and compared it with the original scale and made necessary amendments
+
+
+
+### Data collection
+The project received intitutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: ---). Prior to data collection necessary authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation anytime without being penalized and assent was recorded.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next. they filled up their socio-demographics information and responded to our Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database.
+
+## # Analytic strategies
+We used R (version 4.1.0) (Team, 2021), including several R packages (Barnier et al., 2021; R. Chalmers, 2012; Revelle, 2021; Rosseel, 2012; Siraji, 2021), for our analyses. Since Rotter's I-E scale used a dichotomous forced choice response and both univariate (Table 1) and multivariate normality assumptions are violated, we performed the exploratory factor analysis using a tetrachoric correlation matrix which was more robust to those violations (Watkins, 2020). We employed weighted least squares (WLS) as a factor extraction method to examine the latent structure of the scale. WLS is more robust towards violation of normality assumptions (Fabrigar et al., 1999). An orthogonal rotation technique: varimax was chosen following the literature investigating the latent structure of Rotter's I-E scale (Joe & Jahn, 1973; Mirels, 1970; Tobacyk, 1978). Before the EFA, necessary assumptions, including sample adequacy, quality of correlation matrix were assessed. As the commonalities for each item found in the previous studies were not  higher than .70 (Joe & Jahn, 1973; Mirels, 1970; Tobacyk, 1978), we relied on the Scree-plot rather than the Kaiser criterion of eigenvalues greater than one (Stevens, 2009). We supplemented the scree plot (Cattell, 1966) with Horn's parallel analysis (Horn, 1965), Minimum average partials method (MAP) (Velicer, 1976), and Hull method (Lorenzo-Seva et al., 2011). We compared the root mean square of the residual (RMSR) values obtained for the solutions to determine the best factor structure. RMSR≤.08 was preferred (Brown, 2015). Additionally, to identify the simple structure, we followed the following guidelines recommended by psychometricians (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors (Bandalos & Finney, 2019; Child, 2006; Mulaik, 2009; Watkins, 2020)
 
 
 ```{r, gtfig, include =F}
