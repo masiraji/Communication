@@ -537,11 +537,11 @@ knitr::include_graphics('Figures/corplot.png', dpi =600)
 ```{r ParallelEFA, include=FALSE}
 #This chunk holds code for factor identification method : Horn
 # Parallel analysis
-Horn <- paran(correlations$rho, iterations=500, centile=0, quietly=FALSE,
+Horn <- paran(mat=correlations$rho, iterations=500, centile=0, quietly=FALSE,
            status=TRUE, all=FALSE, cfa=FALSE, graph=TRUE,
            color=TRUE, col=c("black","red","blue"),
            lty=c(1,2,3), lwd=1, legend=TRUE, 
-           width=640, height=640, grdevice=png, seed=0, mat=NA, n=NA)
+           width=640, height=640, grdevice=png, seed=0, n=300)
 
 
 Adjusted.EV <- data.frame(Horn$AdjEv)
@@ -575,9 +575,9 @@ parallel = ggplot(Adjusted.EV, aes(x=num, y=eigenvalue, shape=type, color=type))
   geom_point(size=1.5,colour ='#3C5488FF')+
   #geom_point(data = Random.EV, size=3)+
   #geom_point(data = Unadjusted.EV, size=3)+
-  scale_y_continuous(name="Eigen Value", limits=c(0, 4), breaks=seq(0,4,1)) +
+  scale_y_continuous(name="Eigen Value", limits=c(0, 5), breaks=seq(0,5,1)) +
    #Label the x-axis 'Factor Number', and ensure that it ranges from 1-max # of factors, increasing by one with each 'tick' mark.
-  scale_x_continuous(name='Factor Number (Parallel Analysis)', limits=c(0, 23),breaks=seq(0,23,4))+
+  scale_x_continuous(name='Factor Number (Parallel Analysis)', limits=c(0, 24),breaks=seq(0,24,4))+
     #Add vertical line indicating parallel analysis suggested max # of factors to retain
   geom_hline(yintercept=1, linetype = 'dashed') + apatheme +theme(,legend.position = "None") 
 #text = element_text(size = 25)
@@ -645,13 +645,12 @@ write.csv(full.map, "Table_raw/map_stat.csv")
 ```
 ####Exploratory factor analysis
 
-To identify opttimum number of factor required to express the latent structure adequetly we at first used Horn's parallel analysis [@hornRationaleTestNumber1965]. Horn's parallel analysis offered two factor solution to the latent structure (Figure \@ref(fig:facIdFig)). However, The Scree-plot [@cattellScreeTestNumber1966a] suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull methop tried to find an optimal number of factors to balance model fit and the number of parameters and offeren one factor solution in our data set (Figure \@ref(fig:facIdFig)). As a result, we tested both one-factor and two-factor solutions. 
-
+To identify optimum number of factor required to express the latent structure adequetly we at first used the Scree-plot [@cattellScreeTestNumber1966a]. The Scree-plot suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull method tried to find an optimal number of factors to balance model fit and the number of parameters and offered one factor solution in our data set (Figure \@ref(fig:facIdFig)). 
 
 ```{r factors, include=F}
 #This chunk holds code for compiled factor identification plots
 
-factor <- cowplot::plot_grid(parallel, scree.plot,Hull, 
+factor <- cowplot::plot_grid(scree.plot,Hull, 
                    labels = "AUTO",
                    ncol=1, 
                   align = "v", 
@@ -660,7 +659,7 @@ factor <- cowplot::plot_grid(parallel, scree.plot,Hull,
 ggsave("Figures/factors.png",factor, width = 5, height = 7, dpi = 600)
 ```
 
-(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested one factor. (C) Hull method indicated one factor were required to balance the model fit and number of parameters.
+(ref:facIdFig) Factor Identification Methods (A) Scree plot suggested one factor. (B) Hull method indicated one factor were required to balance the model fit and number of parameters.
 
 ```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
 
@@ -669,7 +668,7 @@ knitr::include_graphics("Figures/factors.png", dpi =800)
 ```
 
 
-```{r EFA, include=FALSE}
+```{r EFA, eval=FALSE, include=FALSE}
 fa.2F.1 <- fa(r=correlations$rho, nfactors = 2, fm= "pa",rotate ="promax",
               residuals = TRUE, SMC = TRUE)
 AA <- print(fa.2F.1, cut = .3, digits = 3, sort = TRUE)
@@ -732,7 +731,7 @@ sumR <- sum(BigRR/totRR*100)
 tau.equivalance <- coefficientalpha::tau.test(reduced.model.2F.2)
 ```
 
-```{r ordinal-alpha, include =T}
+```{r ordinal-alpha, eval=FALSE, include=FALSE}
 F1 <- dplyr::select(efa.data, CS15, CS22, CS20, CS11, CS14, CS18, CS13, CS06, CS10)
 F2 <- dplyr::select(efa.data, CS19, CS04, CS17, CS12, CS08, CS07) 
 
@@ -747,7 +746,7 @@ F2.alpha <- F2.alpha$total$raw_alpha
 ```
 
 
-```{r EFA2f, include=FALSE}
+```{r EFA2f, eval=FALSE, include=FALSE}
 fa.1F.1 <- fa(r=correlations$rho, nfactors = 1, fm= "pa",
               residuals = TRUE, SMC = TRUE)
 DD <- print(fa.1F.1, cut = .3, digits = 3, sort = TRUE)
@@ -767,16 +766,11 @@ var3 <- EE$Vaccounted[2,1]*100
 one.factor.alpha <- psych::alpha(correlations.red.1F.1$rho ,check.keys=TRUE)
 one.factor.alpha <- one.factor.alpha$total$raw_alpha
 
+
+
+
+# The initial two-factor solution with all 23 items had several items (item 01, 03, 05 09, 16) with poor factor loading (<.3) . We conducted another two round of EFA and identified and discarded problematic items (with poor factor loadings and/or cross loadings). Finally, a two-factor EFA solution with 15 items was accepted with RMSR = 0.06, no loading smaller than .30 and no cross-loading greater than .30. The first factor retained 8 items, and the second factor retained 6 items. The first factor explained  `r apa(var1,2,T)`% of the total variance and the second factor explained only `r apa(var2,2,T)`.  Ordinal alpha coefficient value ranges from 0 to 1 and higher value represents better reliability.  The internal consistency reliability coefficient for the two factors were, ordinal $\alpha$ = `r apa(F1.alpha,2,F)` and `r apa(F2.alpha,2,F)` respectively. Items clustered under factor 1 were stemmed from several common theme including efficiency of verbal communication,   individual's efficiency in verbal communication. All items except item12 (I try to see the other person's point of view) investigated individual's efficiency in non-verbal communication. The average variance extracted (AVE) is the amount of joint variance captured by the components and not by measurement error. @fornell1981evaluating recommended .50 as a benchmark value of AVE to establish the converging validity and purity of particular factor. AVE for  these two factors were.25 and .23 indicating high measurement error. Due to such high measurement error of the factor we rejected the two factor model and accepted the one factor model which had satisfactory reliability
 ```
-
-At first we fitted one factor solution in our dataset with all 23 items. The initial solution had six items with poor factor loadings (Item 1, 2,5,9, 16, 23). We discarded these items from the model and run another EFA. This iteration of EFA yielded a one factor simple structure with 17 items. The one factor solution explained `r apa(var3,2,T)`% of the total variance. Cronbach's alpha coefficient has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. For better estimates of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal]. The internal consistency reliability coefficient for this model was, ordinal $\alpha$ = `r apa(one.factor.alpha,2,F)`.
-
-The initial two-factor solution with all 23 items had several items (item 01, 03, 05 09, 16) with poor factor loading (<.3) . We conducted another two round of EFA and identified and discarded problematic items (with poor factor loadings and/or cross loadings). Finally, a two-factor EFA solution with 15 items was accepted with RMSR = 0.06, no loading smaller than .30 and no cross-loading greater than .30. The first factor retained 8 items, and the second factor retained 6 items. The first factor explained  `r apa(var1,2,T)`% of the total variance and the second factor explained only `r apa(var2,2,T)`.  Ordinal alpha coefficient value ranges from 0 to 1 and higher value represents better reliability.  The internal consistency reliability coefficient for the two factors were, ordinal $\alpha$ = `r apa(F1.alpha,2,F)` and `r apa(F2.alpha,2,F)` respectively. Items clustered under factor 1 were stemmed from several common theme including efficiency of verbal communication,   individual's efficiency in verbal communication. All items except item12 (I try to see the other person's point of view) investigated individual's efficiency in non-verbal communication. The average variance extracted (AVE) is the amount of joint variance captured by the components and not by measurement error. @fornell1981evaluating recommended .50 as a benchmark value of AVE to establish the converging validity and purity of particular factor. AVE for  these two factors were.25 and .23 indicating high measurement error. Due to such high measurement error of the factor we rejected the two factor model and accepted the one factor model which had satisfactory reliability
-
-```{r}
-apa_table(efa.table.1, caption = "Factor loadings of two factor model")
-```
-
 
 
 
@@ -798,6 +792,10 @@ BB <- print(fa.1F.2, cut = .3, digits = 3, sort = TRUE)
 
 
 ```
+
+
+The initial solution of the fitted one factor model had six items with poor factor loadings (Item 1, 2,5,9, 16, 23). We discarded these items from the model and run another EFA. This iteration of EFA yielded a one factor simple structure with 17 items. The one factor solution explained `r apa(var3,2,T)`% of the total variance. Cronbach's alpha coefficient has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. For better estimates of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal]. The internal consistency reliability coefficient for this model was, ordinal $\alpha$ = `r apa(one.factor.alpha,2,F)`.
+
 
 ```{r eval=FALSE, include=FALSE}
 model.0 <- "F1 =~ CS15 + CS22+CS20+CS11+CS14+CS18+CS13+CS06+CS10
