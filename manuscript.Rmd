@@ -182,6 +182,20 @@ Study-1 had two objectives. First we translated the 23 items of the Communicatio
 # readr::write_rds(data, "Processeddata/communication_data_n_582.rds")
 data <- readr::read_rds("Processeddata/communication_data_n_582.rds")
 
+
+participangts.age.over.19 <- nrow(data[data$Age>18, ])
+
+overaged.row <- which(data$Age>18, arr.ind=TRUE)
+
+data[265,4] <- 18
+data[285,4] <- 18
+data[291,4] <- 18
+data[300,4] <- 18
+data[308,4] <- 18
+data[313,4] <- 18
+data[325,4] <- 18
+data[371,4] <- 18
+
 efa.data.full <- subset(data, Sample == "EFA")
 cfa.data.full <- subset(data, Sample == "CFA"| Sample=="Validity")
 validity.data.full <- subset(data, Sample == "Validity")
@@ -192,8 +206,8 @@ efa.data <- subset(sem.data , Sample == "EFA")
 efa.data <- efa.data[,c(2:24)]
 efa.data <- na.omit(efa.data)
 
-cfa.data<- subset(sem.data , Sample == "CFA"| Sample=="Validity")
-cfa.data <- cfa.data[,c(2:24)]
+cfa.data.all<- subset(sem.data , Sample == "CFA"| Sample=="Validity")
+cfa.data <- cfa.data.all[,c(2:24)]
 cfa.data <- na.omit(cfa.data)
 
 validity.data <- subset(sem.data , Sample == "Validity")
@@ -236,7 +250,7 @@ male <- as.tibble(des.2$Boy)
 
 ```
 
-A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method.One participant was excluded due to incomplete data.  Participants were recruited following convenience sampling technique. For exploring the initial factor structure the recommended sample size is 250-300 [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
+A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method.There was no missing data.  Participants were recruited following convenience sampling technique. For exploring the initial factor structure the recommended sample size is 250-300 [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
 
 
@@ -817,7 +831,48 @@ reliability0 <- semTools::reliability(fit.1, return.total = T)
 
 # Study 2 Confirmation of Factor Structure and Psychometric Properties of Bangla Communication Scale
 
-This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we establised gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons Theory Based Analysis
+This study had fourth objectives. First, we confirmed the one factor solution of our scale obtained in Study-1. Second, to gather convergent validity evidence of BCS. For this, we calculated the bivariate correlation among the scores of Bangla Communication Scale and Bangla Hopeless Scale. Third, we established gender-based measurement invariance of Bangla Communication Scale.  Lastly, we assessed item discrimination, item difficulty and precision of BCS using Item Respons Theory Based Analysis
+
+## Method
+
+### Participants
+```{r cfades}
+cfa.desc.1<- cfa.data.full[,c(3,4,5)]
+## Recoding desc$Sex
+cfa.desc.1$Gender <- fct_recode(cfa.desc.1$Gender,
+  "Boy" = "male",
+  "Girl" = "female"
+)
+colnames(cfa.desc.1) <- c("Gender", "Age", "Socio Economic Status")
+
+cfa.des_tab.1 <- cfa.desc.1 %>%
+  tbl_summary(
+    by = Gender,
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} ({p}%)"),
+    type = list(Age ~ 'continuous'),
+    digits = all_continuous() ~ 2,
+    
+    missing = "no"
+    ) %>% add_overall() %>% bold_labels() %>% 
+modify_header(label ~ "**Variable**")  %>%
+  modify_caption("Demographic Characteristics")  
+
+as_tibble(cfa.des_tab.1) -> cfa.desc_tibble
+as_kable_extra(cfa.des_tab.1, format = "latex",booktabs = T) -> desc_kable #save it as a knitr::kable
+
+
+cfa.des.2 <- cfa.desc.1 %>% 
+  psych::describeBy("Gender")
+cfa.female <- as.tibble(cfa.des.2$Girl)
+cfa.male <- as.tibble(cfa.des.2$Boy)
+
+```
+
+A second group of `r nrow(cfa.data.all)` students of grade 8-12 from eight schools participated in Study-2. They were recruited using convenience sampling method. One participant;s data were excluded for missing data. In the complete dataset of `r nrow(cfa.data)`  `r cfa.female[1,2]` were female aged between `r cfa.female[2,8]` to `r cfa.female[2,9]` years (`r round(cfa.female[2,3],2)`±`r round(cfa.female[2,4],2)`). `r cfa.male[1,2]`  were male with an age range between `r cfa.male[2,8]` participants `r cfa.male[2,9]` years (`r round(cfa.male[2,3],2)`±`r round(cfa.male[2,4],2)`). `r cfa.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r cfa.desc_tibble [3,2]` and `r cfa.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively. To assess the sampling adequacy we followed the N:q rule [@bentlerPracticalIssuesStructural1987a; @RN1241] where 10 participants per item is required to earn trustworthiness of the result. Our sample size exceeded the requirement as we had 17 items.
+
+
+
 
 
 
