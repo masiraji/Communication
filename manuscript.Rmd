@@ -1145,7 +1145,7 @@ apa_table(Invariance.table, align = "c",  caption = "Measurment Invariance analy
 
 ```
 
-### Item Response Theory guided item analysis
+#### Item Response Theory guided item analysis
 
 ```{r samplesizeIRT, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide', width=60}
 set.seed(222)
@@ -1727,9 +1727,8 @@ papaja::apa_table(Cor, escape  = FALSE
 
 
 
-# Results
 
-# Discussion
+# General Discussion
 
 ## Ethical Consideration 
 
