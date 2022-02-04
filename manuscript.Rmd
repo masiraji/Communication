@@ -77,12 +77,19 @@ draft             : no
 
 documentclass     : "apa6"
 classoption       : "man"
-output            : papaja::apa6_pdf
+output            : 
+  papaja::apa6_pdf:
+    keep_tex: false
+    latex_engine: xelatex
+    includes:
+      in_header: header.tex
+mainfont: Arial
 ---
 
 ```{r setup, warning=FALSE, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = F, message = F, dpi=1200)
-
+knitr::opts_chunk$set(echo = FALSE, warning = F, message = F, dpi=600, fig.width = 6,
+ fig.asp = 0.8,out.width = "80%", dev=c('png','postscript'))
+#options(knitr.duplicate.label = "allow")
 set.seed(123)
 par(family = "Arial")
 ```
@@ -448,7 +455,7 @@ apa_table(decriptives)
 ```
 
 
-## Item Analysis
+## Item Analysis and Exploratory Factor Analysis
 
 ```{r Cronbach, include=FALSE, results='asis'}
 Cron.bach <- psych::alpha(efa.data,check.keys=TRUE) 
@@ -635,7 +642,7 @@ factor <- cowplot::plot_grid(parallel, scree.plot,Hull,
 ggsave("Figures/factors.png",factor, width = 5, height = 7, dpi = 600)
 ```
 
-(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested One facor. (C) Hull method indicated 1 factors were required to balance the model fit and number of parameters.
+(ref:facIdFig) Factor Identification Methods (A) Parallel analysis  indicated the optimal number of factors were two. (B) Scree plot suggested One factor. (C) Hull method indicated one factor were required to balance the model fit and number of parameters.
 
 ```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
 
@@ -1109,6 +1116,10 @@ scale <- plot(fit, type = 'score', theta_lim = c(-6, 6), main = "")
 ```
 
 
+```{r irttab, results='asis'}
+papaja::apa_table(IRT.details, caption = "Items discrimination and response category difficulty thresholds of 17 items in  Bangla Communication Scale (n =581)", note = "a = item discrimination parameter; b(1-4) = response category difficulty parameter")
+```
+
 
 ```{r OCC, include=F}
 ggicc <- function(model, item, theta){
@@ -1223,26 +1234,26 @@ knitr::include_graphics("Figures/ICC.png", dpi =600)
 
 ```
 
-```{r item-plots, inclide =F}
+```{r Test-info, include =F}
 
 
-iteminfo <- plot(fit, type = "infotrace",which.item =2)
-
-itemplot.01 <- tabledown::ggiteminfo(fit,1,6)+apatheme+
-  ggtitle(" Item03")+theme(legend.position = "none")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-
-itemplot.02 <- tabledown::ggiteminfo(fit,2,6)+apatheme+
-  ggtitle(" Item04")+theme(legend.position = "none")+
-  labs(y = "Item Information")+
-  scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
-  xlab(expression(theta))+ ylab(expression(I(theta)))
-
-
-
+# iteminfo <- plot(fit, type = "infotrace",which.item =2)
+# 
+# itemplot.01 <- tabledown::ggiteminfo(fit,1,6)+apatheme+
+#   ggtitle(" Item03")+theme(legend.position = "none")+
+#   labs(y = "Item Information")+
+#   scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
+#   xlab(expression(theta))+ ylab(expression(I(theta)))
+# 
+# 
+# itemplot.02 <- tabledown::ggiteminfo(fit,2,6)+apatheme+
+#   ggtitle(" Item04")+theme(legend.position = "none")+
+#   labs(y = "Item Information")+
+#   scale_color_npg()+geom_hline(yintercept = .20, colour ="red")+geom_area(fill ="palegreen4" )+
+#   xlab(expression(theta))+ ylab(expression(I(theta)))
+# 
+# 
+# 
 
 # good.info <- cowplot::plot_grid( item6.iic1, item7.iic1, item11.iic1, item12.iic1, item14.iic1, item15.iic1 , item18.iic1, item19.iic1, item20.iic1, item21.iic1, item22.iic1, 
 #                                  labels = "AUTO",ncol=3, label_size = 15,align = "v")
@@ -1269,6 +1280,98 @@ knitr::include_graphics("Figures/TIC.png", dpi =600)
 
 
 ```
+
+
+```{r}
+# This chinks holds code of compiled item info code created using facet wrap. (Not included in manuscript)
+pacman::p_load(reshape,ggsci)
+Theta <- matrix(seq(-6,6, by = .1))
+
+##Item Extraction
+item03 <- extract.item(fit, 1)#item number
+item04 <- extract.item(fit, 2)
+item06 <- extract.item(fit, 3)
+item07 <- extract.item(fit, 4)
+item08 <- extract.item(fit, 5)
+item10 <- extract.item(fit,6)
+item11<- extract.item(fit, 7)
+item12 <-extract.item(fit, 8)
+item13 <- extract.item(fit, 9)
+item14 <- extract.item(fit, 10)
+item15 <- extract.item(fit, 11)
+item17 <- extract.item(fit, 12)
+item18 <- extract.item(fit, 13)
+item19 <- extract.item(fit, 14)
+item20 <- extract.item(fit, 15)
+item21 <- extract.item(fit, 16)
+item22 <- extract.item(fit, 17)
+
+
+
+##Item Info
+Item03 <- iteminfo(item03, Theta)
+Item04 <- iteminfo(item04, Theta)
+Item06 <- iteminfo(item06, Theta)
+Item07 <- iteminfo(item07, Theta)
+Item08 <- iteminfo(item08, Theta)
+Item10 <- iteminfo(item10, Theta)
+Item11 <- iteminfo(item11, Theta)
+Item12 <- iteminfo(item12, Theta)
+Item13 <- iteminfo(item13, Theta)
+Item14 <- iteminfo(item14, Theta)
+Item15 <- iteminfo(item15, Theta)
+Item17 <- iteminfo(item17, Theta)
+Item18<- iteminfo(item18, Theta)
+Item19 <- iteminfo(item19, Theta)
+Item20 <- iteminfo(item20, Theta)
+Item21 <- iteminfo(item21, Theta)
+Item22 <- iteminfo(item22, Theta)
+
+
+#Data frame
+
+item.info.data <- as.data.frame(cbind(Item03, Item04,Item06, Item07, Item08,
+                                      Item10, Item11, Item12, Item13, Item14,
+                                      Item15, Item17, Item18, Item19, Item20,
+                                      Item21, Item22))
+
+
+
+item.info.data.long <- melt(item.info.data)
+
+
+
+
+item.info.data.2 <- data.frame(Theta=seq(-6,6, by = .1), item.info.data.long)
+
+
+pacman::p_load(ggsci)
+
+item.info.plot <- ggplot(item.info.data.2,aes(Theta,value,col=variable))+geom_line()+apatheme+
+  ggtitle("Item Information Plot")+theme(legend.position = "none")+
+  facet_wrap(~variable)+theme(strip.text.x = element_text(size = 15))+geom_area()+ scale_color_npg()+aes(fill = as.factor(variable))+xlab(expression(theta)) + 
+  ylab(expression(I(theta)))
+
+# facet_wrap(~variable,scales = "free")++geom_hline(yintercept = .20, colour ="red")
+
+ggsave("Figures/itemInfoplot.png",item.info.plot, width = 8, height =8, dpi = 1200, bg ="white")
+
+
+
+
+
+
+```
+
+
+
+```{r figIIC, fig.cap = "Item Information Curve.",  out.height='100%',out.width='100%', warning=FALSE}
+
+knitr::include_graphics("Figures/itemInfoplot.png", dpi =600)
+
+
+```
+
 
 ```{r conrel-print, include=F}
 ##
@@ -1304,7 +1407,7 @@ apa.latice  <- list(
 dev.off()
 ```
 
-```{r figconrel, fig.cap = "Conditional Reliability.",  out.height='100%', warning=FALSE}
+```{r figconrel, fig.cap = "Conditional Reliability.", out.width= '100%', out.height='50%', warning=FALSE}
 
 knitr::include_graphics("Figures/conrel.png", dpi =600)
 
