@@ -1,0 +1,45 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+{\centering \includegraphics[width=1\linewidth,height=1.5\textheight]{Figures/corplot}
+
+}
+
+\caption{Inter item polychoric correlation coefficients for the 23 items. 11.56 \% inter-item correlation coefficients were higher than \textbar.30\textbar{}}\label{fig:figCor}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+{\centering \includegraphics[width=0.8\linewidth]{Figures/factors}
+
+}
+
+\caption{Factor Identification Methods (A) Scree plot suggested one factor. (B) Hull method indicated one factor were required to balance the model fit and number of parameters.}\label{fig:facIdFig}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=0.8\linewidth]{Figures/CFAplot} \caption{CFA Plot.}\label{fig:figcfa}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=0.8\linewidth]{Figures/personfit} \caption{Person Fit}\label{fig:person-fit}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth,height=1\textheight]{Figures/itemInfoplot} \caption{Item Information Curve.}\label{fig:figIIC}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=0.8\linewidth,height=1\textheight]{Figures/TIC} \caption{TIC.}\label{fig:figTIC}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\includegraphics[width=1\linewidth,height=0.5\textheight]{Figures/conrel} \caption{Conditional Reliability.}\label{fig:figconrel}
+\end{figure*}

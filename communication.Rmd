@@ -83,6 +83,7 @@ output            :
     latex_engine: xelatex
     includes:
       in_header: header.tex
+
 mainfont: Arial
 ---
 
@@ -173,9 +174,9 @@ To promote better understanding of subject contents assessing the communication 
 # Data collection
 
 ```{r data, include=F}
-# data <- readxl::read_excel("Processeddata/communication_data_n_582.xlsx")
-# readr::write_rds(data, "Processeddata/communication_data_n_582.rds")
-data <- readr::read_rds("Processeddata/communication_data_n_582.rds")
+# data <- readxl::read_excel("Processeddata/communication_data_n_622.xlsx")
+# readr::write_rds(data, "Processeddata/communication_data_n_622.rds")
+data <- readr::read_rds("communication_data_n_622.rds")
 
 
 participangts.age.over.19 <- nrow(data[data$Age>18, ])
@@ -191,13 +192,13 @@ data[313,4] <- 18
 data[325,4] <- 18
 data[371,4] <- 18
 
-efa.data.full <- subset(data, Sample == "EFA")
+efa.data.full <- subset(data, Sample == "EFA"| Sample=="Testretest")
 cfa.data.full <- subset(data, Sample == "CFA"| Sample=="Validity")
 validity.data.full <- subset(data, Sample == "Validity")
 
 
 sem.data <- data[,c(2,6:66)]
-efa.data <- subset(sem.data , Sample == "EFA")
+efa.data <- subset(sem.data , Sample == "EFA"| Sample=="Testretest")
 efa.data <- efa.data[,c(2:24)]
 efa.data <- na.omit(efa.data)
 
@@ -210,11 +211,31 @@ validity.data <-na.omit(validity.data)
 
 
 irt.data <- sem.data[,2:24]
+
+testretest_data <- subset(data, Sample=="Testretest")
+test <- testretest_data[, c(6:28)]
+retest <- testretest_data[, c(67:89)]
+
+all.item.test <- test %>% 
+  rowwise() %>% 
+  mutate(test_total=sum(across(contains("CS")), na.rm = T))
+
+all.item.retest <- retest %>% 
+  rowwise() %>% 
+  mutate(retest_total=sum(across(contains("CSA")), na.rm = T))
+
+all.item.icc <- as.data.frame(cbind(all.item.test$test_total, all.item.retest$retest_total))
+
+# 
+
+# cor(all.item.test$test_total,all.item.retest$retest_total)
+
 ```
 
 The project received institutional ethics clearance from Department of Educational and Counselling Psychology (Project ID: DECP/07/06). Prior to data collection required authorization from school's authority and assent from the participating were obtained. Necessary explanations were given in oral and written forms.It  was also mentioned in the explanatory statement that their participation was voluntary and that they could withdraw from participation any time without being penalized.  Data collection was commenced between November 2021 to January 2022. The data collection took place in the classroom where students were at first briefed about 'communication skill'. Next, they filled up their socio-demographics information and responded to Bangla Communication Scale. All personal information (name, school,class) was codified and encrypted, producing a anonymous database. We at first collected data from `r nrow(efa.data)` participants for our Study-1 and in our Study-2 we collected data from another `r nrow(cfa.data)` participants. Along with Bangla Communication Scale a subset of our Study-2 sample `r nrow(validity.data)` also responded to Bangla Beck Hopelessness Scale[@beck1974measurement]
 
 # Study-1: Translations and Exploratory Factor Analysis
+
 Study-1 had two objectives. First we translated the 23 items of the Communication Scale [@barkman2002four] from English to Bangla. Second, we conducted an Exploratory Factor Analysis (EFA) to identify the latent structure of the scale.
 
 
@@ -222,7 +243,7 @@ Study-1 had two objectives. First we translated the 23 items of the Communicatio
 
 ### Participants
 
-```{r sescrptives, include=FALSE}
+```{r dsescrptives, include=FALSE}
 desc <- efa.data.full[,c(3,4,5)]
 ## Recoding desc$Sex
 desc$Gender <- fct_recode(desc$Gender,
@@ -253,11 +274,39 @@ des.2 <- desc %>%
 female <- as.tibble(des.2$Girl)
 male <- as.tibble(des.2$Boy)
 
+
+desc.test.retest.data <- testretest_data[,c(3,4,5)]
+
+desc.test.retest.data$Gender <- fct_recode(desc.test.retest.data$Gender,
+  "Boy" = "male",
+  "Girl" = "female")
+test.retest.description <- desc.test.retest.data %>% 
+  psych::describeBy("Gender")
+test.female <- as.tibble(test.retest.description$Girl)
+test.male <- as.tibble(test.retest.description$Boy)
+
+
+test.retest.des_tab <- desc.test.retest.data %>%
+  tbl_summary(
+    by = Gender,
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} ({p}%)"),
+    type = list(Age ~ 'continuous'),
+    digits = all_continuous() ~ 2,
+    
+    missing = "no"
+    ) %>% add_overall() %>% bold_labels() %>% 
+modify_header(label ~ "**Variable**")  %>%
+  modify_caption("Demographic Characteristics")  
+
+as_tibble(test.retest.des_tab) -> test.retset.desc_tibble 
+
+
 ```
 
 A cross-sectional survey was used to collect data from a large sample of students of grade 8-12 (n = `r nrow(efa.data)`) from 8 schools following convenience sampling method.There was no missing data.  Participants were recruited following convenience sampling technique. For exploring the initial factor structure the recommended sample size is 250-300 [@comreyFirstCourseFactor1992; @schonbrodtWhatSampleSize2013]. Among `r nrow(efa.data)` participants, `r female[1,2]` were female aged between `r female[2,8]` to `r female[2,9]` years (`r round(female[2,3],2)`±`r round(female[2,4],2)`). `r male[1,2]`  were male with an age range between `r male[2,8]` participants `r male[2,9]` years (`r round(male[2,3],2)`±`r round(male[2,4],2)`). `r desc_tibble [4,2]` participants belonged to middle socio-economic status. `r desc_tibble [3,2]` and `r desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
-
+To estimate the test-retest reliability we used intraclass correlation coefficients (ICC) . With 80% power and alpha at 0.05, a minimum sample size of 22 is recommended to detect the ICC value of .50 [@bujang2017simplified]. Considering potential instances of drop-out we randomly chose a subset of `r nrow(testretest_data)` participants from our study-1 sample. They responded to the Bangla communication scale twice, two week apart.  Among these `r nrow(testretest_data)` participants `r test.female[1,2]` were female aged between `r test.female[2,8]` to `r test.female[2,9]` years (`r round(test.female[2,3],2)`±`r round(test.female[2,4],2)`). `r test.male[1,2]`  were male with an age range between `r test.male[2,8]` participants `r test.male[2,9]` years (`r round(test.male[2,3],2)`±`r round(test.male[2,4],2)`). `r  test.retset.desc_tibble [4,2]` participants belonged to middle socio-economic status. `r  test.retset.desc_tibble [3,2]` and `r  test.retset.desc_tibble [5,2]` participants belonged to lower and upper socio-economic status-respectively.
 
 ### Materials
 
@@ -271,11 +320,13 @@ We followed the International Test Commission  guidelines [@bartramITCGuidelines
 
 ### Analytic strategies
 
-We used R (version 4.1.0) [@R-base], including several R packages [@R-lavaan; @R-mirt; @R-psych; @R-tabledown], for our analyses. Prior to the data analysis normality assumptions were checked. Our data violeted both univariate and multivariate normality. As such we used polychoric correlation matrix and 'principal axis" factor extraction method to conduct the exploratory factor analysis [@watkinsStepbyStepGuideExploratory2020]. An oblique rotation method was employed. A posterior sampling adequacy was estimated using KMO statistics [@kaiserIndexFactorialSimplicity1974]. TO identify the optimum number of factors required to explain the latent structure of our scale we used Scree plot [@cattellScreeTestNumber1966a], Horn's parallel analysis [@hornRationaleTestNumber1965], Hull method [@lorenzo-sevaHullMethodSelecting2011] and Minimum average partials method (MAP) [@velicerDeterminingNumberComponents1976]. Lastly, to identify the simple structure, we followed the following guidelines  (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors [@childEssentialsFactorAnalysis2006a; @mulaikFoundationsFactorAnalysis2009; @watkinsStepbyStepGuideExploratory2020] 
+We used R (version 4.1.0) [@R-base], including several R packages [@R-lavaan; @R-mirt; @R-psych; @R-tabledown], At first we checked for missing values and outliers. To estimate test-retest reliability of the Bangla communication scale we used intraclass correlation coefficients computed based on single-rating, absolute-agreement, 2-way random-effects model. An ICC value higher than .50 is considered adequate [@koo2016guideline]. Our data violated both univariate and multivariate normality. As such we used polychoric correlation matrix as it is more robust towards these violations. For initial item analysis we calculated item-total correlation and estimated internal consistency reliability coefficient ordinal alpha drop statistics. Though Cronbach's alpha is the the most popular reliability coefficient,it has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. Since our data followed Likert types response format for better estimation of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal].
 
-To estimate reliability we used internal consistency coefficient ordinal alpha. Aprt from being the most popular reliability coefficient,Cronbach's alpha coefficient has a tendency to deflate the estimates for  Likert type data as the calculation is based on pearson-correlation matrix which requires data with continuous measurement level [@gadermann2012estimating; @zumbo2007ordinal]. For better estimates of reliability we reported ordinal alpha using polychoric-correlation [@zumbo2007ordinal].
+
+In the exploratory factor analysis we used 'principal axis" factor extraction method [@watkinsStepbyStepGuideExploratory2020]. A posterior sampling adequacy was estimated using KMO statistics [@kaiserIndexFactorialSimplicity1974]. TO identify the optimum number of factors required to explain the latent structure of our scale we used Scree plot [@cattellScreeTestNumber1966a], Horn's parallel analysis [@hornRationaleTestNumber1965], Hull method [@lorenzo-sevaHullMethodSelecting2011] and Minimum average partials method (MAP) [@velicerDeterminingNumberComponents1976]. Lastly, to identify the simple structure, we followed the following guidelines  (i) no factors with fewer than three items (ii) no factors with a factor loading <0.3 (iii) no items with cross-loading greater than .3 across factors [@childEssentialsFactorAnalysis2006a; @mulaikFoundationsFactorAnalysis2009; @watkinsStepbyStepGuideExploratory2020] 
 
 ### Results & Discussion
+
 ```{r, gtfig, include =F}
 
 gt.data <- na.omit(efa.data)
@@ -461,8 +512,12 @@ missing <- VIM::aggr(efa.data, plot =T)
 correlations <- psych::polychoric(efa.data)
 upper <- correlations$rho[upper.tri(correlations$rho, diag = F)]
 
-min.cor <- apa(min(abs(upper)),2,F) #minimum cor.coefficient of the matrix
-max.cor <- apa(max(abs(upper)),2,F) # max. correlation coefficient of the matrix
+correlationtab <- as.data.frame(upper )
+
+
+
+min.cor <- apa(min((upper)),2,F) #minimum cor.coefficient of the matrix
+max.cor <- apa(max((upper)),2,F) # max. correlation coefficient of the matrix
 
 determinets <- det(correlations$rho) 
 # Calculating the percentage of correlations higher than .30
@@ -470,6 +525,15 @@ determinets <- det(correlations$rho)
 BigR = sum(correlations$rho >= abs(.30) & correlations$rho < abs(1.0), na.rm =T)/2 
 totR = length(efa.data)*(length(efa.data)-1)/2
 cor.per <- print (BigR/totR)*100
+```
+
+```{r, include = F}
+cor.mat <- correlations$rho
+cor.mat <- as.data.frame(cor.mat)
+```
+
+```{r results='asis'}
+apa_table(cor.mat,landscape = T )
 ```
 
 ```{r item-analysis, include=FALSE, results='asis'}
@@ -525,21 +589,23 @@ apa_table(decriptives)
 ```{r corplot, include =F}
 #This chunk holds code for plotting the correlation matrix
 
-corplot <- ggcorrplot(correlations$rho, hc.order = TRUE, outline.col = "white", type = "lower", 
+corplot <- corplot <- ggcorrplot::ggcorrplot(correlations$rho, hc.order = TRUE, outline.col = "white", type = "lower", legend.title = "Correlation",
            ggtheme = ggplot2::theme_minimal(),tl.srt = 90,colors = c("#E64B35FF", "white", "#3C5488FF") )+
   theme( panel.grid.major = element_blank(),
-         axis.text.x = element_text(size = 8),
-         axis.text.y = element_text(size = 8),
+         axis.text.x = element_text(size = 6),
+         axis.text.y = element_text(size = 6),
          panel.border = element_rect(color = "black",
                                     fill = NA,
-                                    size = 1))
+                                    size = 1),
+         legend.text = element_text(size = 6),
+         legend.title= element_text(size = 6))
 #p.mat <- cor_to_p(correlations$rho, 428, method = "polychoric")
 #to show pvalue in the fig add p.mat=p.mat
-ggsave("Figures/corplot.png",corplot, width = 6, height = 6, dpi = 600, bg ="white")
+ggsave("Figures/corplot.png",corplot, width = 3.5, height = 3.5, dpi = 600, bg ="white")
 
 ```
 
-(ref:figCor) Inter item polychoric correlation coefficients for the 23 items. 9.8 % inter-item correlation coefficients were higher than |.30|
+(ref:figCor) Inter item polychoric correlation coefficients for the 23 items. 11.56 % inter-item correlation coefficients were higher than |.30|
 
 ```{r figCor, out.height="150%",out.width="100%", fig.align= 'center', fig.cap='(ref:figCor)', results='asis', fig.align='center'}
 
@@ -551,11 +617,11 @@ knitr::include_graphics('Figures/corplot.png', dpi =600)
 ```{r ParallelEFA, include=FALSE}
 #This chunk holds code for factor identification method : Horn
 # Parallel analysis
-Horn <- paran(mat=correlations$rho, iterations=500, centile=0, quietly=FALSE,
+Horn <- paran(efa.data, iterations=500, centile=0, quietly=FALSE,
            status=TRUE, all=FALSE, cfa=TRUE, graph=TRUE,
            color=TRUE, col=c("black","red","blue"),
            lty=c(1,2,3), lwd=1, legend=TRUE, 
-           width=640, height=640, grdevice=png, seed=0, n=300)
+           width=640, height=640, grdevice=png, seed=0)
 
 
 Adjusted.EV <- data.frame(Horn$AdjEv)
@@ -655,30 +721,42 @@ colnames(map.map) <- "MAP Statistic"
 map.statistics <- map$vss.stats[,c(1,2,5,6,7,10,11)]
 full.map <- cbind(map.map,map.statistics)
 
-write.csv(full.map, "Table_raw/map_stat.csv")
 ```
+
+```{r map}
+papaja::apa_table(full.map, caption = "Minimum average partial (MAP) method of factor numder determination. MAP Statistics is the lowest in the 5th row indicating five factors are required.")
+```
+
+
+#### Test-retest reliability
+
+```{r ICC}
+ICC <- psych::ICC(all.item.icc)
+papaja::apa_table(ICC$results, caption = "Intra Class Correlation.")
+```
+
 
 #### Exploratory factor analysis
 
-To identify optimum number of factor required to express the latent structure adequetly we at first used the Scree-plot [@cattellScreeTestNumber1966a]. The Scree-plot suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull method tried to find an optimal number of factors to balance model fit and the number of parameters and offered one factor solution in our data set (Figure \@ref(fig:facIdFig)). 
+To identify optimum number of factor required to express the latent structure adequately we at first used the Scree-plot [@cattellScreeTestNumber1966a]. The Scree-plot suggested one factor solution. One factor solution was also supported by MAP method [@velicerDeterminingNumberComponents1976] and Hull method [@lorenzo-sevaHullMethodSelecting2011]. Minimum average partial (MAP) method  expects the average squared off-diagonal values of the calculated partial correlation matrix to be minimum when the correct number of factors are extracted [@velicerDeterminingNumberComponents1976]. In our data set this value reached the minimum after extracting the first factor (Supplementary Table 2). Hull method tried to find an optimal number of factors to balance model fit and the number of parameters and offered one factor solution in our data set (Figure \@ref(fig:facIdFig)). 
 
 ```{r factors, include=F}
 #This chunk holds code for compiled factor identification plots
 
 factor <- cowplot::plot_grid(scree.plot,Hull, 
                    labels = "AUTO",
-                   ncol=1, 
-                  align = "v", 
+                   ncol=2, 
+                  align = "h", 
                   label_fontfamily = "sans",
                   label_fontface = "plain")
-ggsave("Figures/factors.png",factor, width = 5, height = 7, dpi = 600)
+ggsave("Figures/factors.png",factor, width = 7, height = 3.5, dpi = 600)
 ```
 
 (ref:facIdFig) Factor Identification Methods (A) Scree plot suggested one factor. (B) Hull method indicated one factor were required to balance the model fit and number of parameters.
 
 ```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
 
-knitr::include_graphics("Figures/factors.png", dpi =800)
+knitr::include_graphics("Figures/factors.png", dpi =600)
 
 ```
 
@@ -782,7 +860,13 @@ one.factor.alpha <- psych::alpha(correlations.red.1F.1$rho ,check.keys=TRUE)
 one.factor.alpha <- one.factor.alpha$total$raw_alpha
 ```
 
+
+```{r 1f-tau-equivalance, eval=FALSE, include=FALSE}
+tau.equivalance.2 <- coefficientalpha::tau.test(reduced.model.1F.1)
+```
 The initial solution of the fitted one factor model had six items with poor factor loadings (Item 1, 2,5,9, 16, 23). We discarded these items from the model and run another EFA. This iteration of EFA yielded a one factor simple structure with 17 items. The one factor solution explained `r apa(var3,2,T)`% of the total variance.  The internal consistency reliability coefficient for this model was, ordinal $\alpha$ = `r apa(one.factor.alpha,2,F)`.
+
+
 
 
 ```{r eval=FALSE, include=FALSE}
@@ -966,13 +1050,13 @@ modfit.Cor.one[modfit.Cor.one$mi>3.84,]
 #This chunk holds codes to store CFA plot
 
 
-png(filename="figures/CFAplot.png", 
+png(filename="Figures/CFAplot.png", 
     type="cairo",
     units="in", 
-    width=6, 
-    height=6, 
+    width=3.5, 
+    height=3.5, 
     pointsize=12, 
-    res=1200)
+    res=600)
 semPaths (fit.1 , 
           what= "std",
           #"hide", #(hides coefficeits)
@@ -1287,7 +1371,7 @@ person <- ggplot(personfit, aes(x=Zh)) + geom_histogram(binwidth=.5,col=I("black
   labs( y="Number of Participants", x = "Zh Statistics")+apatheme + xlim(-4,2)+
    scale_y_continuous(limits = c(0, 40), expand = expand_scale(mult = c(0, 0.1)))
 
-ggsave("Figures/personfit.jpeg",person , width = 12, height = 14, dpi = 600, bg = "white")
+ggsave("Figures/personfit.jpeg",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
 # annotation.1 <- data.frame(
 #    x = (-3.1),
@@ -1301,7 +1385,7 @@ ggsave("Figures/personfit.jpeg",person , width = 12, height = 14, dpi = 600, bg 
 #            size=5 , angle=45, fontface="bold" )
 
 
-ggsave("Figures/person.png",person , width = 12, height = 8, dpi = 600, bg = "white")
+ggsave("Figures/person.png",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
 
 # Plots ####
@@ -1454,7 +1538,7 @@ ICC <- cowplot::plot_grid(item03, item04, item06, item07, item08,
                      align = "v")
 
 
-ggsave("Figures/ICC.png",ICC , width = 12, height =14, dpi = 600, bg = "white")
+ggsave("Figures/ICC.png",ICC , width = 7, height =7, dpi = 600, bg = "white")
 
 
 
@@ -1498,7 +1582,7 @@ knitr::include_graphics("Figures/ICC.png", dpi =600)
 test.info <- tabledown::ggtestinfo(irt.data.1, fit)+ apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="#E64B3599" )
 # +geom_vline(xintercept = -3, colour ="black")+
 #   geom_vline(xintercept = .5, colour ="black")
-ggsave("Figures/TIC.png",test.info , width = 6, height = 4, dpi = 600, bg = "white")
+ggsave("Figures/TIC.png",test.info , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
 library(plotly)
 info.p <- plotly::ggplotly(test.info)
@@ -1528,7 +1612,7 @@ itemlevelcolors <- matrix(rep(brewer.pal(4, "Set1"), 17), byrow = TRUE, ncol = 4
 ```
 
 ```{r saveWrightmao,  warning=F, message=F}
-jpeg("Figures/personmap.jpeg", width = 12, height = 8, quality = 100,units="in", res= 1080, pointsize = 12 )
+jpeg("Figures/personmap.jpeg", width = 7, height = 7, quality = 100,units="in", res= 1080, pointsize = 12 )
 library(WrightMap)
 WrightMap::wrightMap(estimation, threshold , 
           item.prop = 0.65,
@@ -1623,7 +1707,7 @@ item.info.plot <- ggplot(item.info.data.2,aes(Theta,value,col=variable))+geom_li
 
 # facet_wrap(~variable,scales = "free")++geom_hline(yintercept = .20, colour ="red")
 
-ggsave("Figures/itemInfoplot.png",item.info.plot, width = 8, height =8, dpi = 1200, bg ="white")
+ggsave("Figures/itemInfoplot.png",item.info.plot, width = 7, height =7, dpi = 600, bg ="white")
 
 
 
@@ -1637,10 +1721,10 @@ ggsave("Figures/itemInfoplot.png",item.info.plot, width = 8, height =8, dpi = 12
 png(filename="Figures/conrel.png", 
     type="cairo",
     units="in", 
-    width=12, 
-    height=6, 
+    width=3.5, 
+    height=3.5, 
     pointsize=12, 
-    res=300)
+    res=600)
 library(latticeExtra)
 library(directlabels)
 font.settings <- list(

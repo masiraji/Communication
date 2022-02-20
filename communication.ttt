@@ -1,0 +1,233 @@
+\begin{lltable}
+
+\begin{longtable}{llllllllllllllllllllllll}\noalign{\getlongtablewidth\global\LTcapwidth=\longtablewidth}
+\caption{\label{tab:unnamed-chunk-2}}\\
+\toprule
+ & \multicolumn{1}{c}{CS01} & \multicolumn{1}{c}{RCS02} & \multicolumn{1}{c}{CS03} & \multicolumn{1}{c}{CS04} & \multicolumn{1}{c}{RCS05} & \multicolumn{1}{c}{CS06} & \multicolumn{1}{c}{CS07} & \multicolumn{1}{c}{CS08} & \multicolumn{1}{c}{CS09} & \multicolumn{1}{c}{CS10} & \multicolumn{1}{c}{CS11} & \multicolumn{1}{c}{CS12} & \multicolumn{1}{c}{CS13} & \multicolumn{1}{c}{CS14} & \multicolumn{1}{c}{CS15} & \multicolumn{1}{c}{CS16} & \multicolumn{1}{c}{CS17} & \multicolumn{1}{c}{CS18} & \multicolumn{1}{c}{CS19} & \multicolumn{1}{c}{CS20} & \multicolumn{1}{c}{CS21} & \multicolumn{1}{c}{CS22} & \multicolumn{1}{c}{CS23}\\
+\midrule
+\endfirsthead
+\caption*{\normalfont{Table \ref{tab:unnamed-chunk-2} continued}}\\
+\toprule
+ & \multicolumn{1}{c}{CS01} & \multicolumn{1}{c}{RCS02} & \multicolumn{1}{c}{CS03} & \multicolumn{1}{c}{CS04} & \multicolumn{1}{c}{RCS05} & \multicolumn{1}{c}{CS06} & \multicolumn{1}{c}{CS07} & \multicolumn{1}{c}{CS08} & \multicolumn{1}{c}{CS09} & \multicolumn{1}{c}{CS10} & \multicolumn{1}{c}{CS11} & \multicolumn{1}{c}{CS12} & \multicolumn{1}{c}{CS13} & \multicolumn{1}{c}{CS14} & \multicolumn{1}{c}{CS15} & \multicolumn{1}{c}{CS16} & \multicolumn{1}{c}{CS17} & \multicolumn{1}{c}{CS18} & \multicolumn{1}{c}{CS19} & \multicolumn{1}{c}{CS20} & \multicolumn{1}{c}{CS21} & \multicolumn{1}{c}{CS22} & \multicolumn{1}{c}{CS23}\\
+\midrule
+\endhead
+CS01 & 1.00 & -0.17 & 0.30 & 0.12 & 0.03 & 0.06 & 0.08 & 0.20 & 0.10 & 0.14 & -0.02 & 0.19 & 0.15 & 0.07 & 0.14 & 0.12 & 0.17 & 0.19 & 0.12 & 0.13 & 0.18 & 0.17 & 0.00\\
+RCS02 & -0.17 & 1.00 & -0.01 & 0.08 & 0.31 & 0.12 & 0.17 & 0.17 & 0.13 & 0.10 & 0.31 & 0.19 & 0.03 & 0.04 & -0.02 & 0.12 & 0.13 & -0.06 & 0.05 & 0.12 & 0.06 & 0.18 & -0.02\\
+CS03 & 0.30 & -0.01 & 1.00 & 0.08 & 0.02 & 0.18 & 0.12 & 0.22 & 0.18 & 0.15 & 0.25 & 0.25 & 0.11 & 0.14 & 0.25 & 0.20 & 0.16 & 0.16 & 0.16 & 0.19 & 0.25 & 0.16 & -0.03\\
+CS04 & 0.12 & 0.08 & 0.08 & 1.00 & -0.12 & 0.10 & 0.23 & 0.33 & 0.13 & 0.15 & 0.22 & 0.16 & 0.08 & 0.17 & 0.18 & 0.01 & 0.25 & 0.09 & 0.32 & 0.14 & 0.26 & 0.08 & 0.07\\
+RCS05 & 0.03 & 0.31 & 0.02 & -0.12 & 1.00 & 0.00 & 0.03 & 0.03 & 0.05 & 0.03 & 0.07 & 0.08 & -0.03 & -0.06 & -0.03 & 0.14 & -0.02 & 0.06 & 0.08 & 0.14 & -0.04 & 0.04 & -0.14\\
+CS06 & 0.06 & 0.12 & 0.18 & 0.10 & 0.00 & 1.00 & 0.22 & 0.28 & 0.20 & 0.20 & 0.31 & 0.22 & 0.16 & 0.30 & 0.28 & 0.08 & 0.02 & 0.19 & 0.17 & 0.22 & 0.34 & 0.21 & 0.11\\
+CS07 & 0.08 & 0.17 & 0.12 & 0.23 & 0.03 & 0.22 & 1.00 & 0.21 & 0.07 & 0.16 & 0.14 & 0.26 & 0.11 & 0.24 & 0.29 & 0.13 & 0.17 & 0.09 & 0.26 & 0.28 & 0.27 & 0.19 & 0.06\\
+CS08 & 0.20 & 0.17 & 0.22 & 0.33 & 0.03 & 0.28 & 0.21 & 1.00 & 0.19 & 0.11 & 0.14 & 0.22 & 0.12 & 0.19 & 0.22 & -0.04 & 0.05 & 0.17 & 0.16 & 0.21 & 0.32 & 0.05 & -0.02\\
+CS09 & 0.10 & 0.13 & 0.18 & 0.13 & 0.05 & 0.20 & 0.07 & 0.19 & 1.00 & 0.16 & 0.13 & -0.01 & 0.14 & 0.11 & 0.21 & 0.08 & 0.01 & 0.14 & 0.08 & 0.15 & 0.15 & 0.14 & 0.09\\
+CS10 & 0.14 & 0.10 & 0.15 & 0.15 & 0.03 & 0.20 & 0.16 & 0.11 & 0.16 & 1.00 & 0.20 & 0.18 & -0.01 & 0.05 & 0.24 & 0.08 & 0.13 & 0.30 & 0.11 & 0.21 & 0.24 & 0.34 & 0.17\\
+CS11 & -0.02 & 0.31 & 0.25 & 0.22 & 0.07 & 0.31 & 0.14 & 0.14 & 0.13 & 0.20 & 1.00 & 0.31 & 0.36 & 0.18 & 0.42 & 0.20 & 0.24 & 0.20 & 0.25 & 0.36 & 0.35 & 0.33 & 0.07\\
+CS12 & 0.19 & 0.19 & 0.25 & 0.16 & 0.08 & 0.22 & 0.26 & 0.22 & -0.01 & 0.18 & 0.31 & 1.00 & 0.18 & 0.21 & 0.20 & 0.10 & 0.14 & 0.14 & 0.26 & 0.21 & 0.21 & 0.04 & -0.06\\
+CS13 & 0.15 & 0.03 & 0.11 & 0.08 & -0.03 & 0.16 & 0.11 & 0.12 & 0.14 & -0.01 & 0.36 & 0.18 & 1.00 & 0.11 & 0.35 & -0.02 & 0.09 & 0.14 & 0.12 & 0.21 & 0.15 & 0.20 & 0.17\\
+CS14 & 0.07 & 0.04 & 0.14 & 0.17 & -0.06 & 0.30 & 0.24 & 0.19 & 0.11 & 0.05 & 0.18 & 0.21 & 0.11 & 1.00 & 0.48 & 0.09 & 0.11 & 0.19 & 0.16 & 0.41 & 0.32 & 0.29 & -0.03\\
+CS15 & 0.14 & -0.02 & 0.25 & 0.18 & -0.03 & 0.28 & 0.29 & 0.22 & 0.21 & 0.24 & 0.42 & 0.20 & 0.35 & 0.48 & 1.00 & 0.14 & 0.19 & 0.30 & 0.23 & 0.37 & 0.33 & 0.38 & 0.09\\
+CS16 & 0.12 & 0.12 & 0.20 & 0.01 & 0.14 & 0.08 & 0.13 & -0.04 & 0.08 & 0.08 & 0.20 & 0.10 & -0.02 & 0.09 & 0.14 & 1.00 & 0.28 & 0.11 & 0.12 & 0.12 & 0.24 & 0.24 & 0.01\\
+CS17 & 0.17 & 0.13 & 0.16 & 0.25 & -0.02 & 0.02 & 0.17 & 0.05 & 0.01 & 0.13 & 0.24 & 0.14 & 0.09 & 0.11 & 0.19 & 0.28 & 1.00 & 0.02 & 0.41 & 0.18 & 0.17 & 0.16 & -0.07\\
+CS18 & 0.19 & -0.06 & 0.16 & 0.09 & 0.06 & 0.19 & 0.09 & 0.17 & 0.14 & 0.30 & 0.20 & 0.14 & 0.14 & 0.19 & 0.30 & 0.11 & 0.02 & 1.00 & 0.20 & 0.34 & 0.31 & 0.32 & 0.14\\
+CS19 & 0.12 & 0.05 & 0.16 & 0.32 & 0.08 & 0.17 & 0.26 & 0.16 & 0.08 & 0.11 & 0.25 & 0.26 & 0.12 & 0.16 & 0.23 & 0.12 & 0.41 & 0.20 & 1.00 & 0.25 & 0.32 & 0.16 & 0.03\\
+CS20 & 0.13 & 0.12 & 0.19 & 0.14 & 0.14 & 0.22 & 0.28 & 0.21 & 0.15 & 0.21 & 0.36 & 0.21 & 0.21 & 0.41 & 0.37 & 0.12 & 0.18 & 0.34 & 0.25 & 1.00 & 0.32 & 0.32 & 0.10\\
+CS21 & 0.18 & 0.06 & 0.25 & 0.26 & -0.04 & 0.34 & 0.27 & 0.32 & 0.15 & 0.24 & 0.35 & 0.21 & 0.15 & 0.32 & 0.33 & 0.24 & 0.17 & 0.31 & 0.32 & 0.32 & 1.00 & 0.25 & 0.18\\
+CS22 & 0.17 & 0.18 & 0.16 & 0.08 & 0.04 & 0.21 & 0.19 & 0.05 & 0.14 & 0.34 & 0.33 & 0.04 & 0.20 & 0.29 & 0.38 & 0.24 & 0.16 & 0.32 & 0.16 & 0.32 & 0.25 & 1.00 & 0.19\\
+CS23 & 0.00 & -0.02 & -0.03 & 0.07 & -0.14 & 0.11 & 0.06 & -0.02 & 0.09 & 0.17 & 0.07 & -0.06 & 0.17 & -0.03 & 0.09 & 0.01 & -0.07 & 0.14 & 0.03 & 0.10 & 0.18 & 0.19 & 1.00\\
+\bottomrule
+\end{longtable}
+
+\end{lltable}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:tab-des}}
+
+\begin{tabular}{llllllll}
+\toprule
+Items & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{SD} & \multicolumn{1}{c}{Skew} & \multicolumn{1}{c}{Kurtosis} & \multicolumn{1}{c}{Shapiro-Wilk Statistics} & \multicolumn{1}{c}{Item-Total Correlation} & \multicolumn{1}{c}{Alpha Drop}\\
+\midrule
+CS01 & 2.99 & 1.03 & -0.74 & -0.22 & 0.84* & 0.26 & 0.81\\
+RCS02 & 2.49 & 1.21 & -0.29 & -0.94 & 0.89* & 0.24 & 0.81\\
+CS03 & 2.95 & 1.09 & -0.72 & -0.45 & 0.83* & 0.37 & 0.80\\
+CS04 & 2.45 & 1.26 & -0.42 & -0.85 & 0.89* & 0.33 & 0.80\\
+RCS05 & 2.49 & 1.34 & -0.50 & -0.89 & 0.87* & 0.09 & 0.82\\
+CS06 & 2.88 & 0.98 & -0.70 & 0.09 & 0.86* & 0.43 & 0.80\\
+CS07 & 2.69 & 1.18 & -0.60 & -0.68 & 0.86* & 0.42 & 0.80\\
+CS08 & 2.93 & 1.07 & -0.85 & -0.06 & 0.84* & 0.36 & 0.80\\
+CS09 & 3.55 & 0.82 & -2.10 & 3.93 & 0.59* & 0.26 & 0.81\\
+CS10 & 3.10 & 0.97 & -0.83 & -0.19 & 0.82* & 0.37 & 0.80\\
+CS11 & 3.17 & 1.01 & -1.12 & 0.62 & 0.78* & 0.54 & 0.79\\
+CS12 & 2.58 & 1.20 & -0.42 & -0.81 & 0.89* & 0.41 & 0.80\\
+CS13 & 3.18 & 1.15 & -1.32 & 0.69 & 0.73* & 0.32 & 0.81\\
+CS14 & 2.87 & 1.10 & -0.86 & 0.05 & 0.85* & 0.44 & 0.80\\
+CS15 & 3.35 & 0.83 & -1.21 & 1.10 & 0.75* & 0.53 & 0.79\\
+CS16 & 2.61 & 1.28 & -0.48 & -0.97 & 0.86* & 0.29 & 0.81\\
+CS17 & 2.21 & 1.33 & -0.06 & -1.22 & 0.89* & 0.33 & 0.80\\
+CS18 & 2.93 & 1.07 & -0.84 & -0.01 & 0.84* & 0.39 & 0.80\\
+CS19 & 2.07 & 1.24 & -0.10 & -0.94 & 0.91* & 0.45 & 0.80\\
+CS20 & 2.74 & 1.03 & -0.52 & -0.35 & 0.88* & 0.55 & 0.79\\
+CS21 & 2.83 & 1.09 & -0.73 & -0.20 & 0.86* & 0.55 & 0.79\\
+CS22 & 3.04 & 1.04 & -0.96 & 0.29 & 0.82* & 0.46 & 0.80\\
+CS23 & 2.31 & 1.24 & -0.15 & -0.95 & 0.90* & 0.12 & 0.81\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:map}Minimum average partial (MAP) method of factor numder determination. MAP Statistics is the lowest in the 5th row indicating five factors are required.}
+
+\begin{tabular}{llllllll}
+\toprule
+MAP Statistic & \multicolumn{1}{c}{dof} & \multicolumn{1}{c}{chisq} & \multicolumn{1}{c}{fit} & \multicolumn{1}{c}{RMSEA} & \multicolumn{1}{c}{BIC} & \multicolumn{1}{c}{eChisq} & \multicolumn{1}{c}{SRMR}\\
+\midrule
+0.01 & 230.00 & 503.98 & 0.48 & 0.06 & -836.68 & 748.33 & 0.07\\
+0.01 & 208.00 & 425.38 & 0.46 & 0.06 & -787.04 & 586.80 & 0.06\\
+0.01 & 187.00 & 342.62 & 0.48 & 0.05 & -747.39 & 442.12 & 0.05\\
+0.02 & 167.00 & 271.96 & 0.49 & 0.04 & -701.48 & 324.84 & 0.04\\
+0.02 & 148.00 & 232.13 & 0.53 & 0.04 & -630.55 & 252.64 & 0.04\\
+0.02 & 130.00 & 182.11 & 0.46 & 0.03 & -575.66 & 181.59 & 0.03\\
+0.02 & 113.00 & 136.77 & 0.44 & 0.02 & -521.90 & 127.81 & 0.03\\
+0.03 & 97.00 & 106.50 & 0.49 & 0.02 & -458.91 & 98.40 & 0.02\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:ICC}Intra Class Correlation.}
+
+\begin{tabular}{lllllllll}
+\toprule
+ & \multicolumn{1}{c}{type} & \multicolumn{1}{c}{ICC} & \multicolumn{1}{c}{F} & \multicolumn{1}{c}{df1} & \multicolumn{1}{c}{df2} & \multicolumn{1}{c}{p} & \multicolumn{1}{c}{lower bound} & \multicolumn{1}{c}{upper bound}\\
+\midrule
+Single\_raters\_absolute & ICC1 & 0.58 & 3.71 & 39.00 & 40.00 & 0.00 & 0.37 & 0.73\\
+Single\_random\_raters & ICC2 & 0.58 & 3.77 & 39.00 & 39.00 & 0.00 & 0.38 & 0.73\\
+Single\_fixed\_raters & ICC3 & 0.58 & 3.77 & 39.00 & 39.00 & 0.00 & 0.38 & 0.73\\
+Average\_raters\_absolute & ICC1k & 0.73 & 3.71 & 39.00 & 40.00 & 0.00 & 0.54 & 0.84\\
+Average\_random\_raters & ICC2k & 0.73 & 3.77 & 39.00 & 39.00 & 0.00 & 0.55 & 0.84\\
+Average\_fixed\_raters & ICC3k & 0.73 & 3.77 & 39.00 & 39.00 & 0.00 & 0.55 & 0.84\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:Unitab}Model-Fit of Bangla Communication Scale }
+
+\begin{tabular}{llllllllllll}
+\toprule
+ & \multicolumn{1}{c}{Chi-square} & \multicolumn{1}{c}{df} & \multicolumn{1}{c}{p} & \multicolumn{1}{c}{GFI} & \multicolumn{1}{c}{NFI} & \multicolumn{1}{c}{CFI} & \multicolumn{1}{c}{TIL} & \multicolumn{1}{c}{RMSEA} & \multicolumn{1}{c}{RMSEA-Upper} & \multicolumn{1}{c}{RMSEA-Lower} & \multicolumn{1}{c}{SRMR}\\
+\midrule
+Model & 237.51 & 119.00 & \ \ 0.00 & \ \ 0.97 & \ \ 0.88 & \ \ 0.94 & \ \ 0.93 & \ \ 0.06 & \ \ 0.05 & \ \ 0.07 & \ \ 0.07\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{lltable}
+
+\begin{TableNotes}[para]
+\normalsize{\textit{Note.}  a = Metric vs Configural; b = Scalar vs Metric; c = Residual vs Scalar; * =  df of model comparison}
+\end{TableNotes}
+
+\footnotesize{
+
+\begin{longtable}{cccccccccccc}\noalign{\getlongtablewidth\global\LTcapwidth=\longtablewidth}
+\caption{\label{tab:InvarianceTab}Measurment Invariance analysis on CFA sample (n=262) across native and non-native English speakers.}\\
+\toprule
+ & \multicolumn{1}{c}{Chi-Square} & \multicolumn{1}{c}{df} & \multicolumn{1}{c}{CFI} & \multicolumn{1}{c}{TLI} & \multicolumn{1}{c}{RMSEA} & \multicolumn{1}{c}{RMSEA 90\% Lower CI} & \multicolumn{1}{c}{RMSEA 90\% Upper} & \multicolumn{1}{c}{Chi-Square Difference} & \multicolumn{1}{c}{df difference*} & \multicolumn{1}{c}{p} & \multicolumn{1}{c}{NA}\\
+\midrule
+\endfirsthead
+\caption*{\normalfont{Table \ref{tab:InvarianceTab} continued}}\\
+\toprule
+ & \multicolumn{1}{c}{Chi-Square} & \multicolumn{1}{c}{df} & \multicolumn{1}{c}{CFI} & \multicolumn{1}{c}{TLI} & \multicolumn{1}{c}{RMSEA} & \multicolumn{1}{c}{RMSEA 90\% Lower CI} & \multicolumn{1}{c}{RMSEA 90\% Upper} & \multicolumn{1}{c}{Chi-Square Difference} & \multicolumn{1}{c}{df difference*} & \multicolumn{1}{c}{p} & \multicolumn{1}{c}{NA}\\
+\midrule
+\endhead
+Configural & 245.13 & 238.00 & 0.99 & 0.99 & 0.01 & 0.00 & 0.04 & 0.08 & - & - & -\\
+Metric & 280.35 & 254.00 & 0.98 & 0.97 & 0.03 & 0.00 & 0.04 & 0.08 & 13.481a & 16 & 0.637\\
+Scalar & 290.78 & 270.00 & 0.98 & 0.98 & 0.02 & 0.00 & 0.04 & 0.08 & 13.002b & 16 & 0.673\\
+Residual & 303.44 & 287.00 & 0.98 & 0.98 & 0.02 & 0.00 & 0.04 & 0.09 & 14.008c & 17 & 0.667\\
+\bottomrule
+\addlinespace
+\insertTableNotes
+\end{longtable}
+
+}
+
+\end{lltable}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:irttab}Items discrimination and response category difficulty thresholds of 17 items in  Bangla Communication Scale (n =581)}
+
+\begin{tabular}{llllllllllll}
+\toprule
+Items & \multicolumn{1}{c}{a} & \multicolumn{1}{c}{b1} & \multicolumn{1}{c}{b2} & \multicolumn{1}{c}{b3} & \multicolumn{1}{c}{b4} & \multicolumn{1}{c}{Standardized Outfit} & \multicolumn{1}{c}{Standardized Infit} & \multicolumn{1}{c}{S-Chi-square} & \multicolumn{1}{c}{df} & \multicolumn{1}{c}{RMSEA} & \multicolumn{1}{c}{p}\\
+\midrule
+CS03 & 0.69 & -5.38 & -3.19 & -1.15 & 0.64 & -0.79 & -0.62 & 83.92 & 85.00 & 0.00 & 0.51\\
+CS04 & 0.88 & -2.96 & -1.47 & -0.16 & 1.63 & -1.05 & -0.96 & 90.94 & 102.00 & 0.00 & 0.78\\
+CS06 & 0.80 & -4.93 & -3.05 & -1.09 & 1.27 & -0.61 & -0.69 & 106.91 & 83.00 & 0.02 & 0.04\\
+CS07 & 0.91 & -3.78 & -1.97 & -0.72 & 1.11 & -1.20 & -0.98 & 75.19 & 89.00 & 0.00 & 0.85\\
+CS08 & 0.88 & -4.45 & -2.64 & -1.16 & 0.72 & -1.19 & -0.91 & 73.33 & 79.00 & 0.00 & 0.66\\
+CS10 & 0.68 & -6.74 & -3.83 & -1.52 & 0.73 & -0.74 & -0.58 & 93.75 & 82.00 & 0.01 & 0.18\\
+CS11 & 1.19 & -4.00 & -2.89 & -1.42 & -0.09 & -1.31 & -0.83 & 61.27 & 67.00 & 0.00 & 0.67\\
+CS12 & 0.79 & -3.87 & -2.03 & -0.34 & 1.27 & -0.72 & -0.85 & 99.44 & 98.00 & 0.00 & 0.44\\
+CS13 & 0.74 & -4.65 & -3.08 & -1.86 & -0.25 & -0.76 & -0.52 & 77.76 & 80.00 & 0.00 & 0.55\\
+CS14 & 0.80 & -4.62 & -2.81 & -1.00 & 1.18 & -1.13 & -0.97 & 75.40 & 81.00 & 0.00 & 0.65\\
+CS15 & 1.24 & -3.89 & -3.15 & -1.63 & -0.12 & -1.05 & -0.76 & 71.90 & 60.00 & 0.02 & 0.14\\
+CS17 & 0.81 & -2.96 & -1.02 & 0.44 & 1.89 & -0.89 & -1.04 & 89.28 & 104.00 & 0.00 & 0.85\\
+CS18 & 0.75 & -5.27 & -2.91 & -1.38 & 0.84 & -0.72 & -0.68 & 91.29 & 84.00 & 0.01 & 0.28\\
+CS19 & 1.01 & -2.14 & -0.95 & 0.57 & 2.23 & -0.90 & -1.14 & 68.10 & 54.00 & 0.02 & 0.09\\
+CS20 & 1.22 & -3.80 & -2.02 & -0.58 & 1.14 & -1.76 & -1.67 & 70.46 & 74.00 & 0.00 & 0.60\\
+CS21 & 1.21 & -3.41 & -2.07 & -0.75 & 0.84 & -1.87 & -1.48 & 64.91 & 76.00 & 0.00 & 0.81\\
+CS22 & 0.73 & -5.33 & -3.42 & -1.56 & 0.57 & -0.92 & -0.61 & 76.23 & 80.00 & 0.00 & 0.60\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} a = item discrimination parameter; b(1-4) = response category difficulty parameter}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
