@@ -589,19 +589,26 @@ apa_table(decriptives)
 ```{r corplot, include =F}
 #This chunk holds code for plotting the correlation matrix
 
-corplot <- corplot <- ggcorrplot::ggcorrplot(correlations$rho, hc.order = TRUE, outline.col = "white", type = "lower", legend.title = "Correlation",
+
+
+
+
+p.mat <- correlation::cor_to_p(correlations$rho, 428, method = "polychoric")
+
+
+corplot <- ggcorrplot(correlations$rho, p.mat=p.mat$p, insig = "pch", hc.order = FALSE, outline.col = "white", type = "lower", legend.title = "Correlation",sig.level = 0.05, pch.cex=1.8,
+                      # insig = "blank",
            ggtheme = ggplot2::theme_minimal(),tl.srt = 90,colors = c("#E64B35FF", "white", "#3C5488FF") )+
   theme( panel.grid.major = element_blank(),
-         axis.text.x = element_text(size = 6),
-         axis.text.y = element_text(size = 6),
+         axis.text.x = element_text(size = 8),
+         axis.text.y = element_text(size = 8),
          panel.border = element_rect(color = "black",
                                     fill = NA,
-                                    size = 1),
-         legend.text = element_text(size = 6),
-         legend.title= element_text(size = 6))
-#p.mat <- cor_to_p(correlations$rho, 428, method = "polychoric")
-#to show pvalue in the fig add p.mat=p.mat
-ggsave("Figures/corplot.png",corplot, width = 3.5, height = 3.5, dpi = 600, bg ="white")
+                                    size = 1))
+
+
+ggsave("Figures/tiff/corplot.tiff",corplot, width = 3.5, height = 3.5, dpi = 600, compression = "lzw", bg ="White" )
+ggsave("Figures/600/corplot.pdf",corplot, width = 3.5, height = 3.5, dpi = 600, bg ="White" )
 
 ```
 
@@ -609,7 +616,7 @@ ggsave("Figures/corplot.png",corplot, width = 3.5, height = 3.5, dpi = 600, bg =
 
 ```{r figCor, out.height="150%",out.width="100%", fig.align= 'center', fig.cap='(ref:figCor)', results='asis', fig.align='center'}
 
-knitr::include_graphics('Figures/corplot.png', dpi =600)
+knitr::include_graphics('Figures/tiff/corplot.tiff', dpi =600)
 
 ```
 
@@ -749,14 +756,16 @@ factor <- cowplot::plot_grid(scree.plot,Hull,
                   align = "h", 
                   label_fontfamily = "sans",
                   label_fontface = "plain")
-ggsave("Figures/factors.png",factor, width = 7, height = 3.5, dpi = 600)
+ggsave("Figures/600/factors.png",factor, width = 7, height = 3.5, dpi = 600)
+
+ggsave("Figures/tiff/factors.tiff",factor, width = 7, height = 3.5, dpi = 600)
 ```
 
 (ref:facIdFig) Factor Identification Methods (A) Scree plot suggested one factor. (B) Hull method indicated one factor were required to balance the model fit and number of parameters.
 
 ```{r facIdFig, fig.align= 'center', fig.cap='(ref:facIdFig)',  warning=FALSE, results= 'asis'}
 
-knitr::include_graphics("Figures/factors.png", dpi =600)
+knitr::include_graphics("Figures/tiff/factors.tiff", dpi =600)
 
 ```
 
@@ -974,9 +983,6 @@ A subset of Study-2 sample (n=`r nrow(validity.data)`) responded to both Bangla 
 
 ### Measures
 
-#### Bangla Rotter's I-E Scale
-
-To confirm the latent structure of Bangla Communication scale, we used the one factor solution with 17 items obtained in our Study 1. 
 
 #### Bangla Beck Hopelessness Scale
 
@@ -1050,7 +1056,7 @@ modfit.Cor.one[modfit.Cor.one$mi>3.84,]
 #This chunk holds codes to store CFA plot
 
 
-png(filename="Figures/CFAplot.png", 
+tiff(filename="Figures/tiff/CFAplot.tiff", 
     type="cairo",
     units="in", 
     width=3.5, 
@@ -1111,7 +1117,7 @@ invariance.model[[5]] # means, structural invariance
 
 ```{r figcfa, fig.cap = "CFA Plot.", warning=FALSE}
 
-knitr::include_graphics("Figures/CFAplot.png", dpi =600)
+knitr::include_graphics("Figures/tiff/CFAplot.tiff", dpi =600)
 
 
 ```
@@ -1371,7 +1377,7 @@ person <- ggplot(personfit, aes(x=Zh)) + geom_histogram(binwidth=.5,col=I("black
   labs( y="Number of Participants", x = "Zh Statistics")+apatheme + xlim(-4,2)+
    scale_y_continuous(limits = c(0, 40), expand = expand_scale(mult = c(0, 0.1)))
 
-ggsave("Figures/personfit.jpeg",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
+
 
 # annotation.1 <- data.frame(
 #    x = (-3.1),
@@ -1385,8 +1391,9 @@ ggsave("Figures/personfit.jpeg",person , width = 3.5, height = 3.5, dpi = 600, b
 #            size=5 , angle=45, fontface="bold" )
 
 
-ggsave("Figures/person.png",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
+ggsave("Figures/600/person.png",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
+ggsave("Figures/tiff/person.tiff",person , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
 # Plots ####
 
@@ -1424,7 +1431,7 @@ very.high <- sum(IRT.details$a >=1.69, na.rm=TRUE)
 We fitted BCS to the IRT framework using "graded response" model [@samejima1969estimation] to the combined sample of study 1 and study 2 (n= `r nrow(irt.data)`). It required 20 iterations (Log-likelihood -12974.970) for the  model to converge. For the fitted model, Among the `r nrow(items)` retained items the mean item discrimination was `r apa(mean(items$a),2,T)`± `r apa(sd(items$a),2,T)` (range = `r apa(min(items$a),2,T)`-`r apa(max(items$a),2,T)`).  Table \@ref(tab:irttab) summarizes the item discrimination, item difficulty and item fit statistics of the revised models. All items has a moderate discrimination. Standardized outfit statistics ranged between `r apa(min(item.fit$z.outfit),2,T)`-`r apa(max(item.fit$z.outfit),2,T)` indicating a sufficient item fit to the models [@desjardinsHandbookEducationalMeasurement2018]. Sufficent item fit is also reflected by the RMSEA values associated with S-$\chi^2$ statistics ( `r apa(min(item.fit$RMSEA.S_X2),2,T)`-`r apa(max(item.fit$RMSEA.S_X2),2,T)`). Lastly, Fig\@ref(fig:person-fit) indicates that for the Zh is larger than -2 for most participants, suggesting a good person-fit.
 
 ```{r person-fit, fig.cap="Person Fit"}
-knitr::include_graphics('Figures/personfit.jpeg')
+knitr::include_graphics('Figures/tiff/person.tiff')
 
 ```
 
@@ -1485,7 +1492,7 @@ item10 <- ggicc(fit,6,6)+apatheme+ggtitle("item10")+apatheme+scale_color_npg()+
 
 item11 <- ggicc(fit,7,6)+apatheme+ggtitle("item11")+apatheme+scale_color_npg()+
   scale_y_continuous(breaks=c(0,.5,1), limits = c(0, 1))
-ggsave("Figures/ideal_icc.png",item11 , width = 12, height = 8, dpi = 600, bg = "white")
+ggsave("Figures/600/ideal_icc.png",item11 , width = 12, height = 8, dpi = 600, bg = "white")
 
 
 item12 <- ggicc(fit,8,6)+apatheme+ggtitle("item12")+apatheme+scale_color_npg()+
@@ -1538,16 +1545,16 @@ ICC <- cowplot::plot_grid(item03, item04, item06, item07, item08,
                      align = "v")
 
 
-ggsave("Figures/ICC.png",ICC , width = 7, height =7, dpi = 600, bg = "white")
+ggsave("Figures/600/ICC.png",ICC , width = 7, height =7, dpi = 600, bg = "white")
 
-
+ggsave("Figures/tiff/ICC.tiff",ICC , width = 7, height =7, dpi = 600, bg = "white")
 
 
 ```
 
 ```{r figICC, eval=FALSE, fig.cap="Option Charecteritics Curve.", warning=FALSE, include=FALSE, out.height='100%'}
 
-knitr::include_graphics("Figures/ICC.png", dpi =600)
+knitr::include_graphics("Figures/tiff/ICC.tiff", dpi =600)
 
 
 ```
@@ -1582,7 +1589,9 @@ knitr::include_graphics("Figures/ICC.png", dpi =600)
 test.info <- tabledown::ggtestinfo(irt.data.1, fit)+ apatheme+geom_line(colour = "black", size=1.5)+geom_area(fill ="#E64B3599" )
 # +geom_vline(xintercept = -3, colour ="black")+
 #   geom_vline(xintercept = .5, colour ="black")
-ggsave("Figures/TIC.png",test.info , width = 3.5, height = 3.5, dpi = 600, bg = "white")
+ggsave("Figures/600/TIC.png",test.info , width = 3.5, height = 3.5, dpi = 600, bg = "white")
+
+ggsave("Figures/tiff/TIC.tiff",test.info , width = 3.5, height = 3.5, dpi = 600, bg = "white")
 
 library(plotly)
 info.p <- plotly::ggplotly(test.info)
@@ -1612,7 +1621,7 @@ itemlevelcolors <- matrix(rep(brewer.pal(4, "Set1"), 17), byrow = TRUE, ncol = 4
 ```
 
 ```{r saveWrightmao,  warning=F, message=F}
-jpeg("Figures/personmap.jpeg", width = 7, height = 7, quality = 100,units="in", res= 1080, pointsize = 12 )
+tiff("Figures/tiff/personmap.tiff", width = 7, height = 7,units="in", res= 600, pointsize = 12 )
 library(WrightMap)
 WrightMap::wrightMap(estimation, threshold , 
           item.prop = 0.65,
@@ -1631,7 +1640,7 @@ WrightMap::wrightMap(estimation, threshold ,
 
 ```{r WP, eval=FALSE, fig.cap="Person Item Map", warning=FALSE, include=FALSE}
 
-knitr::include_graphics('Figures/personmap.jpeg')
+knitr::include_graphics('Figures/tiff/personmap.tiff')
 
 ```
 
@@ -1707,9 +1716,9 @@ item.info.plot <- ggplot(item.info.data.2,aes(Theta,value,col=variable))+geom_li
 
 # facet_wrap(~variable,scales = "free")++geom_hline(yintercept = .20, colour ="red")
 
-ggsave("Figures/itemInfoplot.png",item.info.plot, width = 7, height =7, dpi = 600, bg ="white")
+ggsave("Figures/600/itemInfoplot.png",item.info.plot, width = 7, height =7, dpi = 600, bg ="white")
 
-
+ggsave("Figures/tiff/itemInfoplot.tiff",item.info.plot, width = 7, height =7, dpi = 600, bg ="white")
 
 
 
@@ -1718,7 +1727,7 @@ ggsave("Figures/itemInfoplot.png",item.info.plot, width = 7, height =7, dpi = 60
 
 ```{r conrel-print, include=F}
 ##
-png(filename="Figures/conrel.png", 
+tiff(filename="Figures/tiff/conrel.tiff", 
     type="cairo",
     units="in", 
     width=3.5, 
@@ -1744,7 +1753,7 @@ apa.latice  <- list(
 
 
  plot(fit, type = 'rxx', theta_lim = c(-6, 6), 
-      main="Conditional Reliability Plot", par.settings=c(apa.latice),col.line = "#E69F00",lwd = 3.5 )
+      main="", par.settings=c(apa.latice),col.line = "#E69F00",lwd = 3.5 )
 
 
 dev.off()
@@ -1756,19 +1765,19 @@ Conditional reliability plots (Fig \@ref(fig:figconrel)) also indicated the scal
 
 ```{r figIIC, fig.cap = "Item Information Curve.",  out.height='100%',out.width='100%', warning=FALSE}
 
-knitr::include_graphics("Figures/itemInfoplot.png", dpi =600)
+knitr::include_graphics("Figures/tiff/itemInfoplot.tiff", dpi =600)
 
 
 ```
 
 ```{r figTIC, fig.cap = "TIC.",  out.height='100%', warning=FALSE}
-knitr::include_graphics("Figures/TIC.png", dpi =600)
+knitr::include_graphics("Figures/tiff/TIC.tiff", dpi =600)
 
 ```
 
 ```{r figconrel, fig.cap = "Conditional Reliability.", out.width= '100%', out.height='50%', warning=FALSE}
 
-knitr::include_graphics("Figures/conrel.png", dpi =600)
+knitr::include_graphics("Figures/tiff/conrel.tiff", dpi =600)
 
 
 ```
